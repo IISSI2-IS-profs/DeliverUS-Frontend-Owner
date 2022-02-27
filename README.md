@@ -129,8 +129,11 @@ https://snack.expo.dev/@afdez/lab4-2-basicnavigation
    * Additionally you can create a tag `Git: Create tag`, name it (e.g. `lab4-2-basicNavigation`), and finally `Git: Push tags`
 
 # 3. Stack navigation nested in the tab navigator
-![Stack navigator](https://reactnavigation.org/assets/navigators/stack/stack.mov)
-Some screens should present a stack-type navigation. We are going to follow the steps below to include a stack navigator within the Restaurants tab, we will have a listing of all restaurants, and if you click on one, it will navigate to show the detail of that restaurant.
+
+Some screens should present a stack-type navigation. We are going to follow the steps below to include a stack navigator within the Restaurants tab, we will have a listing of all restaurants, and if you click on one, it will navigate to show the detail of that restaurant. The following video shows a stack navigator:
+
+https://user-images.githubusercontent.com/19324988/155882422-5974b582-4a6e-4ad0-8df6-31b504b791e5.mov
+
 
 ## Steps:
 0. Notice that we previously installed stack package `npm install @react-navigation/native-stack` and `npm install @react-navigation/native``

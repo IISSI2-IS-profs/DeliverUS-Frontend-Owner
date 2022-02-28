@@ -1,63 +1,32 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect, useState } from 'react'
-import { StyleSheet, View, FlatList, ImageBackground, Image, Pressable } from 'react-native'
-import { showMessage } from 'react-native-flash-message'
-import { MaterialCommunityIcons } from '@expo/vector-icons'
+import { StyleSheet, View, FlatList, ImageBackground, Image } from 'react-native'
 import { getDetail } from '../../api/RestaurantEndpoints'
 import ImageCard from '../../components/ImageCard'
 import TextRegular from '../../components/TextRegular'
 import TextSemiBold from '../../components/TextSemibold'
-import { brandPrimary, brandPrimaryTap, brandSecondary, flashStyle, flashTextStyle } from '../../styles/GlobalStyles'
+import { brandSecondary } from '../../styles/GlobalStyles'
 
-export default function RestaurantDetailScreen ({ navigation, route }) {
+export default function RestaurantDetailScreen ({ route }) {
   const [restaurant, setRestaurant] = useState({})
 
   useEffect(() => {
-    async function fetchRestaurantDetail () {
-      try {
-        const fetchedRestaurant = await getDetail(route.params.id)
-        setRestaurant(fetchedRestaurant)
-      } catch (error) {
-        showMessage({
-          message: `There was an error while retrieving restaurants. ${error} `,
-          type: 'error',
-          style: flashStyle,
-          titleStyle: flashTextStyle
-        })
-      }
-    }
-    fetchRestaurantDetail()
-  }, [route])
+    console.log('Loading restaurant details, please wait 1 second')
+    setTimeout(() => {
+      setRestaurant(getDetail(route.params.id))
+      console.log('Restaurant details loaded')
+    }, 1000)
+  }, [])
 
   const renderHeader = () => {
     return (
-      <View>
-        <ImageBackground source={(restaurant?.heroImage) ? { uri: process.env.API_BASE_URL + '/' + restaurant.heroImage, cache: 'force-cache' } : undefined} style={styles.imageBackground}>
-          <View style={styles.restaurantHeaderContainer}>
+      <ImageBackground source={(restaurant?.heroImage) ? { uri: process.env.API_BASE_URL + '/' + restaurant.heroImage, cache: 'force-cache' } : undefined } style={styles.imageBackground}>
+        <View style={styles.restaurantHeaderContainer}>
             <TextSemiBold textStyle={styles.textTitle}>{restaurant.name}</TextSemiBold>
             <Image style={styles.image} source={restaurant.logo ? { uri: process.env.API_BASE_URL + '/' + restaurant.logo, cache: 'force-cache' } : undefined} />
             <TextRegular textStyle={styles.description}>{restaurant.description}</TextRegular>
-            <TextRegular textStyle={styles.description}>{restaurant.restaurantCategory ? restaurant.restaurantCategory.name : ''}</TextRegular>
-          </View>
-        </ImageBackground>
-
-        <Pressable
-          onPress={() => navigation.navigate('CreateProductScreen', { id: restaurant.id })
-          }
-          style={({ pressed }) => [
-            {
-              backgroundColor: pressed
-                ? brandPrimaryTap
-                : brandPrimary
-            },
-            styles.button
-          ]}>
-          <MaterialCommunityIcons name='plus-circle' color={brandSecondary} size={20} />
-          <TextRegular textStyle={styles.text}>
-            Create product
-          </TextRegular>
-        </Pressable>
-      </View>
+        </View>
+      </ImageBackground>
     )
   }
 
@@ -73,19 +42,10 @@ export default function RestaurantDetailScreen ({ navigation, route }) {
     )
   }
 
-  const renderEmptyProductsList = () => {
-    return (
-      <TextRegular textStyle={styles.emptyList}>
-        This restaurant has no products yet.
-      </TextRegular>
-    )
-  }
-
   return (
     <View style={styles.container}>
       <FlatList
         ListHeaderComponent={renderHeader}
-        ListEmptyComponent={renderEmptyProductsList}
         style={styles.container}
         data={restaurant.products}
         renderItem={renderProduct}
@@ -127,24 +87,5 @@ const styles = StyleSheet.create({
   textTitle: {
     fontSize: 20,
     color: 'white'
-  },
-  emptyList: {
-    textAlign: 'center',
-    padding: 50
-  },
-  button: {
-    borderRadius: 8,
-    height: 40,
-    marginTop: 12,
-    padding: 10,
-    alignSelf: 'center',
-    flexDirection: 'row',
-    alignItems: 'center'
-  },
-  text: {
-    fontSize: 16,
-    color: brandSecondary,
-    textAlign: 'center',
-    marginLeft: 5
   }
 })

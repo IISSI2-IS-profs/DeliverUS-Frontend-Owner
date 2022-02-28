@@ -1,39 +1,23 @@
 /* eslint-disable react/prop-types */
-import React, { useContext, useEffect, useState } from 'react'
-import { StyleSheet, FlatList, Pressable } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { StyleSheet, Button, Text, View, FlatList, Pressable } from 'react-native'
 import { getAll } from '../../api/RestaurantEndpoints'
 import ImageCard from '../../components/ImageCard'
 import TextSemiBold from '../../components/TextSemibold'
 import TextRegular from '../../components/TextRegular'
-import { MaterialCommunityIcons } from '@expo/vector-icons'
-import { brandPrimary, brandPrimaryTap, brandSecondary, flashStyle, flashTextStyle } from '../../styles/GlobalStyles'
-import { AuthorizationContext } from '../../context/AuthorizationContext'
-import { showMessage } from 'react-native-flash-message'
 
-export default function RestaurantsScreen ({ navigation, route }) {
+import { brandPrimary, brandSecondary } from '../../styles/GlobalStyles'
+
+export default function RestaurantsScreen ({ navigation }) {
   const [restaurants, setRestaurants] = useState([])
-  const { loggedInUser } = useContext(AuthorizationContext)
 
   useEffect(() => {
-    async function fetchRestaurants () {
-      try {
-        const fetchedRestaurants = await getAll()
-        setRestaurants(fetchedRestaurants)
-      } catch (error) {
-        showMessage({
-          message: `There was an error while retrieving restaurants. ${error} `,
-          type: 'error',
-          style: flashStyle,
-          titleStyle: flashTextStyle
-        })
-      }
-    }
-    if (loggedInUser) {
-      fetchRestaurants()
-    } else {
-      setRestaurants(null)
-    }
-  }, [loggedInUser, route])
+    console.log('Loading restaurants, please wait 2 seconds')
+    setTimeout(() => {
+      setRestaurants(getAll) // getAll function has to be imported
+      console.log('Restaurants loaded')
+    }, 0)
+  }, [])
 
   const renderRestaurant = ({ item }) => {
     return (
@@ -53,47 +37,12 @@ export default function RestaurantsScreen ({ navigation, route }) {
     )
   }
 
-  const renderEmptyRestaurantsList = () => {
-    return (
-      <TextRegular textStyle={styles.emptyList}>
-        No restaurants were retreived. Are you logged in?
-      </TextRegular>
-    )
-  }
-
-  const renderHeader = () => {
-    return (
-      <>
-      {loggedInUser &&
-      <Pressable
-        onPress={() => navigation.navigate('CreateRestaurantScreen')
-        }
-        style={({ pressed }) => [
-          {
-            backgroundColor: pressed
-              ? brandPrimaryTap
-              : brandPrimary
-          },
-          styles.button
-        ]}>
-        <MaterialCommunityIcons name='plus-circle' color={brandSecondary} size={20}/>
-        <TextRegular textStyle={styles.text}>
-          Create restaurant
-        </TextRegular>
-      </Pressable>
-    }
-    </>
-    )
-  }
-
   return (
     <FlatList
       style={styles.container}
       data={restaurants}
       renderItem={renderRestaurant}
       keyExtractor={item => item.id.toString()}
-      ListHeaderComponent={renderHeader}
-      ListEmptyComponent={renderEmptyRestaurantsList}
     />
   )
 }
@@ -101,24 +50,5 @@ export default function RestaurantsScreen ({ navigation, route }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1
-  },
-  button: {
-    borderRadius: 8,
-    height: 40,
-    marginTop: 12,
-    padding: 10,
-    alignSelf: 'center',
-    flexDirection: 'row',
-    alignItems: 'center'
-  },
-  text: {
-    fontSize: 16,
-    color: brandSecondary,
-    textAlign: 'center',
-    marginLeft: 5
-  },
-  emptyList: {
-    textAlign: 'center',
-    padding: 50
   }
 })

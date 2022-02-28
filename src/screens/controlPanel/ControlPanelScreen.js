@@ -1,11 +1,10 @@
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
-import TextRegular from '../../components/TextRegular'
+import { StyleSheet, View, Text } from 'react-native'
 
 export default function ControlPanelScreen () {
   return (
         <View style={styles.container}>
-            <TextRegular>Control Panel</TextRegular>
+            <Text>Control Panel</Text>
         </View>
   )
 }

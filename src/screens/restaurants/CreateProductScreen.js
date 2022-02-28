@@ -5,33 +5,17 @@ import InputItem from '../../components/InputItem'
 import TextRegular from '../../components/TextRegular'
 import { brandBackground, brandPrimary, brandPrimaryTap, brandSecondary, flashStyle, flashTextStyle } from '../../styles/GlobalStyles'
 import defaultProduct from '../../../assets/product.jpeg'
-import { getProductCategories, create } from '../../api/ProductEndpoints'
+import { getProductCategories } from '../../api/ProductEndpoints'
 import { showMessage } from 'react-native-flash-message'
 import DropDownPicker from 'react-native-dropdown-picker'
-import * as yup from 'yup'
-import { Formik } from 'formik'
-import TextError from '../../components/TextError'
 
-export default function CreateProductScreen ({ navigation, route }) {
+export default function CreateProductScreen () {
+  const [image, setImage] = useState()
   const [open, setOpen] = useState(false)
   const [productCategories, setProductCategories] = useState([])
-  const [backendErrors, setBackendErrors] = useState()
-
-  const initialProductValues = { name: '', description: '', price: 0, order: 0, restaurantId: route.params.id, productCategoryId: null, availability: true }
-  const validationSchema = yup.object().shape({
-    name: yup
-      .string()
-      .max(30, 'Name too long')
-      .required('Name is required'),
-    price: yup
-      .number()
-      .positive('Please provide a positive price value')
-      .required('Price is required'),
-    order: yup
-      .number()
-      .positive('Please provide a positive cost value')
-      .integer('Please provide an integer cost value')
-  })
+  const [selectedProductCategory, setSelectedProductCategory] = useState()
+  const [isEnabled, setIsEnabled] = useState(true)
+  const toggleSwitch = () => setIsEnabled(previousState => !previousState)
 
   useEffect(() => {
     async function fetchProductCategories () {
@@ -68,113 +52,82 @@ export default function CreateProductScreen ({ navigation, route }) {
       }
     }
   }
-
-  const createProduct = async (values) => {
-    setBackendErrors([])
-    try {
-      console.log(values)
-      const createdProduct = await create(values)
-      showMessage({
-        message: `Product ${createdProduct.name} succesfully created`,
-        type: 'success',
-        style: flashStyle,
-        titleStyle: flashTextStyle
-      })
-      navigation.navigate('RestaurantDetailScreen', { id: route.params.id, dirty: true })
-    } catch (error) {
-      console.log(error)
-      setBackendErrors(error.errors)
-    }
-  }
   return (
-    <Formik
-      validationSchema={validationSchema}
-      initialValues={initialProductValues}
-      onSubmit={createProduct}>
-      {({ handleSubmit, setFieldValue, values }) => (
-        <ScrollView>
-          <View style={{ alignItems: 'center' }}>
-            <View style={{ width: '60%' }}>
-              <InputItem
-                name='name'
-                label='Name:'
-              />
-              <InputItem
-                name='description'
-                label='Description:'
-              />
-              <InputItem
-                name='price'
-                label='Price:'
-              />
-              <InputItem
-                name='order'
-                label='Order/position to be rendered:'
-              />
+    <ScrollView>
+      <View style={{ alignItems: 'center' }}>
+        <View style={{ width: '60%' }}>
+          <InputItem
+            name='name'
+            label='Name:'
+          />
+          <InputItem
+            name='description'
+            label='Description:'
+          />
+          <InputItem
+            name='price'
+            label='Price:'
+          />
+          <InputItem
+            name='order'
+            label='Order/position to be rendered:'
+          />
 
-              <DropDownPicker
-                open={open}
-                value={values.productCategoryId}
-                items={productCategories}
-                setOpen={setOpen}
-                onSelectItem={item => {
-                  setFieldValue('productCategoryId', item.value)
-                }}
-                setItems={setProductCategories}
-                placeholder="Select the product category"
-                containerStyle={{ height: 40, marginTop: 20, marginBottom: 20 }}
-                style={{ backgroundColor: brandBackground }}
-                dropDownStyle={{ backgroundColor: '#fafafa' }}
-              />
+          <DropDownPicker
+            open={open}
+            value={selectedProductCategory}
+            items={productCategories}
+            setOpen={setOpen}
+            onSelectItem={item => {
+              setSelectedProductCategory(item.value)
+            }}
+            setItems={setProductCategories}
+            placeholder="Select the product category"
+            containerStyle={{ height: 40, marginTop: 20, marginBottom: 20 }}
+            style={{ backgroundColor: brandBackground }}
+            dropDownStyle={{ backgroundColor: '#fafafa' }}
+          />
 
-              <TextRegular>Is it available?</TextRegular>
-              <Switch
-                trackColor={{ false: brandSecondary, true: brandPrimary }}
-                thumbColor={values.availability ? brandSecondary : '#f4f3f4'}
-                // onValueChange={toggleSwitch}
-                value={values.availability}
-                style={styles.switch}
-                onValueChange={value =>
-                  setFieldValue('availability', value)
-                }
-              />
+          <TextRegular>Is it available?</TextRegular>
+          <Switch
+            trackColor={{ false: brandSecondary, true: brandPrimary }}
+            thumbColor={isEnabled ? brandSecondary : '#f4f3f4'}
+            onValueChange={toggleSwitch}
+            value={isEnabled}
+            style={styles.switch}
+          />
 
-              <Pressable onPress={() =>
-                pickImage(
-                  async result => {
-                    await setFieldValue('image', result)
-                  }
-                )
+          <Pressable onPress={() =>
+            pickImage(
+              async result => {
+                // await setFieldValue('image', result)
+                setImage(result)
               }
-                style={styles.imagePicker}
-              >
-                <TextRegular>Product image: </TextRegular>
-                <Image style={styles.image} source={values.image ? { uri: values.image.uri } : defaultProduct} />
-              </Pressable>
+            )
+          }
+            style={styles.imagePicker}
+          >
+            <TextRegular>Product image: </TextRegular>
+            <Image style={styles.image} source={image ? { uri: image.uri } : defaultProduct} />
+          </Pressable>
 
-              {backendErrors &&
-                backendErrors.map((error, index) => <TextError key={index}>{error.msg}</TextError>)
-              }
-
-              <Pressable
-                onPress={ handleSubmit }
-                style={({ pressed }) => [
-                  {
-                    backgroundColor: pressed
-                      ? brandPrimaryTap
-                      : brandPrimary
-                  },
-                  styles.button
-                ]}>
-                <TextRegular textStyle={styles.text}>
-                  Create product
-                </TextRegular>
-              </Pressable>
-            </View>
-          </View>
-        </ScrollView>
-      )}
-    </Formik>
+          <Pressable
+            onPress={() => console.log('Button pressed') }
+            style={({ pressed }) => [
+              {
+                backgroundColor: pressed
+                  ? brandPrimaryTap
+                  : brandPrimary
+              },
+              styles.button
+            ]}>
+            <TextRegular textStyle={styles.text}>
+              Create product
+            </TextRegular>
+          </Pressable>
+        </View>
+      </View>
+    </ScrollView>
   )
 }
 

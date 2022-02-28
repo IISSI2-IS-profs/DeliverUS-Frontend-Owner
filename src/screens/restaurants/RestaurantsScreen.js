@@ -10,7 +10,7 @@ import { brandPrimary, brandPrimaryTap, brandSecondary, flashStyle, flashTextSty
 import { AuthorizationContext } from '../../context/AuthorizationContext'
 import { showMessage } from 'react-native-flash-message'
 
-export default function RestaurantsScreen ({ navigation, route }) {
+export default function RestaurantsScreen ({ navigation }) {
   const [restaurants, setRestaurants] = useState([])
   const { loggedInUser } = useContext(AuthorizationContext)
 
@@ -33,7 +33,7 @@ export default function RestaurantsScreen ({ navigation, route }) {
     } else {
       setRestaurants(null)
     }
-  }, [loggedInUser, route])
+  }, [loggedInUser])
 
   const renderRestaurant = ({ item }) => {
     return (

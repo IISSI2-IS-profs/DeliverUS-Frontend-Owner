@@ -27,7 +27,7 @@ export default function RestaurantDetailScreen ({ navigation, route }) {
       }
     }
     fetchRestaurantDetail()
-  }, [route])
+  }, [])
 
   const renderHeader = () => {
     return (

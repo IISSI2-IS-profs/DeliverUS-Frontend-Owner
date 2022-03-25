@@ -196,6 +196,7 @@ export default function RestaurantsScreen ({ navigation }) {
 ```
 5. We can access data passed through the route object at `RestaurantDetailScreen.js`
 ```TSX
+/* eslint-disable react/prop-types */
 import React from 'react'
 import { View, Text } from 'react-native'
 

@@ -62,6 +62,7 @@ module.exports = {
 ````
 
 Remember that, for a better experience, use the VSCode Extension for eslint: https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint
+
 8. Sync and push your changes to your repository. In VSCode: `Ctrl+Shift+P` (opens command palette), `Git: Add Remote`, select your project folder `IISSI2-IS-Frontend-Owner`and paste your repository url. Then open command palette again and `Git: Publish branch` to push your project.
    * Additionally you can create a tag `Git: Create tag`, name it (e.g. `lab4-1-blank-project`), and finally `Git: Push tags`
 

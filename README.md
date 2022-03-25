@@ -176,6 +176,7 @@ You can now refresh your app and check that the stack is rendered, but no way of
 
 4. In order to navigate from `RestaurantsScreen` to `RestaurantDetailScreen` we need to receive the navigation object and create a button for the action. Moreover, we can pass data from one screen to another including a second parameter:
 ```TSX
+/* eslint-disable react/prop-types */
 import React from 'react'
 import { Button, Text, View } from 'react-native'
 

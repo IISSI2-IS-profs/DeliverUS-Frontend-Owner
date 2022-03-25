@@ -99,7 +99,7 @@ export default function RestaurantsScreen () {
   )
 }
 ```
-3. Overwrite the contentes of `App.js` the logic to create a tab navigator
+3. Overwrite the contents of `App.js` the logic to create a tab navigator
 ```TSX
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { NavigationContainer } from '@react-navigation/native'

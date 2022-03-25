@@ -21,7 +21,7 @@
    * (On windows) set allow on Firewall/Windows defender if asked
 6. Click on `Run in web browser`. It should open the basic empty project in a new tab. It should look like this:
 https://snack.expo.dev/@afdez/lab4-1-blankproject
-7. Configure eslint by installing and initialize it for your project by running `npm install eslint --save-dev`and `npx eslint --init`. We recommend the following answers: To check syntax, find problems, and enforce code style, JavaScript modules (import/export), React, Does your project use TypeScript? › No, Where does your code run? Browser, Use a popular style guide, Standard: https://github.com/standard/standard, Format-> Javascript. Finally select yes to install all dependencies. See https://eslint.org/docs/user-guide/getting-started for more details.
+7. Configure eslint by installing and initialize it for your project by running `npm install eslint --save-dev`and `npx eslint --init`. We recommend the following answers: To check syntax, find problems, and enforce code style, JavaScript modules (import/export), React, Does your project use TypeScript? › No, Where does your code run? Browser, Use a popular style guide, Standard: https://github.com/standard/standard, Format-> Javascript. Finally select yes to install all dependencies. If you are asked to do some downgrade, answer yes. See https://eslint.org/docs/user-guide/getting-started for more details.
 
 ```Javascript
 module.exports = {
@@ -48,7 +48,7 @@ module.exports = {
 }
 ````
 
-   * After that it is recommended to include a settings file by running 'mkdir .vscode && touch .vscode/settings.json`. Add the following contents at `.vscode/settings.json`:
+   * After that it is recommended to include a settings file by running `mkdir .vscode` and  `touch .vscode/settings.json`. Add the following contents at `.vscode/settings.json`:
 ```Javascript
 {
     "eslint.lintTask.enable": true,
@@ -61,7 +61,7 @@ module.exports = {
 }
 ````
 
-and using the VSCode Extension for eslint: https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint
+Remember that, for a better experience, use the VSCode Extension for eslint: https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint
 8. Sync and push your changes to your repository. In VSCode: `Ctrl+Shift+P` (opens command palette), `Git: Add Remote`, select your project folder `IISSI2-IS-Frontend-Owner`and paste your repository url. Then open command palette again and `Git: Publish branch` to push your project.
    * Additionally you can create a tag `Git: Create tag`, name it (e.g. `lab4-1-blank-project`), and finally `Git: Push tags`
 
@@ -80,7 +80,11 @@ We propose to create a Tab navigation using Reactnavigation tools, and following
    * Create a new folder `src\screens`
    * Create a folder for each tab `src\screens\profile`, `src\screens\restaurants`, `src\screens\controlPanel`
    * For each folder we will create a simple screen, `ProfileScreen.js`, `RestaurantsScreen.js`and `ControlPanelScreen.js`
-    > you can create these folders and files using the terminal by running: `mkdir src && mkdir src/screens && mkdir src/screens/profile && mkdir src/screens/restaurants && mkdir src/screens/controlPanel && touch src/screens/profile/ProfileScreen.js && touch src/screens/restaurants/RestaurantsScreen.js && touch src/screens/controlPanel/ControlPanelScreen.js`
+    > you can create these folders and files using the terminal by running:
+    ```Powershell
+    mkdir src && mkdir src/screens && mkdir src/screens/profile && mkdir src/screens/restaurants && mkdir src/screens/controlPanel && touch src/screens/profile/ProfileScreen.js && touch src/screens/restaurants/RestaurantsScreen.js && touch src/screens/controlPanel/ControlPanelScreen.js
+    ```
+    Depending on your terminal/shell, you could need to change `&&` to `;`
 2. Include a minimal screen for each screen file created. E.g. RestaurantsScreen.js
 ```TSX
 import React from 'react'
@@ -136,7 +140,7 @@ https://user-images.githubusercontent.com/19324988/155882422-5974b582-4a6e-4ad0-
 
 
 ## Steps:
-0. Notice that we previously installed stack package `npm install @react-navigation/native-stack` and `npm install @react-navigation/native``
+0. Notice that we previously installed stack package `npm install @react-navigation/native-stack` and `npm install @react-navigation/native`
 1. Create a second screen `RestaurantDetailScreen.js` at `src/screens/restaurants` and include basic contents as before
 2. Create a file `RestaurantsStack.js` in `src/screens/restaurants` and include the logic to define two stack screens for `RestaurantsScreen` and `RestaurantDetailScreen`.
 

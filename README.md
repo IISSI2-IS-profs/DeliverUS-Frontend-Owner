@@ -245,8 +245,12 @@ https://snack.expo.dev/@afdez/lab4-4-firstcomponent
 3. Change to production mode by using the switch at the left side of the development console on http://localhost:19002/. It is possible you have to stop (ctrl-c on the terminal) and start the server again `npm start` when you change from development to production mode and viceversa.
 
 # Extra: Styling
-1. Include icons for the bottom tab options and remove default header (stack navigator shows its own header)
+1. You can include to `App.js` some icons for the bottom tab options and remove default header (stack navigator shows its own header)
    * see https://docs.expo.dev/guides/icons/ and https://reactnavigation.org/docs/tab-based-navigation#customizing-the-appearance
+```Javascript
+import { MaterialCommunityIcons } from '@expo/vector-icons'
+```
+
 ```TSX
 <Tab.Navigator screenOptions={({ route }) => ({
   // eslint-disable-next-line react/display-name
@@ -281,7 +285,7 @@ https://snack.expo.dev/@afdez/lab4-4-firstcomponent
       }}/>
 </Stack.Navigator>
 ```
-4. Define a `GlobalStyles.js` file including some constants for some colors named after: `brandPrimary`, `brandSecondary`, `background`, etc.
+4. Define a `styles\GlobalStyles.js` file including some constants for some colors named after: `brandPrimary`, `brandSecondary`, `background`, etc.
 ```TSX
 const brandPrimary = '#be0f2e' // Granate US. rgba(190,15,46,255)
 const brandPrimaryTap = '#AA001A' //  Granate US más oscuro

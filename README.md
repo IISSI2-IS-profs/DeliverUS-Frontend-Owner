@@ -21,7 +21,7 @@
 5. Click on `Run in web browser`. It should open the basic empty project in a new tab. It should look like this:
 https://snack.expo.dev/@afdez/lab4-1-blankproject
 6. Configure eslint by installing and initialize it for your project by running `npm install eslint --save-dev`and `npx eslint --init`. We recommend the following answers: To check syntax, find problems, and enforce code style, JavaScript modules (import/export), React, Does your project use TypeScript? › No, Where does your code run? Browser, Use a popular style guide, Standard: https://github.com/standard/standard, Format-> Javascript. Finally select yes to install all dependencies. If you are asked to do some downgrade, answer yes. See https://eslint.org/docs/user-guide/getting-started for more details.
-
+7. Modify eslint file in order to add the last rule.
 ```Javascript
 module.exports = {
   env: {
@@ -43,6 +43,7 @@ module.exports = {
     'react'
   ],
   rules: {
+    'react/prop-types': 'off'
   }
 }
 ````
@@ -62,8 +63,7 @@ module.exports = {
 
 Remember that, for a better experience, use the VSCode Extension for eslint: https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint
 
-8. Sync and push your changes to your repository. In VSCode: `Ctrl+Shift+P` (opens command palette), `Git: Add Remote`, select your project folder `IISSI2-IS-Frontend-Owner`and paste your repository url. Then open command palette again and `Git: Publish branch` to push your project.
-   * Additionally you can create a tag `Git: Create tag`, name it (e.g. `lab4-1-blank-project`), and finally `Git: Push tags`
+8. Sync and push your changes to your repository.
 
 # 2. Tab navigation
 According to the requirements, we can classify owners functionalities in the following categories:

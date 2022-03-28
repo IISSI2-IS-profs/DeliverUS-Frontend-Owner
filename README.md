@@ -10,18 +10,17 @@
 # 1. First React Native project
 
 ## Steps:
-1. Create a new empty repository for your Front-end lab sessions at githubeii.us.es
-2. Open VS Code, open a new terminal
-3. Create a new empty project on a local folder:
+1. Once you accepted this assignment, clone your repository to your local environment.
+2. Open VS Code, open a new terminal.
+3. Create a new empty react-native project by running:
 `expo init IISSI2-IS-Frontend-Owner`
    * Choose template: `blank`
-4. You can now open the project folder on VSCode by using the "Open Folder" option on the File menu.
-5. Navigate to the created folder: `cd IISSI2-IS-Frontend-Owner` and run: `npm start`
+4. Navigate to the created folder: `cd IISSI2-IS-Frontend-Owner` and run: `npm start`
    * A new tab/window on your browser should open http://localhost:19002/ showing Expo developers tools. If not automatically opened, run your browser and navigate to: http://localhost:19002
    * (On windows) set allow on Firewall/Windows defender if asked
-6. Click on `Run in web browser`. It should open the basic empty project in a new tab. It should look like this:
+5. Click on `Run in web browser`. It should open the basic empty project in a new tab. It should look like this:
 https://snack.expo.dev/@afdez/lab4-1-blankproject
-7. Configure eslint by installing and initialize it for your project by running `npm install eslint --save-dev`and `npx eslint --init`. We recommend the following answers: To check syntax, find problems, and enforce code style, JavaScript modules (import/export), React, Does your project use TypeScript? › No, Where does your code run? Browser, Use a popular style guide, Standard: https://github.com/standard/standard, Format-> Javascript. Finally select yes to install all dependencies. If you are asked to do some downgrade, answer yes. See https://eslint.org/docs/user-guide/getting-started for more details.
+6. Configure eslint by installing and initialize it for your project by running `npm install eslint --save-dev`and `npx eslint --init`. We recommend the following answers: To check syntax, find problems, and enforce code style, JavaScript modules (import/export), React, Does your project use TypeScript? › No, Where does your code run? Browser, Use a popular style guide, Standard: https://github.com/standard/standard, Format-> Javascript. Finally select yes to install all dependencies. If you are asked to do some downgrade, answer yes. See https://eslint.org/docs/user-guide/getting-started for more details.
 
 ```Javascript
 module.exports = {

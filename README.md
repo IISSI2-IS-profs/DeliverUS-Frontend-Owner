@@ -90,7 +90,7 @@ useEffect(() => {
 ```
 The useEffect hook takes two arguments:
 * the function to be run when the hook is triggered
-* an optional array containing the dependency values that will trigger the hook when their values have changed.
+* an optional array containing the dependency values that will trigger the hook when their values have changed. If the array is empty, it will be executed once the component is mount (inserted in the DOM tree). If the parameter is not present, will be executed when the component is mount and every time the component updates (after every re-render).
 
 
 # 5. Developing RestaurantsScreen and RestaurantDetailScreen.
@@ -178,7 +178,7 @@ Next, we will develop our RestaurantDetailScreen so it queries all the details o
 Define the state object:
 ```Javascript
   const [restaurant, setRestaurant] = useState({})
-````
+```
 
 Define the useEffect hook to load restaurant details:
 ```Javascript

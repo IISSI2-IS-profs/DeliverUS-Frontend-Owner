@@ -35,7 +35,7 @@ You have been provided with some files located at `src/api`:
 * `helpers\ApiRequestHelper.js` that includes the needed functions to perform GET, POST and PUT HTTP requests to the Backend API. It uses Axios package. Axios is the most popular package to perform HTTP requests in Javascript environments. It is an easier to use package than the included Fetch API.
   * `get` function receives the destination route of the request, perform the HTTP GET request and can throw an error exception
   * `post` and `put` functions receive the destination route and the data needed to perform a POST or a PUT HTTP requests respectively. Keep in mind that POST requests are intended for creating new elements and PUT requests are intended for updating elements.
-* `AuthorizationEndpoints.js` that includes the needed functions to perform authorization and user related operations. It also setup the bearer token for future requests.
+* `AuthEndpoints.js` that includes the needed functions to perform authorization and user related operations. It also setup the bearer token for future requests.
 * Other helper files that includes errors and files handling when performing requests.
 
 ## 1.1. RestaurantEndpoints implementation
@@ -73,6 +73,14 @@ This code snippet has some problems:
 3) No error handling is implemented, an API call could return some kind of error and our code would not notice.
 
 We have to face these problems. Check the following implementation and discuss what have been done to address each of the problems:
+First, import showMessage and some styles as follows:
+```Javascript
+import { showMessage } from 'react-native-flash-message'
+import { brandPrimary, brandPrimaryTap, brandSecondary, flashStyle, flashTextStyle } from '../../styles/GlobalStyles'
+
+```
+Secondly, check the following implementation:
+
 ```Javascript
 
 const { loggedInUser } = useContext(AuthorizationContext) //Retrieve loggedInUser from Context
@@ -99,7 +107,6 @@ const { loggedInUser } = useContext(AuthorizationContext) //Retrieve loggedInUse
   }, [loggedInUser]) // Addresses problem 2
 ```
 Check the owner's restaurants are retrieved from the backend and that they are listed at RestaurantsScreen component. Remember to log in as an owner.
-
 
 ## 1.3. RestaurantDetail implementation
 Now we need to modify our code to retrieve restaurant details. To this end, modify your code to:

@@ -191,7 +191,7 @@ Modify the CreateRestaurantScreen so the user is presented with the needed text 
 Notice that `InputItem` can receive the following properties:
 * `name`: the name of the field. **It has to match the name of the field expected at the backend.**
 * `label`: the text presented to the user so it will be rendered among the text input.
-* Other properties: any other property available for the react-native `TextInput`component. For instance, the `placeHolder` property will render a hint in the input so the user can better understand what kind of value is expected. You can see the full `TextInput` reference at: https://reactnative.dev/docs/textinput
+* Other properties: any other property available for the react-native `TextInput`component. For instance, the `placeholder` property will render a hint in the input so the user can better understand what kind of value is expected. You can see the full `TextInput` reference at: https://reactnative.dev/docs/textinput
 
 ### 2.1.2 Image pickers
 Restaurants can be created including some images, the `logo` and the `heroImage` which is an image that is rendered as background in the RestaurantDetailScreen. To this end, expo SDK includes some tools. For more info you can check the expo documentation: https://docs.expo.dev/tutorial/image-picker/

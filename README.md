@@ -46,7 +46,33 @@ Please, take your time to understand the behaviour of Flexbox algorithm.
 There are some more properties that defines the Flexbox algorithm behaviour, you can learn more at: https://reactnative.dev/docs/flexbox
 
 ## 1.2. Views as containers.
-Usually, we will define a general container for our components. This container will usually be a `View` component and it will determine the Flexbox behaviour of its children and the size, margins etc where we will render our elements.
+Usually we will define a general container for our components. This container will usually be a `View` component and it will determine the Flexbox behaviour of its children and the size, margins etc where we will render our elements.
+Notice that the return statement must include one and only one root element. For instance this return statement would be wrong:
+```Javascript
+return (
+  <View>
+    <Text>Some text</Text>
+  </View>
+  <View>
+    <Text>Some other text</Text>
+  </View>
+)
+```
+
+To fix this, we must include a parent element to those siblings,for instance the empty tag `<>`:
+```Javascript
+return (
+  <>
+    <View>
+      <Text>Some text</Text>
+    </View>
+    <View>
+      <Text>Some other text</Text>
+    </View>
+  </>
+)
+```
+
 
 Let's start designing the `CreateRestaurantScreen.js`.
 
@@ -146,7 +172,7 @@ Note: Some components are an extension of ScrollView component. For instance, Fl
 
 # 2. Forms
 Forms are the way of alowing users to submit data from the frontend GUI to the backend. This is needed to create new elements of our entities. Forms present to the user various input fields. The most popular are:
-* Text inputs: where user introduces some kind of texts. It is usually the most general input, we can use it so users can include information such as: names, surnames, emails, descriptions, urls, addresses, prices, postal codes or telephones. You have been provided the `InputItem` component that returns an TextInput, a label for the input and some elements needed for validation that we will use in the next lab.
+* Text inputs: where user introduces some kind of texts. It is usually the most general input, we can use it so users can include information such as: names, surnames, emails, descriptions, urls, addresses, prices, postal codes or telephones. You have been provided the `src/components/InputItem.js` component that returns an `TextInput`, a label for the input and some elements needed for validation that we will use in the next lab.
 * Image pickers / File pickers: where user can select an image/file from its gallery or file system in order to upload them.
 * Select from options: where user can select a value for a field from a given set of options. Typical use cases includes: select some category from the ones that exists, select some status value from a given set of possible values.
 

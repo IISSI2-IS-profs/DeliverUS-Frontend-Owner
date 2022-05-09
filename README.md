@@ -28,7 +28,7 @@ Validation rules could be handwritten or we can use another package. Formik reco
 We will include the validation for the `CreateRestaurantScreen` form by following these steps:
 1. Import formik and yup
 ```Javascript
-import { Formik } from 'formik'
+import { ErrorMessage, Formik } from 'formik'
 import * as yup from 'yup'
 ````
 
@@ -194,7 +194,13 @@ At `RestaurantsScreen`, we need to add the {route} as a component prop, and add 
 `[loggedInUser, route]`
 
 Test the complete solution.
-
+    
+** WARNING IF YOU ARE USING WINDOWS AS YOUR BACKEND SERVER **
+Windows create routes using the backslash (\) instead of the regular slash (/). This can prevent the frontend from showing the images stored at the backend. In order to circunvent this issue you have to replace the source property when using the <Image> component.
+For instance, in the <ImageCard> component, modify the <Image> component as follows:
+```Javascript
+    <Image style={styles.image} source={props.imageUri?.uri.replace(/\\/g, '/')} />
+```
 
 # 3. Create product validation and POST.
 Follow the same steps to validate the create product form and to perform the post request.

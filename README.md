@@ -34,7 +34,7 @@ import * as yup from 'yup'
 
 2. Define a new const variable for declaring initial values for the Restaurant to be created. Remember that these names has to match the ones that the backend expects:
 ```Javascript
-const initialRestaurantValues = { name: '', description: '', address: '', postalCode: '', url: '', shippingCosts: 0, email: '', phone: '', restaurantCategoryId: null }
+const initialRestaurantValues = { name: '', description: '', address: '', postalCode: '', url: '', shippingCosts: 0, email: '', phone: '' }
 ```
 2. Define a new validationSchema object. It will be used by Formik to check validity of the fields. You can use the following code snippet.
 ```Javascript

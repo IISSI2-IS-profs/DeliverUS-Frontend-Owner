@@ -106,6 +106,7 @@ const createRestaurant = async (values) => {
 * `setFieldValue`: sometimes we will have to manually handle the storage of field values. This is a function that receives as first parameter the name of the field, and the value as second parameter. It will be needed for non standard inputItems such as imagepickers or select controls.
 
 4. We need to modify the behaviour of some components so they use the values array handled by Formik.
+
   4.1 Modify the DropDownPicker so the following properties are defined as:
 ```Javascript
 value={values.restaurantCategoryId}
@@ -132,7 +133,7 @@ onSelectItem={ item => {setFieldValue('restaurantCategoryId', item.value)}}
 ```
 and apply similar modification to the heroImage ImagePicker.
 
-4. Next, we need to modify the `<Pressable>` component to call the handleSubmit method. Modify the onPress handler definition: `onPress={handleSubmit}`
+5. Next, we need to modify the `<Pressable>` component to call the handleSubmit method. Modify the onPress handler definition: `onPress={handleSubmit}`
 
 Finally, check that the validation now works and shows users validation broken rules defined. Notice that these errors are handled and rendered in the `InputItem` component provided.
 

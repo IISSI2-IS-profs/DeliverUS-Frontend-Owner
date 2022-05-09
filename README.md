@@ -106,16 +106,17 @@ const createRestaurant = async (values) => {
 * `setFieldValue`: sometimes we will have to manually handle the storage of field values. This is a function that receives as first parameter the name of the field, and the value as second parameter. It will be needed for non standard inputItems such as imagepickers or select controls.
 
 5. We need to modify the behaviour of some components so they use the values array handled by Formik.
-  5.1. Modify the DropDownPicker so the following properties are defined as:
+
+    5.1. Modify the DropDownPicker so the following properties are defined as:
 ```Javascript
 value={values.restaurantCategoryId}
 onSelectItem={ item => {setFieldValue('restaurantCategoryId', item.value)}}
 ```
-  5.2. Add the following <ErrorMessage> component following the dropdown picker
+   5.2. Add the following <ErrorMessage> component following the dropdown picker:
 ```Javascript
 <ErrorMessage name={'restaurantCategoryId'} render={msg => <TextError>{msg}</TextError> }/>
 ```
-  5.3. Modify the Imagepickers as follows:
+5.3. Modify the Imagepickers as follows:
 ```Javascript
 <Pressable onPress={() =>
   pickImage(

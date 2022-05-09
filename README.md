@@ -34,7 +34,8 @@ import * as yup from 'yup'
 
 2. Define a new const variable for declaring initial values for the Restaurant to be created. Remember that these names has to match the ones that the backend expects:
 ```Javascript
-const initialRestaurantValues = { name: '', description: '', address: '', postalCode: '', url: '', shippingCosts: 0, email: '', phone: '' }
+const initialRestaurantValues = { name: '', description: '', address: '', postalCode: '', url: '', shippingCosts: 0, email: '', phone: '', restaurantCategoryId: '' }
+
 ```
 2. Define a new validationSchema object. It will be used by Formik to check validity of the fields. You can use the following code snippet.
 ```Javascript
@@ -65,7 +66,12 @@ const validationSchema = yup.object().shape({
     phone: yup
       .string()
       .min(9, ({ min }) => `Phone must be at least ${min} characters`)
-      .required('Phone is required')
+      .required('Phone is required'),
+    restaurantCategoryId: yup
+      .number()
+      .required('Restaurant category is required')
+      .positive()
+      .integer()
   })
 ```
 Notice that:
@@ -105,7 +111,11 @@ const createRestaurant = async (values) => {
 value={values.restaurantCategoryId}
 onSelectItem={ item => {setFieldValue('restaurantCategoryId', item.value)}}
 ```
-  4.2. Modify the Imagepickers as follows:
+  4.2. Add the following <ErrorMessage> component following the dropdown picker
+```Javascript
+<ErrorMessage name={'restaurantCategoryId'} render={msg => <TextError>{msg}</TextError> }/>
+```
+  4.3. Modify the Imagepickers as follows:
 ```Javascript
 <Pressable onPress={() =>
   pickImage(
@@ -193,3 +203,5 @@ Notice that when creating a new product, we will need to include the restaurantI
 
 # 4. Extra: Component refactoring
 Discuss with your teacher and partners if some components could be refactored. Is it possible to create a submit button component so that we don't copy paste all the pressable details? Do you identify other elements that could be refactored as custom components and reused after?
+
+Could it be possible to refactor de dropdown picker and its error message?

@@ -37,7 +37,7 @@ import * as yup from 'yup'
 const initialRestaurantValues = { name: '', description: '', address: '', postalCode: '', url: '', shippingCosts: 0, email: '', phone: '', restaurantCategoryId: '' }
 
 ```
-2. Define a new validationSchema object. It will be used by Formik to check validity of the fields. You can use the following code snippet.
+3. Define a new validationSchema object. It will be used by Formik to check validity of the fields. You can use the following code snippet.
 ```Javascript
 const validationSchema = yup.object().shape({
     name: yup
@@ -79,7 +79,7 @@ Notice that:
   * Rules defined above include: a type of data that is expected (string, or number for instance), the length of strings, if a number can be negative or not, and if an input is required .
   * If the field does not follow any of these rules, the message passed to each rule should be shown to the user. For instance, if the shippingCosts is not a positive number, the message _Please provide a valid shipping cost value_ will be shown.
 
-3. Now **we have to nest our form inside a `Formik` component**. Add the following:
+4. Now **we have to nest our form inside a `Formik` component**. Add the following:
 ```Javascript
 <Formik
   validationSchema={validationSchema}
@@ -105,18 +105,17 @@ const createRestaurant = async (values) => {
 * `values`: is the array of elements that represents the state of the form.
 * `setFieldValue`: sometimes we will have to manually handle the storage of field values. This is a function that receives as first parameter the name of the field, and the value as second parameter. It will be needed for non standard inputItems such as imagepickers or select controls.
 
-4. We need to modify the behaviour of some components so they use the values array handled by Formik.
-
-  4.1 Modify the DropDownPicker so the following properties are defined as:
+5. We need to modify the behaviour of some components so they use the values array handled by Formik.
+  5.1. Modify the DropDownPicker so the following properties are defined as:
 ```Javascript
 value={values.restaurantCategoryId}
 onSelectItem={ item => {setFieldValue('restaurantCategoryId', item.value)}}
 ```
-  4.2. Add the following <ErrorMessage> component following the dropdown picker
+  5.2. Add the following <ErrorMessage> component following the dropdown picker
 ```Javascript
 <ErrorMessage name={'restaurantCategoryId'} render={msg => <TextError>{msg}</TextError> }/>
 ```
-  4.3. Modify the Imagepickers as follows:
+  5.3. Modify the Imagepickers as follows:
 ```Javascript
 <Pressable onPress={() =>
   pickImage(
@@ -133,7 +132,7 @@ onSelectItem={ item => {setFieldValue('restaurantCategoryId', item.value)}}
 ```
 and apply similar modification to the heroImage ImagePicker.
 
-5. Next, we need to modify the `<Pressable>` component to call the handleSubmit method. Modify the onPress handler definition: `onPress={handleSubmit}`
+6. Next, we need to modify the `<Pressable>` component to call the handleSubmit method. Modify the onPress handler definition: `onPress={handleSubmit}`
 
 Finally, check that the validation now works and shows users validation broken rules defined. Notice that these errors are handled and rendered in the `InputItem` component provided.
 

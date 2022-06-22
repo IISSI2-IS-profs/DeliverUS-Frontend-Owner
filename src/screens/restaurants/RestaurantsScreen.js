@@ -18,8 +18,6 @@ export default function RestaurantsScreen ({ navigation, route }) {
     async function fetchRestaurants () {
       try {
         const fetchedRestaurants = await getAll()
-        fetchedRestaurants[0].isPromoted = true
-        console.log(fetchedRestaurants[0])
         setRestaurants(fetchedRestaurants)
       } catch (error) {
         showMessage({

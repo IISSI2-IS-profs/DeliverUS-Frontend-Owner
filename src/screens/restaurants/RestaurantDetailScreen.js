@@ -16,6 +16,7 @@ export default function RestaurantDetailScreen ({ navigation, route }) {
     async function fetchRestaurantDetail () {
       try {
         const fetchedRestaurant = await getDetail(route.params.id)
+        fetchedRestaurant.products[0].isPromoted = true
         setRestaurant(fetchedRestaurant)
       } catch (error) {
         showMessage({
@@ -67,6 +68,9 @@ export default function RestaurantDetailScreen ({ navigation, route }) {
         imageUri={item.image ? { uri: process.env.API_BASE_URL + '/' + item.image } : undefined}
         title={item.name}
       >
+          {item.isPromoted &&
+          <TextRegular textStyle={{ color: brandPrimary, textAlign: 'right' }}>En promoción!</TextRegular>
+        }
         <TextRegular numberOfLines={2}>{item.description}</TextRegular>
         <TextSemiBold textStyle={styles.price}>{item.price.toFixed(2)}€</TextSemiBold>
       </ImageCard>

@@ -18,6 +18,8 @@ export default function RestaurantsScreen ({ navigation, route }) {
     async function fetchRestaurants () {
       try {
         const fetchedRestaurants = await getAll()
+        fetchedRestaurants[0].isPromoted = true
+        console.log(fetchedRestaurants[0])
         setRestaurants(fetchedRestaurants)
       } catch (error) {
         showMessage({
@@ -44,7 +46,11 @@ export default function RestaurantsScreen ({ navigation, route }) {
           navigation.navigate('RestaurantDetailScreen', { id: item.id })
         }}
       >
+         {item.isPromoted &&
+          <TextRegular textStyle={{ color: brandPrimary, textAlign: 'right' }}>En promoción!</TextRegular>
+        }
         <TextRegular numberOfLines={2}>{item.description}</TextRegular>
+
         {item.averageServiceMinutes !== null &&
           <TextSemiBold>Avg. service time: <TextSemiBold textStyle={{ color: brandPrimary }}>{item.averageServiceMinutes} min.</TextSemiBold></TextSemiBold>
         }

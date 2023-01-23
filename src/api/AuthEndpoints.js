@@ -1,7 +1,7 @@
 import { post, put } from './helpers/ApiRequestsHelper'
 
 function login (data) {
-  return post('users/login', data)
+  return post('users/loginOwner', data)
 }
 
 function register (data) {

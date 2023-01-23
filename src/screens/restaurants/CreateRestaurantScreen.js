@@ -77,7 +77,7 @@ export default function CreateRestaurantScreen ({ navigation }) {
     fetchRestaurantCategories()
   }, [])
 
-  React.useEffect(() => {
+  useEffect(() => {
     (async () => {
       if (Platform.OS !== 'web') {
         const { status } = await ExpoImagePicker.requestMediaLibraryPermissionsAsync()

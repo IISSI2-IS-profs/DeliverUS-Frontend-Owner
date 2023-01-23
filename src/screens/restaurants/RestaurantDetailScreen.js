@@ -7,7 +7,7 @@ import { getDetail } from '../../api/RestaurantEndpoints'
 import ImageCard from '../../components/ImageCard'
 import TextRegular from '../../components/TextRegular'
 import TextSemiBold from '../../components/TextSemibold'
-import { brandPrimary, brandPrimaryTap, brandSecondary, flashStyle, flashTextStyle } from '../../styles/GlobalStyles'
+import { brandPrimary, brandPrimaryTap, brandSecondary, brandSecondaryTap, flashStyle, flashTextStyle } from '../../styles/GlobalStyles'
 
 export default function RestaurantDetailScreen ({ navigation, route }) {
   const [restaurant, setRestaurant] = useState({})
@@ -69,6 +69,9 @@ export default function RestaurantDetailScreen ({ navigation, route }) {
       >
         <TextRegular numberOfLines={2}>{item.description}</TextRegular>
         <TextSemiBold textStyle={styles.price}>{item.price.toFixed(2)}€</TextSemiBold>
+        {!item.availability &&
+          <TextRegular textStyle={styles.availability }>Not available</TextRegular>
+        }
       </ImageCard>
     )
   }
@@ -146,5 +149,10 @@ const styles = StyleSheet.create({
     color: brandSecondary,
     textAlign: 'center',
     marginLeft: 5
+  },
+  availability: {
+    textAlign: 'right',
+    marginRight: 5,
+    color: brandSecondary
   }
 })

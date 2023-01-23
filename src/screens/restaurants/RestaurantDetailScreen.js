@@ -19,7 +19,7 @@ export default function RestaurantDetailScreen ({ navigation, route }) {
         setRestaurant(fetchedRestaurant)
       } catch (error) {
         showMessage({
-          message: `There was an error while retrieving restaurants. ${error} `,
+          message: `There was an error while retrieving restaurant details. ${error} `,
           type: 'error',
           style: flashStyle,
           titleStyle: flashTextStyle

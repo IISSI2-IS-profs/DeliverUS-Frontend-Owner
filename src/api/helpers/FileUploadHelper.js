@@ -51,7 +51,9 @@ function constructFormData (files, dataWithoutFiles) {
     formData.append(normalizedFile.name, normalizedFile.fileObject)
   })
   Object.keys(dataWithoutFiles).forEach((key) => {
-    formData.append(key, dataWithoutFiles[key])
+    if (dataWithoutFiles[key] !== null) { // if null values are present they are sent as strings with value 'null' and could be misleading for the backend / database
+      formData.append(key, dataWithoutFiles[key])
+    }
   })
   return formData
 }
@@ -69,6 +71,7 @@ function prepareData (preparedData) {
   const files = getFilesFromData(preparedData)
   if (files && files.length) {
     preparedData = constructFormData(files, getDataWithoutBodyFiles(preparedData))
+    // preparedData = Object.fromEntries(Object.entries(preparedData).filter(([_, v]) => v != null)) // remove null properties
     config = getMultiPartHeader()
   }
   return { config, preparedData }

@@ -56,4 +56,20 @@ const put = (route, data = null) => {
   })
 }
 
-export { get, post, put }
+const destroy = (route) => {
+  return new Promise(function (resolve, reject) {
+    axios.delete(route)
+      .then(response => {
+        resolve(response.data)
+      })
+      .catch(error => {
+        try {
+          handleError(error)
+        } catch (error) {
+          reject(error)
+        }
+      })
+  })
+}
+
+export { get, post, put, destroy }

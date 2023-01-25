@@ -1,33 +1,23 @@
 /* eslint-disable react/prop-types */
 import React, { useContext, useEffect, useState } from 'react'
-import { StyleSheet, FlatList, Pressable } from 'react-native'
-import { getAll } from '../../api/RestaurantEndpoints'
+import { StyleSheet, FlatList, Pressable, View } from 'react-native'
+
+import { getAll, remove } from '../../api/RestaurantEndpoints'
 import ImageCard from '../../components/ImageCard'
 import TextSemiBold from '../../components/TextSemibold'
 import TextRegular from '../../components/TextRegular'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
-import { brandPrimary, brandPrimaryTap, brandSecondary, flashStyle, flashTextStyle } from '../../styles/GlobalStyles'
+import { brandBlue, brandBlueTap, brandGreen, brandGreenTap, brandPrimary, brandPrimaryTap, flashStyle, flashTextStyle } from '../../styles/GlobalStyles'
 import { AuthorizationContext } from '../../context/AuthorizationContext'
 import { showMessage } from 'react-native-flash-message'
+import DeleteModal from '../../components/DeleteModal'
 
 export default function RestaurantsScreen ({ navigation, route }) {
   const [restaurants, setRestaurants] = useState([])
+  const [restaurantToBeDeleted, setRestaurantToBeDeleted] = useState(null)
   const { loggedInUser } = useContext(AuthorizationContext)
 
   useEffect(() => {
-    async function fetchRestaurants () {
-      try {
-        const fetchedRestaurants = await getAll()
-        setRestaurants(fetchedRestaurants)
-      } catch (error) {
-        showMessage({
-          message: `There was an error while retrieving restaurants. ${error} `,
-          type: 'error',
-          style: flashStyle,
-          titleStyle: flashTextStyle
-        })
-      }
-    }
     if (loggedInUser) {
       fetchRestaurants()
     } else {
@@ -49,6 +39,44 @@ export default function RestaurantsScreen ({ navigation, route }) {
           <TextSemiBold>Avg. service time: <TextSemiBold textStyle={{ color: brandPrimary }}>{item.averageServiceMinutes} min.</TextSemiBold></TextSemiBold>
         }
         <TextSemiBold>Shipping: <TextSemiBold textStyle={{ color: brandPrimary }}>{item.shippingCosts.toFixed(2)}€</TextSemiBold></TextSemiBold>
+        <View style={styles.actionButtonsContainer}>
+          <Pressable
+            onPress={() => navigation.navigate('EditRestaurantScreen', { id: item.id })
+            }
+            style={({ pressed }) => [
+              {
+                backgroundColor: pressed
+                  ? brandBlueTap
+                  : brandBlue
+              },
+              styles.actionButton
+            ]}>
+          <View style={[{ flex: 1, flexDirection: 'row', justifyContent: 'center' }]}>
+            <MaterialCommunityIcons name='pencil' color={'white'} size={20}/>
+            <TextRegular textStyle={styles.text}>
+              Edit
+            </TextRegular>
+          </View>
+        </Pressable>
+
+        <Pressable
+            onPress={() => { setRestaurantToBeDeleted(item) }}
+            style={({ pressed }) => [
+              {
+                backgroundColor: pressed
+                  ? brandPrimaryTap
+                  : brandPrimary
+              },
+              styles.actionButton
+            ]}>
+          <View style={[{ flex: 1, flexDirection: 'row', justifyContent: 'center' }]}>
+            <MaterialCommunityIcons name='delete' color={'white'} size={20}/>
+            <TextRegular textStyle={styles.text}>
+              Delete
+            </TextRegular>
+          </View>
+        </Pressable>
+        </View>
       </ImageCard>
     )
   }
@@ -71,22 +99,61 @@ export default function RestaurantsScreen ({ navigation, route }) {
         style={({ pressed }) => [
           {
             backgroundColor: pressed
-              ? brandPrimaryTap
-              : brandPrimary
+              ? brandGreenTap
+              : brandGreen
           },
           styles.button
         ]}>
-        <MaterialCommunityIcons name='plus-circle' color={brandSecondary} size={20}/>
-        <TextRegular textStyle={styles.text}>
-          Create restaurant
-        </TextRegular>
+        <View style={[{ flex: 1, flexDirection: 'row', justifyContent: 'center' }]}>
+          <MaterialCommunityIcons name='plus-circle' color={'white'} size={20}/>
+          <TextRegular textStyle={styles.text}>
+            Create restaurant
+          </TextRegular>
+        </View>
       </Pressable>
     }
     </>
     )
   }
+  const fetchRestaurants = async () => {
+    try {
+      const fetchedRestaurants = await getAll()
+      setRestaurants(fetchedRestaurants)
+    } catch (error) {
+      showMessage({
+        message: `There was an error while retrieving restaurants. ${error} `,
+        type: 'error',
+        style: flashStyle,
+        titleStyle: flashTextStyle
+      })
+    }
+  }
+
+  const removeRestaurant = async (restaurant) => {
+    try {
+      await remove(restaurant.id)
+      await fetchRestaurants()
+      setRestaurantToBeDeleted(null)
+      showMessage({
+        message: `Restaurant ${restaurant.name} succesfully removed`,
+        type: 'success',
+        style: flashStyle,
+        titleStyle: flashTextStyle
+      })
+    } catch (error) {
+      console.log(error)
+      setRestaurantToBeDeleted(null)
+      showMessage({
+        message: `Restaurant ${restaurant.name} could not be removed.`,
+        type: 'error',
+        style: flashStyle,
+        titleStyle: flashTextStyle
+      })
+    }
+  }
 
   return (
+    <>
     <FlatList
       style={styles.container}
       data={restaurants}
@@ -95,6 +162,14 @@ export default function RestaurantsScreen ({ navigation, route }) {
       ListHeaderComponent={renderHeader}
       ListEmptyComponent={renderEmptyRestaurantsList}
     />
+    <DeleteModal
+      isVisible={restaurantToBeDeleted !== null}
+      onCancel={() => setRestaurantToBeDeleted(null)}
+      onConfirm={() => removeRestaurant(restaurantToBeDeleted)}>
+        <TextRegular>The products of this restaurant will be deleted as well</TextRegular>
+        <TextRegular>If the restaurant has orders, it cannot be deleted.</TextRegular>
+    </DeleteModal>
+    </>
   )
 }
 
@@ -109,12 +184,28 @@ const styles = StyleSheet.create({
     padding: 10,
     alignSelf: 'center',
     flexDirection: 'row',
-    alignItems: 'center'
+    width: '80%'
+  },
+  actionButton: {
+    borderRadius: 8,
+    height: 40,
+    marginTop: 12,
+    margin: '1%',
+    padding: 10,
+    alignSelf: 'center',
+    flexDirection: 'column',
+    width: '50%'
+  },
+  actionButtonsContainer: {
+    flexDirection: 'row',
+    bottom: 5,
+    position: 'absolute',
+    width: '90%'
   },
   text: {
     fontSize: 16,
-    color: brandSecondary,
-    textAlign: 'center',
+    color: 'white',
+    alignSelf: 'center',
     marginLeft: 5
   },
   emptyList: {

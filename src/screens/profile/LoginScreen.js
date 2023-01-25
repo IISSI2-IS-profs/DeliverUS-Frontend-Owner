@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react'
 import { StyleSheet, View, Pressable, Image } from 'react-native'
-import { brandPrimary, brandPrimaryTap, brandSecondary, flashStyle, flashTextStyle } from '../../styles/GlobalStyles'
+import { brandGreen, brandGreenTap, brandPrimary, brandSuccess, brandSuccessTap, flashStyle, flashTextStyle } from '../../styles/GlobalStyles'
 import { Formik } from 'formik'
 import * as yup from 'yup'
 import InputItem from '../../components/InputItem'
@@ -80,8 +80,8 @@ export default function LoginScreen ({ navigation }) {
               style={({ pressed }) => [
                 {
                   backgroundColor: pressed
-                    ? brandPrimaryTap
-                    : brandPrimary
+                    ? brandSuccessTap
+                    : brandSuccess
                 },
                 styles.button
               ]}>
@@ -97,8 +97,8 @@ export default function LoginScreen ({ navigation }) {
               style={({ pressed }) => [
                 {
                   backgroundColor: pressed
-                    ? brandPrimaryTap
-                    : brandPrimary
+                    ? brandGreenTap
+                    : brandGreen
                 },
                 styles.button
               ]}>
@@ -135,7 +135,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 16,
-    color: brandSecondary,
+    color: 'white',
     textAlign: 'center'
   }
 })

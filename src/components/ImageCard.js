@@ -1,4 +1,3 @@
-// import { Badge, Flex } from '@ant-design/react-native'
 import React from 'react'
 import { Image, Pressable, StyleSheet, View } from 'react-native'
 import TextSemiBold from './TextSemibold'
@@ -10,7 +9,7 @@ export default function ImageCard (props) {
   const renderImageCardBody = (props) => {
     return (
       <View style={styles.card} >
-        <View style={styles.imageContainer}>
+        <View>
           <Image style={styles.image} source={props.imageUri} />
           {/* Solution for windows server <Image style={styles.image} source={props.imageUri?.uri.replace(/\\/g, '/')} /> */}
         </View>
@@ -43,22 +42,26 @@ export default function ImageCard (props) {
 const styles = StyleSheet.create({
   card: {
     marginTop: 20,
+    marginHorizontal: '1%',
     height: 127,
     padding: 2,
     alignItems: 'flex-start',
     flexDirection: 'row',
-    backgroundColor: 'white'
-  },
-  imageContainer: {
-    flex: 2
+    backgroundColor: 'white',
+    borderRadius: 15
   },
   image: {
+    borderTopLeftRadius: 15,
+    borderBottomLeftRadius: 15,
     height: 123,
     width: 123
   },
   cardBody: {
-    padding: 5,
-    flex: 4
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    flex: 4,
+    position: 'relative',
+    height: 123
   },
   cardTitle: {
     fontSize: 15

@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { Image, Pressable, ScrollView, StyleSheet, Switch, View } from 'react-native'
 import * as ExpoImagePicker from 'expo-image-picker'
+import { MaterialCommunityIcons } from '@expo/vector-icons'
 import InputItem from '../../components/InputItem'
 import TextRegular from '../../components/TextRegular'
-import { brandBackground, brandPrimary, brandPrimaryTap, brandSecondary, flashStyle, flashTextStyle } from '../../styles/GlobalStyles'
+import { brandBackground, brandPrimary, brandSecondary, brandSuccess, brandSuccessTap, flashStyle, flashTextStyle } from '../../styles/GlobalStyles'
 import defaultProduct from '../../../assets/product.jpeg'
 import { getProductCategories, create } from '../../api/ProductEndpoints'
 import { showMessage } from 'react-native-flash-message'
@@ -72,7 +73,6 @@ export default function CreateProductScreen ({ navigation, route }) {
   const createProduct = async (values) => {
     setBackendErrors([])
     try {
-      console.log(values)
       const createdProduct = await create(values)
       showMessage({
         message: `Product ${createdProduct.name} succesfully created`,
@@ -161,14 +161,17 @@ export default function CreateProductScreen ({ navigation, route }) {
                 style={({ pressed }) => [
                   {
                     backgroundColor: pressed
-                      ? brandPrimaryTap
-                      : brandPrimary
+                      ? brandSuccessTap
+                      : brandSuccess
                   },
                   styles.button
                 ]}>
-                <TextRegular textStyle={styles.text}>
-                  Create product
-                </TextRegular>
+                <View style={[{ flex: 1, flexDirection: 'row', justifyContent: 'center' }]}>
+                  <MaterialCommunityIcons name='content-save' color={'white'} size={20}/>
+                  <TextRegular textStyle={styles.text}>
+                    Save
+                  </TextRegular>
+                </View>
               </Pressable>
             </View>
           </View>
@@ -189,8 +192,10 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 16,
-    color: brandSecondary,
-    textAlign: 'center'
+    color: 'white',
+    textAlign: 'center',
+    marginLeft: 5
+
   },
   imagePicker: {
     height: 40,

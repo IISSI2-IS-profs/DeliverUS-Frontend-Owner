@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { Image, Platform, Pressable, ScrollView, StyleSheet, View } from 'react-native'
 import * as ExpoImagePicker from 'expo-image-picker'
+import { MaterialCommunityIcons } from '@expo/vector-icons'
 import * as yup from 'yup'
 import DropDownPicker from 'react-native-dropdown-picker'
 import { create, getRestaurantCategories } from '../../api/RestaurantEndpoints'
 import InputItem from '../../components/InputItem'
 import TextRegular from '../../components/TextRegular'
-import { brandBackground, brandPrimary, brandPrimaryTap, brandSecondary, flashStyle, flashTextStyle } from '../../styles/GlobalStyles'
+import { brandBackground, brandPrimary, brandPrimaryTap, brandSecondary, brandSuccess, brandSuccessTap, flashStyle, flashTextStyle } from '../../styles/GlobalStyles'
 import restaurantLogo from '../../../assets/restaurantLogo.jpeg'
 import restaurantBackground from '../../../assets/restaurantBackground.jpeg'
 import { showMessage } from 'react-native-flash-message'
@@ -211,14 +212,17 @@ export default function CreateRestaurantScreen ({ navigation }) {
                 style={({ pressed }) => [
                   {
                     backgroundColor: pressed
-                      ? brandPrimaryTap
-                      : brandPrimary
+                      ? brandSuccessTap
+                      : brandSuccess
                   },
                   styles.button
                 ]}>
+              <View style={[{ flex: 1, flexDirection: 'row', justifyContent: 'center' }]}>
+                <MaterialCommunityIcons name='content-save' color={'white'} size={20}/>
                 <TextRegular textStyle={styles.text}>
-                  Create restaurant
+                  Save
                 </TextRegular>
+              </View>
               </Pressable>
             </View>
           </View>
@@ -239,8 +243,9 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 16,
-    color: brandSecondary,
-    textAlign: 'center'
+    color: 'white',
+    textAlign: 'center',
+    marginLeft: 5
   },
   imagePicker: {
     height: 40,

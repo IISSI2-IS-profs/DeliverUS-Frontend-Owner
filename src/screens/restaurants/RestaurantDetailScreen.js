@@ -7,7 +7,7 @@ import { getDetail } from '../../api/RestaurantEndpoints'
 import ImageCard from '../../components/ImageCard'
 import TextRegular from '../../components/TextRegular'
 import TextSemiBold from '../../components/TextSemibold'
-import { brandPrimary, brandPrimaryTap, brandSecondary, flashStyle, flashTextStyle } from '../../styles/GlobalStyles'
+import { brandGreen, brandGreenTap, brandPrimary, brandPrimaryTap, brandSecondary, flashStyle, flashTextStyle } from '../../styles/GlobalStyles'
 
 export default function RestaurantDetailScreen ({ navigation, route }) {
   const [restaurant, setRestaurant] = useState({})
@@ -47,15 +47,17 @@ export default function RestaurantDetailScreen ({ navigation, route }) {
           style={({ pressed }) => [
             {
               backgroundColor: pressed
-                ? brandPrimaryTap
-                : brandPrimary
+                ? brandGreenTap
+                : brandGreen
             },
             styles.button
           ]}>
-          <MaterialCommunityIcons name='plus-circle' color={brandSecondary} size={20} />
-          <TextRegular textStyle={styles.text}>
-            Create product
-          </TextRegular>
+          <View style={[{ flex: 1, flexDirection: 'row', justifyContent: 'center' }]}>
+            <MaterialCommunityIcons name='plus-circle' color={'white'} size={20} />
+            <TextRegular textStyle={styles.text}>
+              Create product
+            </TextRegular>
+          </View>
         </Pressable>
       </View>
     )
@@ -142,12 +144,12 @@ const styles = StyleSheet.create({
     padding: 10,
     alignSelf: 'center',
     flexDirection: 'row',
-    alignItems: 'center'
+    width: '80%'
   },
   text: {
     fontSize: 16,
-    color: brandSecondary,
-    textAlign: 'center',
+    color: 'white',
+    alignSelf: 'center',
     marginLeft: 5
   },
   availability: {

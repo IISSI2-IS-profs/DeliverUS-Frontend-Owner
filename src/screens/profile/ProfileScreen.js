@@ -6,7 +6,7 @@ import { AuthorizationContext } from '../../context/AuthorizationContext'
 import { Formik } from 'formik'
 import * as yup from 'yup'
 import { showMessage } from 'react-native-flash-message'
-import { brandPrimary, brandPrimaryDisabled, brandPrimaryTap, brandSecondary, flashStyle, flashTextStyle } from '../../styles/GlobalStyles'
+import { brandPrimary, brandPrimaryDisabled, brandPrimaryTap, brandSecondary, brandSuccess, brandSuccessDisabled, brandSuccessTap, flashStyle, flashTextStyle } from '../../styles/GlobalStyles'
 import SystemInfo from '../../components/SystemInfo'
 import maleAvatar from '../../../assets/maleAvatar.png'
 import InputItem from '../../components/InputItem'
@@ -168,13 +168,13 @@ export default function ProfileScreen () {
                         style={({ pressed }) => [
                           {
                             backgroundColor: pressed
-                              ? brandPrimaryTap
-                              : brandPrimary
+                              ? brandSuccessTap
+                              : brandSuccess
                           },
                           {
                             backgroundColor: !isValid
-                              ? brandPrimaryDisabled
-                              : brandPrimary
+                              ? brandSuccessDisabled
+                              : brandSuccess
                           },
                           styles.button]}
                       >
@@ -227,7 +227,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 16,
-    color: brandSecondary,
+    color: 'white',
     textAlign: 'center'
   }
 })

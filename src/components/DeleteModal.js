@@ -4,14 +4,14 @@ import { MaterialCommunityIcons } from '@expo/vector-icons'
 import TextSemiBold from './TextSemibold'
 import { brandBlue, brandBlueTap, brandPrimary, brandPrimaryTap } from '../styles/GlobalStyles'
 import TextRegular from './TextRegular'
-
 export default function DeleteModal (props) {
   return (
     <Modal
-    animationType="slide"
+    presentationStyle='overFullScreen'
+    animationType='slide'
     transparent={true}
     visible={props.isVisible}
-  >
+    onRequestClose={props.onCancel}>
     <View style={styles.centeredView}>
       <View style={styles.modalView}>
         <TextSemiBold textStyle={{ fontSize: 15 }}>Please confirm deletion</TextSemiBold>

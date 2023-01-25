@@ -2,8 +2,10 @@ import React from 'react'
 import { StyleSheet, Text } from 'react-native'
 import { brandPrimary } from '../styles/GlobalStyles'
 export default function TextError (props) {
+  const { textStyle, ...inputProps } = props
+
   return (
-          <Text style={[styles.text, props.textStyle]}>
+          <Text style={[styles.text, textStyle]} {...inputProps}>
             {props.children}
           </Text>
   )

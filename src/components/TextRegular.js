@@ -1,8 +1,10 @@
 import React from 'react'
 import { StyleSheet, Text } from 'react-native'
 export default function TextRegular (props) {
+  const { textStyle, ...inputProps } = props
+
   return (
-          <Text style={[styles.text, props.textStyle]}>
+          <Text style={[styles.text, textStyle]} {...inputProps}>
             {props.children}
           </Text>
   )

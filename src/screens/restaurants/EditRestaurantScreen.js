@@ -24,15 +24,15 @@ export default function EditRestaurantScreen ({ navigation, route }) {
   const validationSchema = yup.object().shape({
     name: yup
       .string()
-      .max(30, 'Name too long')
+      .max(255, 'Name too long')
       .required('Name is required'),
     address: yup
       .string()
-      .max(75, 'Address too long')
+      .max(255, 'Address too long')
       .required('Address is required'),
     postalCode: yup
       .string()
-      .max(15, 'Postal code too long')
+      .max(255, 'Postal code too long')
       .required('Postal code is required'),
     url: yup
       .string()
@@ -47,13 +47,13 @@ export default function EditRestaurantScreen ({ navigation, route }) {
       .required('Email Address is Required'),
     phone: yup
       .string()
-      .min(9, ({ min }) => `Phone must be at least ${min} characters`)
+      .max(255, 'Phone too long')
       .required('Phone is required'),
     restaurantCategoryId: yup
       .number()
-      .required('Restaurant category is required')
       .positive()
       .integer()
+      .required('Restaurant category is required')
   })
   const prepareRestaurantImages = (restaurant) => {
     const restaurantCopy = { ...restaurant }

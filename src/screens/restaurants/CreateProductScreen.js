@@ -10,7 +10,7 @@ import { getProductCategories, create } from '../../api/ProductEndpoints'
 import { showMessage } from 'react-native-flash-message'
 import DropDownPicker from 'react-native-dropdown-picker'
 import * as yup from 'yup'
-import { Formik } from 'formik'
+import { ErrorMessage, Formik } from 'formik'
 import TextError from '../../components/TextError'
 
 export default function CreateProductScreen ({ navigation, route }) {
@@ -22,7 +22,7 @@ export default function CreateProductScreen ({ navigation, route }) {
   const validationSchema = yup.object().shape({
     name: yup
       .string()
-      .max(30, 'Name too long')
+      .max(255, 'Name too long')
       .required('Name is required'),
     price: yup
       .number()
@@ -31,7 +31,14 @@ export default function CreateProductScreen ({ navigation, route }) {
     order: yup
       .number()
       .positive('Please provide a positive cost value')
-      .integer('Please provide an integer cost value')
+      .integer('Please provide an integer cost value'),
+    availability: yup
+      .boolean(),
+    productCategoryId: yup
+      .number()
+      .positive()
+      .integer()
+      .required('Product category is required')
   })
 
   useEffect(() => {
@@ -126,6 +133,7 @@ export default function CreateProductScreen ({ navigation, route }) {
                 style={{ backgroundColor: brandBackground }}
                 dropDownStyle={{ backgroundColor: '#fafafa' }}
               />
+              <ErrorMessage name={'productCategoryId'} render={msg => <TextError>{msg}</TextError> }/>
 
               <TextRegular>Is it available?</TextRegular>
               <Switch
@@ -138,6 +146,7 @@ export default function CreateProductScreen ({ navigation, route }) {
                   setFieldValue('availability', value)
                 }
               />
+              <ErrorMessage name={'availability'} render={msg => <TextError>{msg}</TextError> }/>
 
               <Pressable onPress={() =>
                 pickImage(

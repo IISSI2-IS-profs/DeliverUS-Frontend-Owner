@@ -29,7 +29,6 @@ export default function ProfileScreen () {
       .required('Last name is required'),
     phone: yup
       .string()
-      .min(1, ({ min }) => `Phone must be at least ${min} characters`)
       .max(255, 'Phone too long')
       .required('Phone is required'),
     address: yup

@@ -21,6 +21,7 @@ export default function LoginScreen ({ navigation }) {
     password: yup
       .string()
       .min(3, ({ min }) => `Password must be at least ${min} characters`)
+      .matches(/^\S*$/, 'No spaces are allowed')
       .required('Password is required')
   })
 

@@ -23,15 +23,15 @@ export default function CreateRestaurantScreen ({ navigation }) {
   const validationSchema = yup.object().shape({
     name: yup
       .string()
-      .max(30, 'Name too long')
+      .max(255, 'Name too long')
       .required('Name is required'),
     address: yup
       .string()
-      .max(75, 'Address too long')
+      .max(255, 'Address too long')
       .required('Address is required'),
     postalCode: yup
       .string()
-      .max(15, 'Postal code too long')
+      .max(255, 'Postal code too long')
       .required('Postal code is required'),
     url: yup
       .string()
@@ -42,17 +42,15 @@ export default function CreateRestaurantScreen ({ navigation }) {
       .required('Shipping costs value is required'),
     email: yup
       .string()
-      .email('Please enter a valid email')
-      .required('Email Address is Required'),
+      .email('Please enter a valid email'),
     phone: yup
       .string()
-      .min(9, ({ min }) => `Phone must be at least ${min} characters`)
-      .required('Phone is required'),
+      .max(255, 'Phone too long'),
     restaurantCategoryId: yup
       .number()
-      .required('Restaurant category is required')
       .positive()
       .integer()
+      .required('Restaurant category is required')
   })
 
   useEffect(() => {

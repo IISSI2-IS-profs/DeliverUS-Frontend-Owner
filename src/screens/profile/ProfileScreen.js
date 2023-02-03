@@ -21,33 +21,31 @@ export default function ProfileScreen () {
   const validationSchema = yup.object().shape({
     firstName: yup
       .string()
-      .max(30, 'First name too long')
+      .max(255, 'First name too long')
       .required('First name is required'),
     lastName: yup
       .string()
-      .max(50, 'Last name too long')
+      .max(255, 'Last name too long')
       .required('Last name is required'),
-    email: yup
-      .string()
-      .email('Please enter valid email')
-      .required('Email Address is Required'),
     phone: yup
       .string()
-      .min(9, ({ min }) => `Phone must be at least ${min} characters`)
+      .min(1, ({ min }) => `Phone must be at least ${min} characters`)
+      .max(255, 'Phone too long')
       .required('Phone is required'),
     address: yup
       .string()
-      .max(75, 'Address too long')
+      .max(255, 'Address too long')
       .required('Address is required'),
     postalCode: yup
       .string()
-      .max(15, 'Postal code too long')
+      .max(255, 'Postal code too long')
       .required('Postal code is required')
   })
 
   React.useEffect(() => {
     if (loggedInUser) {
       const userCopy = { ...loggedInUser }
+      delete userCopy.email
       if (userCopy.avatar) {
         userCopy.file = { uri: `${process.env.API_BASE_URL}/${userCopy.avatar}` }
       }
@@ -89,6 +87,7 @@ export default function ProfileScreen () {
       titleStyle: flashTextStyle
     }),
     (error) => {
+      console.error(error.errors)
       setBackendErrors(error.errors)
     })
   }
@@ -140,12 +139,6 @@ export default function ProfileScreen () {
                         textContentType='familyName'
                       />
                       <InputItem
-                        name='email'
-                        label='Email'
-                        textContentType='emailAddress'
-                        editable={false}
-                      />
-                      <InputItem
                         name='phone'
                         label='Phone'
                         textContentType='telephoneNumber'
@@ -161,7 +154,7 @@ export default function ProfileScreen () {
                         textContentType='postalCode'
                       />
                       {backendErrors &&
-                        backendErrors.map((error, index) => <TextError key={index}>{error.message}</TextError>)
+                        backendErrors.map((error, index) => <TextError key={index}>{error.param}-{error.msg}</TextError>)
                       }
 
                       <Pressable disabled={!isValid} onPress={handleSubmit}
@@ -190,7 +183,6 @@ export default function ProfileScreen () {
                             styles.button]} >
                       <TextRegular textStyle={styles.text}>Sign out</TextRegular>
                       </Pressable>
-
                       <SystemInfo />
                     </View>
                   </View>

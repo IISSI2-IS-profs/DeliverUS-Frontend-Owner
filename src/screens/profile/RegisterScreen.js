@@ -6,7 +6,7 @@ import { AuthorizationContext } from '../../context/AuthorizationContext'
 import { Formik } from 'formik'
 import * as yup from 'yup'
 import { showMessage } from 'react-native-flash-message'
-import { brandPrimary, brandPrimaryDisabled, brandPrimaryTap, brandSecondary, brandSuccess, brandSuccessDisabled, brandSuccessTap, flashStyle, flashTextStyle } from '../../styles/GlobalStyles'
+import { brandPrimary, brandSuccess, brandSuccessDisabled, brandSuccessTap, flashStyle, flashTextStyle } from '../../styles/GlobalStyles'
 import maleAvatar from '../../../assets/maleAvatar.png'
 import InputItem from '../../components/InputItem'
 import TextRegular from '../../components/TextRegular'
@@ -20,11 +20,11 @@ export default function RegisterScreen () {
   const validationSchema = yup.object().shape({
     firstName: yup
       .string()
-      .max(30, 'First name too long')
+      .max(255, 'First name too long')
       .required('First name is required'),
     lastName: yup
       .string()
-      .max(50, 'Last name too long')
+      .max(255, 'Last name too long')
       .required('Last name is required'),
     email: yup
       .string()
@@ -33,18 +33,20 @@ export default function RegisterScreen () {
     password: yup
       .string()
       .min(3, ({ min }) => `Password must be at least ${min} characters`)
+      .matches(/^\S*$/, 'No spaces are allowed')
       .required('Password is required'),
     phone: yup
       .string()
-      .min(9, ({ min }) => `Phone must be at least ${min} characters`)
+      .min(1, ({ min }) => `Phone must be at least ${min} characters`)
+      .max(255, 'Phone too long')
       .required('Phone is required'),
     address: yup
       .string()
-      .max(75, 'Address too long')
+      .max(255, 'Address too long')
       .required('Address is required'),
     postalCode: yup
       .string()
-      .max(15, 'Postal code too long')
+      .max(255, 'Postal code too long')
       .required('Postal code is required')
   })
 
@@ -163,7 +165,7 @@ export default function RegisterScreen () {
                         textContentType='postalCode'
                       />
                       {backendErrors &&
-                        backendErrors.map((error, index) => <TextError key={index}>{error.message}</TextError>)
+                        backendErrors.map((error, index) => <TextError key={index}>{error.param}-{error.msg}</TextError>)
                       }
 
                       <Pressable disabled={!isValid} onPress={handleSubmit}

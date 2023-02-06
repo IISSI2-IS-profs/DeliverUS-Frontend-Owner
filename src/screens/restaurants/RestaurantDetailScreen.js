@@ -7,7 +7,7 @@ import { getDetail } from '../../api/RestaurantEndpoints'
 import ImageCard from '../../components/ImageCard'
 import TextRegular from '../../components/TextRegular'
 import TextSemiBold from '../../components/TextSemibold'
-import { brandGreen, brandGreenTap, brandPrimary, brandPrimaryTap, brandSecondary, flashStyle, flashTextStyle } from '../../styles/GlobalStyles'
+import { brandGreen, brandGreenTap, brandSecondary, flashStyle, flashTextStyle } from '../../styles/GlobalStyles'
 
 export default function RestaurantDetailScreen ({ navigation, route }) {
   const [restaurant, setRestaurant] = useState({})

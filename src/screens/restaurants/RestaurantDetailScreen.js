@@ -8,7 +8,7 @@ import { remove } from '../../api/ProductEndpoints'
 import ImageCard from '../../components/ImageCard'
 import TextRegular from '../../components/TextRegular'
 import TextSemiBold from '../../components/TextSemibold'
-import { brandGreen, brandGreenTap, brandPrimary, brandPrimaryTap, brandBlue, brandSecondary, flashStyle, flashTextStyle } from '../../styles/GlobalStyles'
+import { brandGreen, brandGreenTap, brandPrimary, brandPrimaryTap, brandBlue, brandBlueTap, brandSecondary, flashStyle, flashTextStyle } from '../../styles/GlobalStyles'
 import DeleteModal from '../../components/DeleteModal'
 
 export default function RestaurantDetailScreen ({ navigation, route }) {

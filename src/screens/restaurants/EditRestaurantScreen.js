@@ -69,7 +69,7 @@ export default function EditRestaurantScreen ({ navigation, route }) {
   const buildInitialValues = (restaurant) => {
     const initialValues = { ...initialRestaurantValues }
     Object.keys(initialRestaurantValues).forEach(key => {
-      if (restaurant[key]) {
+      if (key in restaurant) {
         initialValues[key] = restaurant[key]
       }
     })
@@ -147,7 +147,6 @@ export default function EditRestaurantScreen ({ navigation, route }) {
   const updateRestaurant = async (values) => {
     setBackendErrors([])
     try {
-      console.log(values)
       const updatedRestaurant = await update(restaurant.id, values)
       showMessage({
         message: `Restaurant ${updatedRestaurant.name} succesfully updated`,
@@ -161,6 +160,7 @@ export default function EditRestaurantScreen ({ navigation, route }) {
       setBackendErrors(error.errors)
     }
   }
+
   return (
     <Formik
       enableReinitialize

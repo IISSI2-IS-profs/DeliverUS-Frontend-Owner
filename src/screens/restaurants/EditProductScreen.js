@@ -21,7 +21,7 @@ export default function EditProductScreen ({ navigation, route }) {
   const [product, setProduct] = useState({})
 
 
-  const [initialProductValues, setInitialProductValues] = useState({ name: '', description: '', price: 0, order: 0, productCategoryId: null, availability: true, image: '' })
+  const [initialProductValues, setInitialProductValues] = useState({ name: '', description: '', price: 0, order: '', productCategoryId: null, availability: true, image: '' })
   const validationSchema = yup.object().shape({
     name: yup
       .string()

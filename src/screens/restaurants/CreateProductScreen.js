@@ -18,7 +18,7 @@ export default function CreateProductScreen ({ navigation, route }) {
   const [productCategories, setProductCategories] = useState([])
   const [backendErrors, setBackendErrors] = useState()
 
-  const initialProductValues = { name: '', description: '', price: 0, order: 1, restaurantId: route.params.id, productCategoryId: null, availability: true }
+  const initialProductValues = { name: '', description: '', price: 0, order: '', restaurantId: route.params.id, productCategoryId: null, availability: true }
   const validationSchema = yup.object().shape({
     name: yup
       .string()

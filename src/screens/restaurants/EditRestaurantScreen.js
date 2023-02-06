@@ -43,12 +43,10 @@ export default function EditRestaurantScreen ({ navigation, route }) {
       .required('Shipping costs value is required'),
     email: yup
       .string()
-      .email('Please enter a valid email')
-      .required('Email Address is Required'),
+      .email('Please enter a valid email'),
     phone: yup
       .string()
-      .max(255, 'Phone too long')
-      .required('Phone is required'),
+      .max(255, 'Phone too long'),
     restaurantCategoryId: yup
       .number()
       .positive()

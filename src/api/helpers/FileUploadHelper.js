@@ -69,8 +69,9 @@ function getMultiPartHeader () {
 function prepareData (preparedData) {
   let config
   const files = getFilesFromData(preparedData)
+  preparedData = getDataWithoutBodyFiles(preparedData)
   if (files && files.length) {
-    preparedData = constructFormData(files, getDataWithoutBodyFiles(preparedData))
+    preparedData = constructFormData(files, preparedData)
     // preparedData = Object.fromEntries(Object.entries(preparedData).filter(([_, v]) => v != null)) // remove null properties
     config = getMultiPartHeader()
   }

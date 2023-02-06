@@ -33,8 +33,8 @@ export default function EditProductScreen ({ navigation, route }) {
       .required('Price is required'),
     order: yup
       .number()
-      .positive('Please provide a positive cost value')
-      .integer('Please provide an integer cost value'),
+      .positive('Please provide a positive order value')
+      .integer('Please provide an integer order value'),
     availability: yup
       .boolean(),
     productCategoryId: yup

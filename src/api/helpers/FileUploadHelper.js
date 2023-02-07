@@ -38,8 +38,7 @@ const getDataWithoutBodyFiles = (dataWithFiles) => {
 }
 
 const getFilesFromData = (data) => {
-  return null
-  return Object.keys(data).filter(key => data[key] && data[key].assets[0]?.uri && data[key].assets[0]?.height).map(key => { // data[key].height para ver si viene del image picker
+  return Object.keys(data).filter(key => data[key] && data[key].assets && data[key].assets[0] && data[key].assets[0].uri && data[key].assets[0].height).map(key => { // data[key].height para ver si viene del image picker
     data[key].paramName = key
     return data[key]
   })
@@ -79,4 +78,16 @@ function prepareData (preparedData) {
   return { config, preparedData }
 }
 
-export { normalizeFile, getDataWithoutBodyFiles, getFilesFromData, constructFormData, getMultiPartHeader, prepareData }
+
+const prepareEntityImages = (entity, imagePropertyNames) => {
+  const entityCopy = { ...entity }
+  imagePropertyNames.forEach(impagePropertyName => {
+    if (entityCopy[impagePropertyName]) {
+      entityCopy[impagePropertyName] = { assets: [{uri : `${process.env.API_BASE_URL}/${entityCopy[impagePropertyName]}`}]}
+    }
+  })
+
+  return entityCopy
+}
+
+export { normalizeFile, getDataWithoutBodyFiles, getFilesFromData, constructFormData, getMultiPartHeader, prepareData, prepareEntityImages}

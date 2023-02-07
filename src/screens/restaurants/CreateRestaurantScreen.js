@@ -185,7 +185,7 @@ export default function CreateRestaurantScreen ({ navigation }) {
                 style={styles.imagePicker}
               >
                 <TextRegular>Logo: </TextRegular>
-                <Image style={styles.image} source={values.logo ? { uri: values.logo.uri } : restaurantLogo} />
+                <Image style={styles.image} source={values.logo ? { uri: values.logo.assets[0].uri } : restaurantLogo} />
               </Pressable>
 
               <Pressable onPress={() =>
@@ -198,7 +198,7 @@ export default function CreateRestaurantScreen ({ navigation }) {
                 style={styles.imagePicker}
               >
                 <TextRegular>Hero image: </TextRegular>
-                <Image style={styles.image} source={values.heroImage ? { uri: values.heroImage.uri } : restaurantBackground} />
+                <Image style={styles.image} source={values.heroImage ? { uri: values.heroImage.assets[0].uri } : restaurantBackground} />
               </Pressable>
 
               {backendErrors &&

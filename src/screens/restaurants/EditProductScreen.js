@@ -12,6 +12,7 @@ import * as yup from 'yup'
 import { ErrorMessage, Formik } from 'formik'
 import TextError from '../../components/TextError'
 import { getProductCategories, getDetail, update } from '../../api/ProductEndpoints'
+import { prepareEntityImages } from '../../api/helpers/FileUploadHelper'
 
 export default function EditProductScreen ({ navigation, route }) {
   const [open, setOpen] = useState(false)
@@ -43,15 +44,6 @@ export default function EditProductScreen ({ navigation, route }) {
       .required('Product category is required')
   })
 
-  const prepareProductImage = (product) => {
-    const productCopy = { ...product }
-    if (productCopy.image) {
-      productCopy.image = { assets: [{uri : `${process.env.API_BASE_URL}/${productCopy.image}`}]}
-    }
-    console.log(productCopy.image)
-
-    return productCopy
-  }
 
   const buildInitialValues = (product) => {
     const initialValues = { ...initialProductValues }
@@ -90,11 +82,9 @@ export default function EditProductScreen ({ navigation, route }) {
     async function fetchProductDetail () {
       try {
         const fetchedProduct = await getDetail(route.params.id)
-        const preparedProduct = prepareProductImage(fetchedProduct)
+        const preparedProduct = prepareEntityImages(fetchedProduct, ['image'])
         setProduct(preparedProduct)
-        console.log(fetchedProduct)
         const initialValues = buildInitialValues(preparedProduct)
-        console.log(initialValues)
         setInitialProductValues(initialValues)
       } catch (error) {
         showMessage({

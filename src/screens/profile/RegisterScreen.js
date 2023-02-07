@@ -15,7 +15,7 @@ import TextError from '../../components/TextError'
 export default function RegisterScreen () {
   const { signUp } = useContext(AuthorizationContext)
   const [backendErrors, setBackendErrors] = useState()
-  const initialUserValues = { firstName: '', lastName: '', email: '', password: '', phone: '', address: '', postalCode: '' }
+  const initialUserValues = { firstName: '', lastName: '', email: '', password: '', phone: '', address: '', postalCode: '', avatar:'' }
 
   const validationSchema = yup.object().shape({
     firstName: yup
@@ -103,23 +103,23 @@ export default function RegisterScreen () {
                       <TouchableOpacity onPress={() =>
                         pickImage(
                           async result => {
-                            await setFieldValue('file', result)
+                            await setFieldValue('avatar', result)
                           }
                         )
                       }>
-                        <Image style={styles.image} source={values.file ? { uri: values.file.uri } : maleAvatar} />
+                        <Image style={styles.image} source={values.avatar ? { uri: values.avatar.assets[0].uri } : maleAvatar} />
                       </TouchableOpacity>
-                      <TouchableOpacity onPress={values.file
-                        ? async () => await setFieldValue('file', null)
+                      <TouchableOpacity onPress={values.avatar
+                        ? async () => await setFieldValue('avatar', null)
                         : () =>
                             pickImage(
                               async result => {
-                                await setFieldValue('file', result)
+                                await setFieldValue('avatar', result)
                               }
                             )
                       }>
                         <View style={{ paddingRight: 0, height: 30 }}>
-                          {values.file
+                          {values.avatar
                             ? <MaterialCommunityIcons name='close' style={{ marginLeft: 0 }} size={30} />
                             : <MaterialCommunityIcons name='pencil' style={{ marginLeft: 0 }} size={30} />
                           }

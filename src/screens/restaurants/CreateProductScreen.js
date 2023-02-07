@@ -158,7 +158,7 @@ export default function CreateProductScreen ({ navigation, route }) {
                 style={styles.imagePicker}
               >
                 <TextRegular>Product image: </TextRegular>
-                <Image style={styles.image} source={values.image ? { uri: values.image.uri } : defaultProduct} />
+                <Image style={styles.image} source={values.image ? { uri: values.image.assets[0].uri } : defaultProduct} />
               </Pressable>
 
               {backendErrors &&

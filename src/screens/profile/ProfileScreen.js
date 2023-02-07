@@ -1,5 +1,5 @@
 import * as ExpoImagePicker from 'expo-image-picker'
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import { Image, Keyboard, KeyboardAvoidingView, Platform, Pressable, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, View, ScrollView } from 'react-native'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import { AuthorizationContext } from '../../context/AuthorizationContext'
@@ -12,11 +12,13 @@ import maleAvatar from '../../../assets/maleAvatar.png'
 import InputItem from '../../components/InputItem'
 import TextRegular from '../../components/TextRegular'
 import TextError from '../../components/TextError'
+import { prepareEntityImages } from '../../api/helpers/FileUploadHelper'
 
-export default function ProfileScreen () {
+export default function ProfileScreen() {
   const { loggedInUser, signOut, updateProfile } = useContext(AuthorizationContext)
-  const [user, setUser] = useState(null)
   const [backendErrors, setBackendErrors] = useState()
+
+  const [initialUserValues, setInitialUserValues] = useState({ firstName: '', lastName: '', phone: '', address: '', postalCode: '', avatar: '' })
 
   const validationSchema = yup.object().shape({
     firstName: yup
@@ -41,14 +43,21 @@ export default function ProfileScreen () {
       .required('Postal code is required')
   })
 
-  React.useEffect(() => {
-    if (loggedInUser) {
-      const userCopy = { ...loggedInUser }
-      delete userCopy.email
-      if (userCopy.avatar) {
-        userCopy.file = { uri: `${process.env.API_BASE_URL}/${userCopy.avatar}` }
+  const buildInitialValues = (user) => {
+    const initialValues = { ...initialUserValues }
+    Object.keys(initialUserValues).forEach(key => {
+      if (key in user) {
+        initialValues[key] = user[key]
       }
-      setUser(userCopy)
+    })
+    return initialValues
+  }
+
+  useEffect(() => {
+    if (loggedInUser) {
+      const preparedUser = prepareEntityImages(loggedInUser, ['avatar'])
+      const initialValues = buildInitialValues(preparedUser)
+      setInitialUserValues(initialValues)
     }
   }, [loggedInUser])
 
@@ -85,113 +94,110 @@ export default function ProfileScreen () {
       style: GlobalStyles.flashStyle,
       titleStyle: GlobalStyles.flashTextStyle
     }),
-    (error) => {
-      console.error(error.errors)
-      setBackendErrors(error.errors)
-    })
+      (error) => {
+        console.error(error.errors)
+        setBackendErrors(error.errors)
+      })
   }
   return (
-    <>
-      {(user) &&
-        <Formik
-          validationSchema={validationSchema}
-          initialValues={user}
-          onSubmit={update}>
-          {({ handleSubmit, setFieldValue, values, isValid }) => (
-            <ScrollView>
-              <KeyboardAvoidingView
-                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-                keyboardVerticalOffset={75}>
-                <TouchableWithoutFeedback onPress={Platform.OS === 'ios' ? Keyboard.dismiss : undefined}>
-                  <View style={{ alignItems: 'center' }}>
-                    <View style={styles.container}>
-                      <View style={{ flexDirection: 'row', marginTop: 30 }}>
-                      <TouchableOpacity onPress={() =>
-                        pickImage(
-                          async result => {
-                            await setFieldValue('file', result)
-                          }
-                        )
-                      }>
-                        <Image style={styles.image} source={values.file ? { uri: values.file.uri } : maleAvatar} />
-                      </TouchableOpacity>
-                      <TouchableOpacity onPress={() => {
-                        pickImage(
-                          async result => {
-                            await setFieldValue('file', result)
-                          }
-                        )
-                      }}>
-                        <View style={{ paddingRight: 0, height: 30 }}>
-                          <MaterialCommunityIcons name='pencil' style={{ marginLeft: 0 }} size={30} />
-                        </View>
-                      </TouchableOpacity>
+    <Formik
+      enableReinitialize
+      validationSchema={validationSchema}
+      initialValues={initialUserValues}
+      onSubmit={update}>
+      {({ handleSubmit, setFieldValue, values, isValid }) => (
+        <ScrollView>
+          <KeyboardAvoidingView
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+            keyboardVerticalOffset={75}>
+            <TouchableWithoutFeedback onPress={Platform.OS === 'ios' ? Keyboard.dismiss : undefined}>
+              <View style={{ alignItems: 'center' }}>
+                <View style={styles.container}>
+                  <View style={{ flexDirection: 'row', marginTop: 30 }}>
+                    <TouchableOpacity onPress={() =>
+                      pickImage(
+                        async result => {
+                          await setFieldValue('avatar', result)
+                        }
+                      )
+                    }>
+                      <Image style={styles.image} source={values.avatar ? { uri: values.avatar.assets[0].uri } : maleAvatar} />
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => {
+                      pickImage(
+                        async result => {
+                          await setFieldValue('avatar', result)
+                        }
+                      )
+                    }}>
+                      <View style={{ paddingRight: 0, height: 30 }}>
+                        <MaterialCommunityIcons name='pencil' style={{ marginLeft: 0 }} size={30} />
                       </View>
-                      <InputItem
-                        name='firstName'
-                        label='First name'
-                        textContentType='name'
-                      />
-                      <InputItem
-                        name='lastName'
-                        label='Last name'
-                        textContentType='familyName'
-                      />
-                      <InputItem
-                        name='phone'
-                        label='Phone'
-                        textContentType='telephoneNumber'
-                      />
-                      <InputItem
-                        name='address'
-                        label='Address'
-                        textContentType='fullStreetAddress'
-                      />
-                      <InputItem
-                        name='postalCode'
-                        label='Postal Code'
-                        textContentType='postalCode'
-                      />
-                      {backendErrors &&
-                        backendErrors.map((error, index) => <TextError key={index}>{error.param}-{error.msg}</TextError>)
-                      }
-
-                      <Pressable disabled={!isValid} onPress={handleSubmit}
-                        style={({ pressed }) => [
-                          {
-                            backgroundColor: pressed
-                              ? GlobalStyles.brandSuccessTap
-                              : GlobalStyles.brandSuccess
-                          },
-                          {
-                            backgroundColor: !isValid
-                              ? GlobalStyles.brandSuccessDisabled
-                              : GlobalStyles.brandSuccess
-                          },
-                          styles.button]}
-                      >
-                        <TextRegular textStyle={styles.text}>Save</TextRegular>
-                      </Pressable>
-                      <Pressable onPress={() => signOutAndNavigate()}
-                          style={({ pressed }) => [
-                            {
-                              backgroundColor: pressed
-                                ? GlobalStyles.brandPrimaryTap
-                                : GlobalStyles.brandPrimary
-                            },
-                            styles.button]} >
-                      <TextRegular textStyle={styles.text}>Sign out</TextRegular>
-                      </Pressable>
-                      <SystemInfo />
-                    </View>
+                    </TouchableOpacity>
                   </View>
-                </TouchableWithoutFeedback>
-              </KeyboardAvoidingView>
-            </ScrollView>
-          )}
-        </Formik>
-      }
-    </>
+                  <InputItem
+                    name='firstName'
+                    label='First name'
+                    textContentType='name'
+                  />
+                  <InputItem
+                    name='lastName'
+                    label='Last name'
+                    textContentType='familyName'
+                  />
+                  <InputItem
+                    name='phone'
+                    label='Phone'
+                    textContentType='telephoneNumber'
+                  />
+                  <InputItem
+                    name='address'
+                    label='Address'
+                    textContentType='fullStreetAddress'
+                  />
+                  <InputItem
+                    name='postalCode'
+                    label='Postal Code'
+                    textContentType='postalCode'
+                  />
+                  {backendErrors &&
+                    backendErrors.map((error, index) => <TextError key={index}>{error.param}-{error.msg}</TextError>)
+                  }
+
+                  <Pressable disabled={!isValid} onPress={handleSubmit}
+                    style={({ pressed }) => [
+                      {
+                        backgroundColor: pressed
+                          ? GlobalStyles.brandSuccessTap
+                          : GlobalStyles.brandSuccess
+                      },
+                      {
+                        backgroundColor: !isValid
+                          ? GlobalStyles.brandSuccessDisabled
+                          : GlobalStyles.brandSuccess
+                      },
+                      styles.button]}
+                  >
+                    <TextRegular textStyle={styles.text}>Save</TextRegular>
+                  </Pressable>
+                  <Pressable onPress={() => signOutAndNavigate()}
+                    style={({ pressed }) => [
+                      {
+                        backgroundColor: pressed
+                          ? GlobalStyles.brandPrimaryTap
+                          : GlobalStyles.brandPrimary
+                      },
+                      styles.button]} >
+                    <TextRegular textStyle={styles.text}>Sign out</TextRegular>
+                  </Pressable>
+                  <SystemInfo />
+                </View>
+              </View>
+            </TouchableWithoutFeedback>
+          </KeyboardAvoidingView>
+        </ScrollView>
+      )}
+    </Formik>
   )
 }
 

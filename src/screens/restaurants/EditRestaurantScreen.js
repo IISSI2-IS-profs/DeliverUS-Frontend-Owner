@@ -13,6 +13,7 @@ import restaurantBackground from '../../../assets/restaurantBackground.jpeg'
 import { showMessage } from 'react-native-flash-message'
 import { ErrorMessage, Formik } from 'formik'
 import TextError from '../../components/TextError'
+import { prepareEntityImages } from '../../api/helpers/FileUploadHelper'
 
 export default function EditRestaurantScreen ({ navigation, route }) {
   const [open, setOpen] = useState(false)
@@ -53,16 +54,6 @@ export default function EditRestaurantScreen ({ navigation, route }) {
       .integer()
       .required('Restaurant category is required')
   })
-  const prepareRestaurantImages = (restaurant) => {
-    const restaurantCopy = { ...restaurant }
-    if (restaurantCopy.logo) {
-      restaurantCopy.logo = { uri: `${process.env.API_BASE_URL}/${restaurantCopy.logo}` }
-    }
-    if (restaurantCopy.heroImage) {
-      restaurantCopy.heroImage = { uri: `${process.env.API_BASE_URL}/${restaurantCopy.heroImage}` }
-    }
-    return restaurantCopy
-  }
 
   const buildInitialValues = (restaurant) => {
     const initialValues = { ...initialRestaurantValues }
@@ -78,7 +69,7 @@ export default function EditRestaurantScreen ({ navigation, route }) {
     async function fetchRestaurantDetail () {
       try {
         const fetchedRestaurant = await getDetail(route.params.id)
-        const preparedRestaurant = prepareRestaurantImages(fetchedRestaurant)
+        const preparedRestaurant = prepareEntityImages(fetchedRestaurant, ['logo', 'heroImage'])
         setRestaurant(preparedRestaurant)
         const initialValues = buildInitialValues(preparedRestaurant)
         setInitialRestaurantValues(initialValues)
@@ -228,7 +219,7 @@ export default function EditRestaurantScreen ({ navigation, route }) {
                 style={styles.imagePicker}
               >
                 <TextRegular>Logo: </TextRegular>
-                <Image style={styles.image} source={values.logo ? { uri: values.logo.uri } : restaurantLogo} />
+                <Image style={styles.image} source={values.logo ? { uri: values.logo.assets[0].uri } : restaurantLogo} />
               </Pressable>
 
               <Pressable onPress={() =>
@@ -241,7 +232,7 @@ export default function EditRestaurantScreen ({ navigation, route }) {
                 style={styles.imagePicker}
               >
                 <TextRegular>Hero image: </TextRegular>
-                <Image style={styles.image} source={values.heroImage ? { uri: values.heroImage.uri } : restaurantBackground} />
+                <Image style={styles.image} source={values.heroImage ? { uri: values.heroImage.assets[0].uri } : restaurantBackground} />
               </Pressable>
 
               {backendErrors &&

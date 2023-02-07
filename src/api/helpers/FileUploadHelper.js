@@ -33,12 +33,13 @@ const normalizeFile = (file) => {
 
 const getDataWithoutBodyFiles = (dataWithFiles) => {
   const data = { ...dataWithFiles }
-  Object.keys(data).filter(key => data[key] && data[key].uri).forEach(key => delete data[key])
+  Object.keys(data).filter(key => data[key] && data[key].assets).forEach(key => delete data[key])
   return data
 }
 
 const getFilesFromData = (data) => {
-  return Object.keys(data).filter(key => data[key] && data[key].uri && data[key].height).map(key => { // data[key].height para ver si viene del image picker
+  return null
+  return Object.keys(data).filter(key => data[key] && data[key].assets[0]?.uri && data[key].assets[0]?.height).map(key => { // data[key].height para ver si viene del image picker
     data[key].paramName = key
     return data[key]
   })

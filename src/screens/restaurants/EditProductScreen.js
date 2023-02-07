@@ -46,7 +46,7 @@ export default function EditProductScreen ({ navigation, route }) {
   const prepareProductImage = (product) => {
     const productCopy = { ...product }
     if (productCopy.image) {
-      productCopy.image = { uri: `${process.env.API_BASE_URL}/${productCopy.image}` }
+      productCopy.image = { assets: [{uri : `${process.env.API_BASE_URL}/${productCopy.image}`}]}
     }
     console.log(productCopy.image)
 
@@ -114,7 +114,7 @@ export default function EditProductScreen ({ navigation, route }) {
       aspect: [1, 1],
       quality: 1
     })
-    if (!result.cancelled) {
+    if (!result.canceled) {
       if (onSuccess) {
         onSuccess(result)
       }
@@ -123,9 +123,6 @@ export default function EditProductScreen ({ navigation, route }) {
 
   const updateProduct = async (values) => {
     setBackendErrors([])
-    if (!values.image.assets){
-      delete values.image
-    }
     try {
       const updatedProduct = await update(product.id, values)
       showMessage({
@@ -206,7 +203,7 @@ export default function EditProductScreen ({ navigation, route }) {
                 style={styles.imagePicker}
               >
                 <TextRegular>Product image: </TextRegular>
-                <Image style={styles.image} source={values.image ? { uri: values.image.uri } : defaultProduct} />
+                <Image style={styles.image} source={values.image ? { uri: values.image.assets[0].uri } : defaultProduct} />
               </Pressable>
 
               {backendErrors &&

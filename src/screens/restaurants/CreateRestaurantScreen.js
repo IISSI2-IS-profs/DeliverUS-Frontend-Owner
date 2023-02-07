@@ -94,7 +94,7 @@ export default function CreateRestaurantScreen ({ navigation }) {
       aspect: [1, 1],
       quality: 1
     })
-    if (!result.cancelled) {
+    if (!result.canceled) {
       if (onSuccess) {
         onSuccess(result)
       }

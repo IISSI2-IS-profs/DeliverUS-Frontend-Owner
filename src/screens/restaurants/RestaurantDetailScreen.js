@@ -8,7 +8,7 @@ import { remove } from '../../api/ProductEndpoints'
 import ImageCard from '../../components/ImageCard'
 import TextRegular from '../../components/TextRegular'
 import TextSemiBold from '../../components/TextSemibold'
-import { brandGreen, brandGreenTap, brandPrimary, brandPrimaryTap, brandBlue, brandBlueTap, brandSecondary, flashStyle, flashTextStyle } from '../../styles/GlobalStyles'
+import * as GlobalStyles from '../../styles/GlobalStyles'
 import DeleteModal from '../../components/DeleteModal'
 
 export default function RestaurantDetailScreen ({ navigation, route }) {
@@ -37,8 +37,8 @@ export default function RestaurantDetailScreen ({ navigation, route }) {
           style={({ pressed }) => [
             {
               backgroundColor: pressed
-                ? brandGreenTap
-                : brandGreen
+                ? GlobalStyles.brandGreenTap
+                : GlobalStyles.brandGreen
             },
             styles.button
           ]}>
@@ -71,8 +71,8 @@ export default function RestaurantDetailScreen ({ navigation, route }) {
             style={({ pressed }) => [
               {
                 backgroundColor: pressed
-                  ? brandBlueTap
-                  : brandBlue
+                  ? GlobalStyles.brandBlueTap
+                  : GlobalStyles.brandBlue
               },
               styles.actionButton
             ]}>
@@ -89,8 +89,8 @@ export default function RestaurantDetailScreen ({ navigation, route }) {
             style={({ pressed }) => [
               {
                 backgroundColor: pressed
-                  ? brandPrimaryTap
-                  : brandPrimary
+                  ? GlobalStyles.brandPrimaryTap
+                  : GlobalStyles.brandPrimary
               },
               styles.actionButton
             ]}>
@@ -122,8 +122,8 @@ export default function RestaurantDetailScreen ({ navigation, route }) {
       showMessage({
         message: `There was an error while retrieving restaurant details (id ${route.params.id}). ${error}`,
         type: 'error',
-        style: flashStyle,
-        titleStyle: flashTextStyle
+        style: GlobalStyles.flashStyle,
+        titleStyle: GlobalStyles.flashTextStyle
       })
     }
   }
@@ -136,8 +136,8 @@ export default function RestaurantDetailScreen ({ navigation, route }) {
       showMessage({
         message: `Product ${product.name} succesfully removed`,
         type: 'success',
-        style: flashStyle,
-        titleStyle: flashTextStyle
+        style: GlobalStyles.flashStyle,
+        titleStyle: GlobalStyles.flashTextStyle
       })
     } catch (error) {
       console.log(error)
@@ -145,8 +145,8 @@ export default function RestaurantDetailScreen ({ navigation, route }) {
       showMessage({
         message: `Product ${product.name} could not be removed.`,
         type: 'error',
-        style: flashStyle,
-        titleStyle: flashTextStyle
+        style: GlobalStyles.flashStyle,
+        titleStyle: GlobalStyles.flashTextStyle
       })
     }
   }
@@ -178,7 +178,7 @@ const styles = StyleSheet.create({
   row: {
     padding: 15,
     marginBottom: 5,
-    backgroundColor: brandSecondary
+    backgroundColor: GlobalStyles.brandSecondary
   },
   restaurantHeaderContainer: {
     height: 250,
@@ -226,7 +226,7 @@ const styles = StyleSheet.create({
   availability: {
     textAlign: 'right',
     marginRight: 5,
-    color: brandSecondary
+    color: GlobalStyles.brandSecondary
   },
   actionButton: {
     borderRadius: 8,

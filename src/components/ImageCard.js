@@ -1,7 +1,7 @@
 import React from 'react'
 import { Image, Pressable, StyleSheet, View } from 'react-native'
 import TextSemiBold from './TextSemibold'
-import { brandBackground, brandPrimaryTap } from '../styles/GlobalStyles'
+import * as GlobalStyles from '../styles/GlobalStyles'
 
 // Props: defaultImageUri: {uri: xxx}, imageUri: {uri: xxx}, onPress: () => {}, title: String, badgeText: String, touchable: boolean
 // Style props: cardStyle, imageContainerStyle, imageStyle, bodyStyle, titleStyle
@@ -26,8 +26,8 @@ export default function ImageCard (props) {
       ? <Pressable onPress={props.onPress} style={({ pressed }) => [
         {
           backgroundColor: pressed
-            ? brandPrimaryTap
-            : brandBackground
+            ? GlobalStyles.brandPrimaryTap
+            : GlobalStyles.brandBackground
         },
         styles.wrapperCustom
       ]}>

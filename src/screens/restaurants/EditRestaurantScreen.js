@@ -7,7 +7,7 @@ import DropDownPicker from 'react-native-dropdown-picker'
 import { update, getRestaurantCategories, getDetail } from '../../api/RestaurantEndpoints'
 import InputItem from '../../components/InputItem'
 import TextRegular from '../../components/TextRegular'
-import { brandBackground, brandSuccess, brandSuccessTap, flashStyle, flashTextStyle } from '../../styles/GlobalStyles'
+import * as GlobalStyles from '../../styles/GlobalStyles'
 import restaurantLogo from '../../../assets/restaurantLogo.jpeg'
 import restaurantBackground from '../../../assets/restaurantBackground.jpeg'
 import { showMessage } from 'react-native-flash-message'
@@ -86,8 +86,8 @@ export default function EditRestaurantScreen ({ navigation, route }) {
         showMessage({
           message: `There was an error while retrieving restaurant details (id ${route.params.id}). ${error}`,
           type: 'error',
-          style: flashStyle,
-          titleStyle: flashTextStyle
+          style: GlobalStyles.flashStyle,
+          titleStyle: GlobalStyles.flashTextStyle
         })
       }
     }
@@ -109,8 +109,8 @@ export default function EditRestaurantScreen ({ navigation, route }) {
         showMessage({
           message: `There was an error while retrieving restaurant categories. ${error} `,
           type: 'error',
-          style: flashStyle,
-          titleStyle: flashTextStyle
+          style: GlobalStyles.flashStyle,
+          titleStyle: GlobalStyles.flashTextStyle
         })
       }
     }
@@ -149,8 +149,8 @@ export default function EditRestaurantScreen ({ navigation, route }) {
       showMessage({
         message: `Restaurant ${updatedRestaurant.name} succesfully updated`,
         type: 'success',
-        style: flashStyle,
-        titleStyle: flashTextStyle
+        style: GlobalStyles.flashStyle,
+        titleStyle: GlobalStyles.flashTextStyle
       })
       navigation.navigate('RestaurantsScreen', { dirty: true })
     } catch (error) {
@@ -213,7 +213,7 @@ export default function EditRestaurantScreen ({ navigation, route }) {
                 setItems={setRestaurantCategories}
                 placeholder="Select the restaurant category"
                 containerStyle={{ height: 40, marginTop: 20 }}
-                style={{ backgroundColor: brandBackground }}
+                style={{ backgroundColor: GlobalStyles.brandBackground }}
                 dropDownStyle={{ backgroundColor: '#fafafa' }}
               />
               <ErrorMessage name={'restaurantCategoryId'} render={msg => <TextError>{msg}</TextError> }/>
@@ -253,8 +253,8 @@ export default function EditRestaurantScreen ({ navigation, route }) {
                 style={({ pressed }) => [
                   {
                     backgroundColor: pressed
-                      ? brandSuccessTap
-                      : brandSuccess
+                      ? GlobalStyles.brandSuccessTap
+                      : GlobalStyles.brandSuccess
                   },
                   styles.button
                 ]}>

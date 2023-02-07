@@ -4,15 +4,14 @@ import * as ExpoImagePicker from 'expo-image-picker'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import InputItem from '../../components/InputItem'
 import TextRegular from '../../components/TextRegular'
-import { brandBackground, brandPrimary, brandSecondary, brandSuccess, brandSuccessTap, brandBlueTap, flashStyle, flashTextStyle } from '../../styles/GlobalStyles'
+import * as GlobalStyles from '../../styles/GlobalStyles'
 import defaultProduct from '../../../assets/product.jpeg'
-import { getProductCategories, create } from '../../api/ProductEndpoints'
 import { showMessage } from 'react-native-flash-message'
 import DropDownPicker from 'react-native-dropdown-picker'
 import * as yup from 'yup'
 import { ErrorMessage, Formik } from 'formik'
 import TextError from '../../components/TextError'
-import { getDetail, update } from '../../api/ProductEndpoints'
+import { getProductCategories, getDetail, update } from '../../api/ProductEndpoints'
 
 export default function EditProductScreen ({ navigation, route }) {
   const [open, setOpen] = useState(false)
@@ -79,8 +78,8 @@ export default function EditProductScreen ({ navigation, route }) {
         showMessage({
           message: `There was an error while retrieving product categories. ${error} `,
           type: 'error',
-          style: flashStyle,
-          titleStyle: flashTextStyle
+          style: GlobalStyles.flashStyle,
+          titleStyle: GlobalStyles.flashTextStyle
         })
       }
     }
@@ -101,8 +100,8 @@ export default function EditProductScreen ({ navigation, route }) {
         showMessage({
           message: `There was an error while retrieving product details (id ${route.params.id}). ${error}`,
           type: 'error',
-          style: flashStyle,
-          titleStyle: flashTextStyle
+          style: GlobalStyles.flashStyle,
+          titleStyle: GlobalStyles.flashTextStyle
         })
       }
     }
@@ -132,8 +131,8 @@ export default function EditProductScreen ({ navigation, route }) {
       showMessage({
         message: `Product ${updatedProduct.name} succesfully updated`,
         type: 'success',
-        style: flashStyle,
-        titleStyle: flashTextStyle
+        style: GlobalStyles.flashStyle,
+        titleStyle: GlobalStyles.flashTextStyle
       })
       navigation.navigate('RestaurantDetailScreen', { id: product.restaurantId })
     } catch (error) {
@@ -179,15 +178,15 @@ export default function EditProductScreen ({ navigation, route }) {
                 setItems={setProductCategories}
                 placeholder="Select the product category"
                 containerStyle={{ height: 40, marginTop: 20, marginBottom: 20 }}
-                style={{ backgroundColor: brandBackground }}
+                style={{ backgroundColor: GlobalStyles.brandBackground }}
                 dropDownStyle={{ backgroundColor: '#fafafa' }}
               />
               <ErrorMessage name={'productCategoryId'} render={msg => <TextError>{msg}</TextError> }/>
 
               <TextRegular>Is it available?</TextRegular>
               <Switch
-                trackColor={{ false: brandSecondary, true: brandPrimary }}
-                thumbColor={values.availability ? brandSecondary : '#f4f3f4'}
+                trackColor={{ false: GlobalStyles.brandSecondary, true: GlobalStyles.brandPrimary }}
+                thumbColor={values.availability ? GlobalStyles.brandSecondary : '#f4f3f4'}
                 // onValueChange={toggleSwitch}
                 value={values.availability}
                 style={styles.switch}
@@ -219,8 +218,8 @@ export default function EditProductScreen ({ navigation, route }) {
                 style={({ pressed }) => [
                   {
                     backgroundColor: pressed
-                      ? brandSuccessTap
-                      : brandSuccess
+                      ? GlobalStyles.brandSuccessTap
+                      : GlobalStyles.brandSuccess
                   },
                   styles.button
                 ]}>

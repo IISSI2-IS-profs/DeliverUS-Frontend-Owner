@@ -2,7 +2,7 @@ import React from 'react'
 import { Modal, Pressable, StyleSheet, View } from 'react-native'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import TextSemiBold from './TextSemibold'
-import { brandBlue, brandBlueTap, brandPrimary, brandPrimaryTap } from '../styles/GlobalStyles'
+import * as GlobalStyles from '../styles/GlobalStyles'
 import TextRegular from './TextRegular'
 export default function DeleteModal (props) {
   return (
@@ -21,8 +21,8 @@ export default function DeleteModal (props) {
           style={({ pressed }) => [
             {
               backgroundColor: pressed
-                ? brandBlueTap
-                : brandBlue
+                ? GlobalStyles.brandBlueTap
+                : GlobalStyles.brandBlue
             },
             styles.actionButton
           ]}>
@@ -38,8 +38,8 @@ export default function DeleteModal (props) {
         style={({ pressed }) => [
           {
             backgroundColor: pressed
-              ? brandPrimaryTap
-              : brandPrimary
+              ? GlobalStyles.brandPrimaryTap
+              : GlobalStyles.brandPrimary
           },
           styles.actionButton
         ]}>

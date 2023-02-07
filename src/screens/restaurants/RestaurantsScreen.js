@@ -7,7 +7,7 @@ import ImageCard from '../../components/ImageCard'
 import TextSemiBold from '../../components/TextSemibold'
 import TextRegular from '../../components/TextRegular'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
-import { brandBlue, brandBlueTap, brandGreen, brandGreenTap, brandPrimary, brandPrimaryTap, flashStyle, flashTextStyle } from '../../styles/GlobalStyles'
+import * as GlobalStyles from '../../styles/GlobalStyles'
 import { AuthorizationContext } from '../../context/AuthorizationContext'
 import { showMessage } from 'react-native-flash-message'
 import DeleteModal from '../../components/DeleteModal'
@@ -36,9 +36,9 @@ export default function RestaurantsScreen ({ navigation, route }) {
       >
         <TextRegular numberOfLines={2}>{item.description}</TextRegular>
         {item.averageServiceMinutes !== null &&
-          <TextSemiBold>Avg. service time: <TextSemiBold textStyle={{ color: brandPrimary }}>{item.averageServiceMinutes} min.</TextSemiBold></TextSemiBold>
+          <TextSemiBold>Avg. service time: <TextSemiBold textStyle={{ color: GlobalStyles.brandPrimary }}>{item.averageServiceMinutes} min.</TextSemiBold></TextSemiBold>
         }
-        <TextSemiBold>Shipping: <TextSemiBold textStyle={{ color: brandPrimary }}>{item.shippingCosts.toFixed(2)}€</TextSemiBold></TextSemiBold>
+        <TextSemiBold>Shipping: <TextSemiBold textStyle={{ color: GlobalStyles.brandPrimary }}>{item.shippingCosts.toFixed(2)}€</TextSemiBold></TextSemiBold>
         <View style={styles.actionButtonsContainer}>
           <Pressable
             onPress={() => navigation.navigate('EditRestaurantScreen', { id: item.id })
@@ -46,8 +46,8 @@ export default function RestaurantsScreen ({ navigation, route }) {
             style={({ pressed }) => [
               {
                 backgroundColor: pressed
-                  ? brandBlueTap
-                  : brandBlue
+                  ? GlobalStyles.brandBlueTap
+                  : GlobalStyles.brandBlue
               },
               styles.actionButton
             ]}>
@@ -64,8 +64,8 @@ export default function RestaurantsScreen ({ navigation, route }) {
             style={({ pressed }) => [
               {
                 backgroundColor: pressed
-                  ? brandPrimaryTap
-                  : brandPrimary
+                  ? GlobalStyles.brandPrimaryTap
+                  : GlobalStyles.brandPrimary
               },
               styles.actionButton
             ]}>
@@ -99,8 +99,8 @@ export default function RestaurantsScreen ({ navigation, route }) {
         style={({ pressed }) => [
           {
             backgroundColor: pressed
-              ? brandGreenTap
-              : brandGreen
+              ? GlobalStyles.brandGreenTap
+              : GlobalStyles.brandGreen
           },
           styles.button
         ]}>
@@ -123,8 +123,8 @@ export default function RestaurantsScreen ({ navigation, route }) {
       showMessage({
         message: `There was an error while retrieving restaurants. ${error} `,
         type: 'error',
-        style: flashStyle,
-        titleStyle: flashTextStyle
+        style: GlobalStyles.flashStyle,
+        titleStyle: GlobalStyles.flashTextStyle
       })
     }
   }
@@ -137,8 +137,8 @@ export default function RestaurantsScreen ({ navigation, route }) {
       showMessage({
         message: `Restaurant ${restaurant.name} succesfully removed`,
         type: 'success',
-        style: flashStyle,
-        titleStyle: flashTextStyle
+        style: GlobalStyles.flashStyle,
+        titleStyle: GlobalStyles.flashTextStyle
       })
     } catch (error) {
       console.log(error)
@@ -146,8 +146,8 @@ export default function RestaurantsScreen ({ navigation, route }) {
       showMessage({
         message: `Restaurant ${restaurant.name} could not be removed.`,
         type: 'error',
-        style: flashStyle,
-        titleStyle: flashTextStyle
+        style: GlobalStyles.flashStyle,
+        titleStyle: GlobalStyles.flashTextStyle
       })
     }
   }

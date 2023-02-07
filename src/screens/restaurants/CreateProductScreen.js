@@ -4,7 +4,7 @@ import * as ExpoImagePicker from 'expo-image-picker'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import InputItem from '../../components/InputItem'
 import TextRegular from '../../components/TextRegular'
-import { brandBackground, brandPrimary, brandSecondary, brandSuccess, brandSuccessTap, flashStyle, flashTextStyle } from '../../styles/GlobalStyles'
+import * as GlobalStyles from '../../styles/GlobalStyles'
 import defaultProduct from '../../../assets/product.jpeg'
 import { getProductCategories, create } from '../../api/ProductEndpoints'
 import { showMessage } from 'react-native-flash-message'
@@ -56,8 +56,8 @@ export default function CreateProductScreen ({ navigation, route }) {
         showMessage({
           message: `There was an error while retrieving product categories. ${error} `,
           type: 'error',
-          style: flashStyle,
-          titleStyle: flashTextStyle
+          style: GlobalStyles.flashStyle,
+          titleStyle: GlobalStyles.flashTextStyle
         })
       }
     }
@@ -84,8 +84,8 @@ export default function CreateProductScreen ({ navigation, route }) {
       showMessage({
         message: `Product ${createdProduct.name} succesfully created`,
         type: 'success',
-        style: flashStyle,
-        titleStyle: flashTextStyle
+        style: GlobalStyles.flashStyle,
+        titleStyle: GlobalStyles.flashTextStyle
       })
       navigation.navigate('RestaurantDetailScreen', { id: route.params.id, dirty: true })
     } catch (error) {
@@ -130,15 +130,15 @@ export default function CreateProductScreen ({ navigation, route }) {
                 setItems={setProductCategories}
                 placeholder="Select the product category"
                 containerStyle={{ height: 40, marginTop: 20, marginBottom: 20 }}
-                style={{ backgroundColor: brandBackground }}
+                style={{ backgroundColor: GlobalStyles.brandBackground }}
                 dropDownStyle={{ backgroundColor: '#fafafa' }}
               />
               <ErrorMessage name={'productCategoryId'} render={msg => <TextError>{msg}</TextError> }/>
 
               <TextRegular>Is it available?</TextRegular>
               <Switch
-                trackColor={{ false: brandSecondary, true: brandPrimary }}
-                thumbColor={values.availability ? brandSecondary : '#f4f3f4'}
+                trackColor={{ false: GlobalStyles.brandSecondary, true: GlobalStyles.brandPrimary }}
+                thumbColor={values.availability ? GlobalStyles.brandSecondary : '#f4f3f4'}
                 // onValueChange={toggleSwitch}
                 value={values.availability}
                 style={styles.switch}
@@ -170,8 +170,8 @@ export default function CreateProductScreen ({ navigation, route }) {
                 style={({ pressed }) => [
                   {
                     backgroundColor: pressed
-                      ? brandSuccessTap
-                      : brandSuccess
+                      ? GlobalStyles.brandSuccessTap
+                      : GlobalStyles.brandSuccess
                   },
                   styles.button
                 ]}>

@@ -6,7 +6,7 @@ import { AuthorizationContext } from '../../context/AuthorizationContext'
 import { Formik } from 'formik'
 import * as yup from 'yup'
 import { showMessage } from 'react-native-flash-message'
-import { brandPrimary, brandPrimaryTap, brandSecondary, brandSuccess, brandSuccessDisabled, brandSuccessTap, flashStyle, flashTextStyle } from '../../styles/GlobalStyles'
+import * as GlobalStyles from '../../styles/GlobalStyles'
 import SystemInfo from '../../components/SystemInfo'
 import maleAvatar from '../../../assets/maleAvatar.png'
 import InputItem from '../../components/InputItem'
@@ -56,9 +56,9 @@ export default function ProfileScreen () {
     signOut(() => showMessage({
       message: 'See you soon',
       type: 'success',
-      style: flashStyle,
-      titleStyle: flashTextStyle,
-      backgroundColor: brandSecondary
+      style: GlobalStyles.flashStyle,
+      titleStyle: GlobalStyles.flashTextStyle,
+      backgroundColor: GlobalStyles.brandSecondary
     }))
   }
 
@@ -82,8 +82,8 @@ export default function ProfileScreen () {
     updateProfile(data, () => showMessage({
       message: 'Profile successfully updated',
       type: 'success',
-      style: flashStyle,
-      titleStyle: flashTextStyle
+      style: GlobalStyles.flashStyle,
+      titleStyle: GlobalStyles.flashTextStyle
     }),
     (error) => {
       console.error(error.errors)
@@ -160,13 +160,13 @@ export default function ProfileScreen () {
                         style={({ pressed }) => [
                           {
                             backgroundColor: pressed
-                              ? brandSuccessTap
-                              : brandSuccess
+                              ? GlobalStyles.brandSuccessTap
+                              : GlobalStyles.brandSuccess
                           },
                           {
                             backgroundColor: !isValid
-                              ? brandSuccessDisabled
-                              : brandSuccess
+                              ? GlobalStyles.brandSuccessDisabled
+                              : GlobalStyles.brandSuccess
                           },
                           styles.button]}
                       >
@@ -176,8 +176,8 @@ export default function ProfileScreen () {
                           style={({ pressed }) => [
                             {
                               backgroundColor: pressed
-                                ? brandPrimaryTap
-                                : brandPrimary
+                                ? GlobalStyles.brandPrimaryTap
+                                : GlobalStyles.brandPrimary
                             },
                             styles.button]} >
                       <TextRegular textStyle={styles.text}>Sign out</TextRegular>
@@ -203,7 +203,7 @@ const styles = StyleSheet.create({
   image: {
     width: 100,
     height: 100,
-    borderColor: brandPrimary,
+    borderColor: GlobalStyles.brandPrimary,
     borderWidth: 1,
     borderRadius: 50,
     marginTop: -20,

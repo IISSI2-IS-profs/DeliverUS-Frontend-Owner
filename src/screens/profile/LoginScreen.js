@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react'
 import { StyleSheet, View, Pressable, Image } from 'react-native'
-import { brandGreen, brandGreenTap, brandPrimary, brandSuccess, brandSuccessTap, flashStyle, flashTextStyle } from '../../styles/GlobalStyles'
+import * as GlobalStyles from '../../styles/GlobalStyles'
 import { Formik } from 'formik'
 import * as yup from 'yup'
 import InputItem from '../../components/InputItem'
@@ -33,14 +33,14 @@ export default function LoginScreen ({ navigation }) {
           ? showMessage({
             message: `Welcome back ${loggedInUser.firstName}.`,
             type: 'success',
-            style: flashStyle,
-            titleStyle: flashTextStyle
+            style: GlobalStyles.flashStyle,
+            titleStyle: GlobalStyles.flashTextStyle
           })
           : showMessage({
             message: `Welcome back ${loggedInUser.firstName}. You are not an owner.`,
             type: 'warning',
-            style: flashStyle,
-            titleStyle: flashTextStyle
+            style: GlobalStyles.flashStyle,
+            titleStyle: GlobalStyles.flashTextStyle
           })
       },
       (error) => {
@@ -81,8 +81,8 @@ export default function LoginScreen ({ navigation }) {
               style={({ pressed }) => [
                 {
                   backgroundColor: pressed
-                    ? brandSuccessTap
-                    : brandSuccess
+                    ? GlobalStyles.brandSuccessTap
+                    : GlobalStyles.brandSuccess
                 },
                 styles.button
               ]}>
@@ -98,8 +98,8 @@ export default function LoginScreen ({ navigation }) {
               style={({ pressed }) => [
                 {
                   backgroundColor: pressed
-                    ? brandGreenTap
-                    : brandGreen
+                    ? GlobalStyles.brandGreenTap
+                    : GlobalStyles.brandGreen
                 },
                 styles.button
               ]}>
@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
   image: {
     width: 100,
     height: 100,
-    borderColor: brandPrimary,
+    borderColor: GlobalStyles.brandPrimary,
     borderWidth: 1,
     borderRadius: 50,
     margin: 50

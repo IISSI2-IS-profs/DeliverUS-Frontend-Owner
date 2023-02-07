@@ -6,7 +6,7 @@ import { AuthorizationContext } from '../../context/AuthorizationContext'
 import { Formik } from 'formik'
 import * as yup from 'yup'
 import { showMessage } from 'react-native-flash-message'
-import { brandPrimary, brandSuccess, brandSuccessDisabled, brandSuccessTap, flashStyle, flashTextStyle } from '../../styles/GlobalStyles'
+import * as GlobalStyles from '../../styles/GlobalStyles'
 import maleAvatar from '../../../assets/maleAvatar.png'
 import InputItem from '../../components/InputItem'
 import TextRegular from '../../components/TextRegular'
@@ -79,8 +79,8 @@ export default function RegisterScreen () {
     signUp(data, () => showMessage({
       message: `Success. ${data.firstName}, welcome to DeliverUS! 😀`,
       type: 'success',
-      style: flashStyle,
-      titleStyle: flashTextStyle
+      style: GlobalStyles.flashStyle,
+      titleStyle: GlobalStyles.flashTextStyle
     }),
     (error) => {
       setBackendErrors(error.errors)
@@ -171,13 +171,13 @@ export default function RegisterScreen () {
                         style={({ pressed }) => [
                           {
                             backgroundColor: pressed
-                              ? brandSuccessTap
-                              : brandSuccess
+                              ? GlobalStyles.brandSuccessTap
+                              : GlobalStyles.brandSuccess
                           },
                           {
                             backgroundColor: !isValid
-                              ? brandSuccessDisabled
-                              : brandSuccess
+                              ? GlobalStyles.brandSuccessDisabled
+                              : GlobalStyles.brandSuccess
                           },
                           styles.button]}
                       >
@@ -201,7 +201,7 @@ const styles = StyleSheet.create({
   image: {
     width: 100,
     height: 100,
-    borderColor: brandPrimary,
+    borderColor: GlobalStyles.brandPrimary,
     borderWidth: 1,
     borderRadius: 50,
     marginTop: -20,

@@ -2,7 +2,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { NavigationContainer } from '@react-navigation/native'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import React, { useContext, useEffect } from 'react'
-import { flashStyle, flashTextStyle, navigationTheme } from '../styles/GlobalStyles'
+import * as GlobalStyles from '../styles/GlobalStyles'
 import RestaurantsStack from './restaurants/RestaurantsStack'
 import ProfileStack from './profile/ProfileStack'
 import ControlPanelScreen from './controlPanel/ControlPanelScreen'
@@ -25,14 +25,14 @@ export default function Layout () {
       (recoveredUser) => showMessage({
         message: `Session recovered. You are logged in as ${recoveredUser.firstName}`,
         type: 'success',
-        style: flashStyle,
-        titleStyle: flashTextStyle
+        style: GlobalStyles.flashStyle,
+        titleStyle: GlobalStyles.flashTextStyle
       }),
       (error) => showMessage({
         message: `Session could not be recovered. Please log in. ${error} `,
         type: 'warning',
-        style: flashStyle,
-        titleStyle: flashTextStyle
+        style: GlobalStyles.flashStyle,
+        titleStyle: GlobalStyles.flashTextStyle
       })
     )
   }
@@ -42,8 +42,8 @@ export default function Layout () {
       showMessage({
         message: error.message,
         type: 'danger',
-        style: flashStyle,
-        titleStyle: flashTextStyle
+        style: GlobalStyles.flashStyle,
+        titleStyle: GlobalStyles.flashTextStyle
       })
       if (error instanceof ApiError && (error.code === 403 || error.code === 401)) {
         signOut()
@@ -63,7 +63,7 @@ export default function Layout () {
   return (
     <>
     {fontsLoaded &&
-     <NavigationContainer theme={navigationTheme}>
+     <NavigationContainer theme={GlobalStyles.navigationTheme}>
 
       <Tab.Navigator screenOptions={({ route }) => ({
         // eslint-disable-next-line react/display-name

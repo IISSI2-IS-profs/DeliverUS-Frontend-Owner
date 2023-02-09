@@ -14,6 +14,7 @@ import { showMessage } from 'react-native-flash-message'
 import { ErrorMessage, Formik } from 'formik'
 import TextError from '../../components/TextError'
 import { prepareEntityImages } from '../../api/helpers/FileUploadHelper'
+import { buildInitialValues } from '../Helper'
 
 export default function EditRestaurantScreen ({ navigation, route }) {
   const [open, setOpen] = useState(false)
@@ -58,23 +59,13 @@ export default function EditRestaurantScreen ({ navigation, route }) {
       .required('Restaurant category is required')
   })
 
-  const buildInitialValues = (restaurant) => {
-    const initialValues = { ...initialRestaurantValues }
-    Object.keys(initialRestaurantValues).forEach(key => {
-      if (key in restaurant) {
-        initialValues[key] = restaurant[key]
-      }
-    })
-    return initialValues
-  }
-
   useEffect(() => {
     async function fetchRestaurantDetail () {
       try {
         const fetchedRestaurant = await getDetail(route.params.id)
         const preparedRestaurant = prepareEntityImages(fetchedRestaurant, ['logo', 'heroImage'])
         setRestaurant(preparedRestaurant)
-        const initialValues = buildInitialValues(preparedRestaurant)
+        const initialValues = buildInitialValues(preparedRestaurant, initialRestaurantValues)
         setInitialRestaurantValues(initialValues)
       } catch (error) {
         showMessage({

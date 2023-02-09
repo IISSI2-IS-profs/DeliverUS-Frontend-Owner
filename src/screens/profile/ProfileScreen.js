@@ -13,6 +13,7 @@ import InputItem from '../../components/InputItem'
 import TextRegular from '../../components/TextRegular'
 import TextError from '../../components/TextError'
 import { prepareEntityImages } from '../../api/helpers/FileUploadHelper'
+import { buildInitialValues } from '../Helper'
 
 export default function ProfileScreen() {
   const { loggedInUser, signOut, updateProfile } = useContext(AuthorizationContext)
@@ -43,20 +44,10 @@ export default function ProfileScreen() {
       .required('Postal code is required')
   })
 
-  const buildInitialValues = (user) => {
-    const initialValues = { ...initialUserValues }
-    Object.keys(initialUserValues).forEach(key => {
-      if (key in user) {
-        initialValues[key] = user[key]
-      }
-    })
-    return initialValues
-  }
-
   useEffect(() => {
     if (loggedInUser) {
       const preparedUser = prepareEntityImages(loggedInUser, ['avatar'])
-      const initialValues = buildInitialValues(preparedUser)
+      const initialValues = buildInitialValues(preparedUser, initialUserValues)
       setInitialUserValues(initialValues)
     }
   }, [loggedInUser])

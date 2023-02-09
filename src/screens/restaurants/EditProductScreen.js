@@ -13,6 +13,7 @@ import { ErrorMessage, Formik } from 'formik'
 import TextError from '../../components/TextError'
 import { getProductCategories, getDetail, update } from '../../api/ProductEndpoints'
 import { prepareEntityImages } from '../../api/helpers/FileUploadHelper'
+import { buildInitialValues } from '../Helper'
 
 export default function EditProductScreen ({ navigation, route }) {
   const [open, setOpen] = useState(false)
@@ -45,18 +46,6 @@ export default function EditProductScreen ({ navigation, route }) {
       .required('Product category is required')
   })
 
-
-  const buildInitialValues = (product) => {
-    const initialValues = { ...initialProductValues }
-    Object.keys(initialProductValues).forEach(key => {
-      if (key in product) {
-        initialValues[key] = product[key]
-        //initialValues[key] = typeof product[key] === 'number' ? product[key].toString() : product[key]
-      }
-    })
-    return initialValues
-  }
-
   useEffect(() => {
     async function fetchProductCategories () {
       try {
@@ -86,7 +75,7 @@ export default function EditProductScreen ({ navigation, route }) {
         const fetchedProduct = await getDetail(route.params.id)
         const preparedProduct = prepareEntityImages(fetchedProduct, ['image'])
         setProduct(preparedProduct)
-        const initialValues = buildInitialValues(preparedProduct)
+        const initialValues = buildInitialValues(preparedProduct, initialProductValues)
         setInitialProductValues(initialValues)
       } catch (error) {
         showMessage({

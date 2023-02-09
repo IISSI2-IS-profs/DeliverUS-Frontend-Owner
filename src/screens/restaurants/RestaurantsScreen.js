@@ -11,6 +11,8 @@ import * as GlobalStyles from '../../styles/GlobalStyles'
 import { AuthorizationContext } from '../../context/AuthorizationContext'
 import { showMessage } from 'react-native-flash-message'
 import DeleteModal from '../../components/DeleteModal'
+import restaurantLogo from '../../../assets/restaurantLogo.jpeg'
+
 
 export default function RestaurantsScreen ({ navigation, route }) {
   const [restaurants, setRestaurants] = useState([])
@@ -28,7 +30,7 @@ export default function RestaurantsScreen ({ navigation, route }) {
   const renderRestaurant = ({ item }) => {
     return (
       <ImageCard
-        imageUri={item.logo ? { uri: process.env.API_BASE_URL + '/' + item.logo } : undefined}
+        imageUri={item.logo ? { uri: process.env.API_BASE_URL + '/' + item.logo } : restaurantLogo}
         title={item.name}
         onPress={() => {
           navigation.navigate('RestaurantDetailScreen', { id: item.id })

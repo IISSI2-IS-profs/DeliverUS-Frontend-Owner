@@ -21,7 +21,7 @@ export default function InputItem (props) {
                 style={styles.input}
                 onChangeText={formik ? formik.handleChange(name) : undefined}
                 onBlur={formik ? formik.handleBlur(name) : undefined}
-                value={formik ? formik.values[name] : undefined}
+                value={formik && formik.values[name] ? formik.values[name].toString() : undefined}
             />
           </View>
         </View>

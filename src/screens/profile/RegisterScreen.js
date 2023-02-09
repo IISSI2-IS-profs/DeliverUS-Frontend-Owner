@@ -15,7 +15,7 @@ import TextError from '../../components/TextError'
 export default function RegisterScreen () {
   const { signUp } = useContext(AuthorizationContext)
   const [backendErrors, setBackendErrors] = useState()
-  const initialUserValues = { firstName: '', lastName: '', email: '', password: '', phone: '', address: '', postalCode: '', avatar:'' }
+  const initialUserValues = { firstName: null, lastName: null, email: null, password: null, phone: null, address: null, postalCode: null, avatar:null }
 
   const validationSchema = yup.object().shape({
     firstName: yup

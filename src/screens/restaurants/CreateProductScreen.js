@@ -5,7 +5,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons'
 import InputItem from '../../components/InputItem'
 import TextRegular from '../../components/TextRegular'
 import * as GlobalStyles from '../../styles/GlobalStyles'
-import defaultProduct from '../../../assets/product.jpeg'
+import defaultProductImage from '../../../assets/product.jpeg'
 import { getProductCategories, create } from '../../api/ProductEndpoints'
 import { showMessage } from 'react-native-flash-message'
 import DropDownPicker from 'react-native-dropdown-picker'
@@ -18,7 +18,7 @@ export default function CreateProductScreen ({ navigation, route }) {
   const [productCategories, setProductCategories] = useState([])
   const [backendErrors, setBackendErrors] = useState()
 
-  const initialProductValues = { name: '', description: '', price: 0, order: '', restaurantId: route.params.id, productCategoryId: null, availability: true }
+  const initialProductValues = { name: null, description: null, price: null, order: null, restaurantId: route.params.id, productCategoryId: null, availability: true }
   const validationSchema = yup.object().shape({
     name: yup
       .string()
@@ -30,6 +30,7 @@ export default function CreateProductScreen ({ navigation, route }) {
       .required('Price is required'),
     order: yup
       .number()
+      .nullable(true)
       .positive('Please provide a positive order value')
       .integer('Please provide an integer order value'),
     availability: yup
@@ -158,7 +159,7 @@ export default function CreateProductScreen ({ navigation, route }) {
                 style={styles.imagePicker}
               >
                 <TextRegular>Product image: </TextRegular>
-                <Image style={styles.image} source={values.image ? { uri: values.image.assets[0].uri } : defaultProduct} />
+                <Image style={styles.image} source={values.image ? { uri: values.image.assets[0].uri } : defaultProductImage} />
               </Pressable>
 
               {backendErrors &&

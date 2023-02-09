@@ -5,7 +5,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons'
 import InputItem from '../../components/InputItem'
 import TextRegular from '../../components/TextRegular'
 import * as GlobalStyles from '../../styles/GlobalStyles'
-import defaultProduct from '../../../assets/product.jpeg'
+import defaultProductImage from '../../../assets/product.jpeg'
 import { showMessage } from 'react-native-flash-message'
 import DropDownPicker from 'react-native-dropdown-picker'
 import * as yup from 'yup'
@@ -21,7 +21,7 @@ export default function EditProductScreen ({ navigation, route }) {
   const [product, setProduct] = useState({})
 
 
-  const [initialProductValues, setInitialProductValues] = useState({ name: '', description: '', price: 0, order: '', productCategoryId: null, availability: true, image: '' })
+  const [initialProductValues, setInitialProductValues] = useState({ name: null, description: null, price: null, order: null, productCategoryId: null, availability: null, image: null })
   const validationSchema = yup.object().shape({
     name: yup
       .string()
@@ -33,6 +33,7 @@ export default function EditProductScreen ({ navigation, route }) {
       .required('Price is required'),
     order: yup
       .number()
+      .nullable(true)
       .positive('Please provide a positive order value')
       .integer('Please provide an integer order value'),
     availability: yup
@@ -50,6 +51,7 @@ export default function EditProductScreen ({ navigation, route }) {
     Object.keys(initialProductValues).forEach(key => {
       if (key in product) {
         initialValues[key] = product[key]
+        //initialValues[key] = typeof product[key] === 'number' ? product[key].toString() : product[key]
       }
     })
     return initialValues
@@ -193,7 +195,7 @@ export default function EditProductScreen ({ navigation, route }) {
                 style={styles.imagePicker}
               >
                 <TextRegular>Product image: </TextRegular>
-                <Image style={styles.image} source={values.image ? { uri: values.image.assets[0].uri } : defaultProduct} />
+                <Image style={styles.image} source={values.image ? { uri: values.image.assets[0].uri } : defaultProductImage} />
               </Pressable>
 
               {backendErrors &&

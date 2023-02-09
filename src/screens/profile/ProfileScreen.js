@@ -18,7 +18,7 @@ export default function ProfileScreen() {
   const { loggedInUser, signOut, updateProfile } = useContext(AuthorizationContext)
   const [backendErrors, setBackendErrors] = useState()
 
-  const [initialUserValues, setInitialUserValues] = useState({ firstName: '', lastName: '', phone: '', address: '', postalCode: '', avatar: '' })
+  const [initialUserValues, setInitialUserValues] = useState({ firstName: null, lastName: null, phone: null, address: null, postalCode: null, avatar: null })
 
   const validationSchema = yup.object().shape({
     firstName: yup

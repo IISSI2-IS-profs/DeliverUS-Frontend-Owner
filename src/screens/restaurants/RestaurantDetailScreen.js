@@ -10,6 +10,7 @@ import TextRegular from '../../components/TextRegular'
 import TextSemiBold from '../../components/TextSemibold'
 import * as GlobalStyles from '../../styles/GlobalStyles'
 import DeleteModal from '../../components/DeleteModal'
+import defaultProductImage from '../../../assets/product.jpeg'
 
 export default function RestaurantDetailScreen ({ navigation, route }) {
   const [restaurant, setRestaurant] = useState({})
@@ -56,7 +57,7 @@ export default function RestaurantDetailScreen ({ navigation, route }) {
   const renderProduct = ({ item }) => {
     return (
       <ImageCard
-        imageUri={item.image ? { uri: process.env.API_BASE_URL + '/' + item.image } : undefined}
+        imageUri={item.image ? { uri: process.env.API_BASE_URL + '/' + item.image } : defaultProductImage}
         title={item.name}
       >
         <TextRegular numberOfLines={2}>{item.description}</TextRegular>

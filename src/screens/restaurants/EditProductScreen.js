@@ -188,7 +188,7 @@ export default function EditProductScreen ({ navigation, route }) {
               </Pressable>
 
               {backendErrors &&
-                backendErrors.map((error, index) => <TextError key={index}>{error.msg}</TextError>)
+                backendErrors.map((error, index) => <TextError key={index}>{error.param}-{error.msg}</TextError>)
               }
 
               <Pressable

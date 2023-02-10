@@ -163,7 +163,7 @@ export default function CreateProductScreen ({ navigation, route }) {
               </Pressable>
 
               {backendErrors &&
-                backendErrors.map((error, index) => <TextError key={index}>{error.msg}</TextError>)
+                backendErrors.map((error, index) => <TextError key={index}>{error.param}-{error.msg}</TextError>)
               }
 
               <Pressable

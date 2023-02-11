@@ -37,7 +37,7 @@ export default function Layout () {
     )
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (error) {
       showMessage({
         message: error.message,

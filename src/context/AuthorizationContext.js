@@ -2,7 +2,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import axios from 'axios'
 import * as SecureStore from 'expo-secure-store'
-import React, { createContext, useState } from 'react'
+import React, { createContext, useState, useContext } from 'react'
 import { Platform } from 'react-native'
 import { isTokenValid, login, register, update } from '../api/AuthEndpoints'
 import { AppContext } from '../context/AppContext'
@@ -10,7 +10,7 @@ import { AppContext } from '../context/AppContext'
 const AuthorizationContext = createContext()
 
 const AuthorizationContextProvider = props => {
-  const { setLoading, setError, processError } = React.useContext(AppContext)
+  const { setLoading, setError, processError } = useContext(AppContext)
   const [loggedInUser, setLoggedInUser] = useState(null)
 
   const signOut = (onSuccess = null, onError = null) => {

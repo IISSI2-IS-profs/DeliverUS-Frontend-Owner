@@ -49,7 +49,7 @@ export default function RegisterScreen () {
       .required('Postal code is required')
   })
 
-  React.useEffect(() => {
+  useEffect(() => {
     (async () => {
       if (Platform.OS !== 'web') {
         const { status } = await ExpoImagePicker.requestMediaLibraryPermissionsAsync()

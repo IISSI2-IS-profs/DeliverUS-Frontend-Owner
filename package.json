@@ -31,7 +31,7 @@
     "react-native-screens": "~3.18.0",
     "react-native-web": "^0.18.12",
     "yup": "^0.32.11",
-    "@expo/webpack-config": "^0.17.2"
+    "@expo/webpack-config": "^18.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.12",

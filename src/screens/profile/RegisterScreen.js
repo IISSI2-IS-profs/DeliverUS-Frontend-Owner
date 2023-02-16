@@ -1,5 +1,5 @@
 import * as ExpoImagePicker from 'expo-image-picker'
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect} from 'react'
 import { Image, Keyboard, KeyboardAvoidingView, Platform, Pressable, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, View, ScrollView } from 'react-native'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import { AuthorizationContext } from '../../context/AuthorizationContext'

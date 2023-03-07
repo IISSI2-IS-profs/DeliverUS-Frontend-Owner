@@ -30,7 +30,7 @@ export default function CreateProductScreen ({ navigation, route }) {
       .required('Price is required'),
     order: yup
       .number()
-      .nullable(true)
+      .nullable()
       .positive('Please provide a positive order value')
       .integer('Please provide an integer order value'),
     availability: yup

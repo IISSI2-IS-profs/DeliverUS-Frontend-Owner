@@ -38,7 +38,7 @@ export default function EditRestaurantScreen ({ navigation, route }) {
       .required('Postal code is required'),
     url: yup
       .string()
-      .nullable(true)
+      .nullable()
       .url('Please enter a valid url'),
     shippingCosts: yup
       .number()
@@ -46,11 +46,11 @@ export default function EditRestaurantScreen ({ navigation, route }) {
       .required('Shipping costs value is required'),
     email: yup
       .string()
-      .nullable(true)
+      .nullable()
       .email('Please enter a valid email'),
     phone: yup
       .string()
-      .nullable(true)
+      .nullable()
       .max(255, 'Phone too long'),
     restaurantCategoryId: yup
       .number()

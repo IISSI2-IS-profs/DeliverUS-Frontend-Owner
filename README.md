@@ -8,8 +8,8 @@
 * [3. States](#3-States)
 * [4. Props](#4-Props)
 * [5. Developing RestaurantsScreen and RestaurantDetailScreen](#5-developing-restaurantsscreen-and-restaurantdetailscreen)
-* [5.1 RestaurantsScreen](##51-restaurantsscreen)
-* [5.2 RestaurantDetailScreen](##52-restaurantdetailscreen)
+* [5.1 RestaurantsScreen](#51-restaurantsscreen)
+* [5.2 RestaurantDetailScreen](#52-restaurantdetailscreen)
 * [6. Inline notation for dynamic view generation](#6-inline-notation-for-dynamic-view-generation)
 * [7. Extra exercises](#7-extra-exercises)
 

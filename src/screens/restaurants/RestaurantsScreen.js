@@ -6,39 +6,26 @@ import { getAll } from '../../api/RestaurantEndpoints'
 import * as GlobalStyles from '../../styles/GlobalStyles'
 
 export default function RestaurantsScreen({ navigation }) {
-  const [restaurants, setRestaurants] = useState(null)
-
-  useEffect(() => {
-    getAll(setRestaurants)
-  }, [])
-
-  const renderRestaurant = ({ item }) => {
-    return (
-      <View>
-        <Pressable
-          style={styles.row}
-          onPress={() => {
-            navigation.navigate('RestaurantDetailScreen', { id: item.id })
-          }}>
-          <TextRegular>
-            {item.name}
-          </TextRegular>
-        </Pressable>
-      </View>
-    )
-  }
-
   return (
-    <View>
-      {restaurants?.length > 0 ?
-        <FlatList
-          style={styles.container}
-          data={restaurants}
-          renderItem={renderRestaurant}
-          keyExtractor={item => item.id.toString()}
-        />
-        :
-        <TextRegular>Loading restaurants</TextRegular>}
+    <View style={styles.container}>
+      <TextRegular style={{ fontSize: 16, alignSelf: 'center', margin: 20 }}>Random Restaurant</TextRegular>
+      <Pressable
+        onPress={() => {
+          navigation.navigate('RestaurantDetailScreen', { id: Math.floor(Math.random() * 100) })
+        }}
+        style={({ pressed }) => [
+          {
+            backgroundColor: pressed
+              ? GlobalStyles.brandBlueTap
+              : GlobalStyles.brandBlue
+          },
+          styles.actionButton
+        ]}
+      >
+        <TextRegular textStyle={styles.text}>
+          Go to Random Restaurant Details
+        </TextRegular>
+      </Pressable>
     </View>
   )
 }
@@ -47,33 +34,20 @@ const styles = StyleSheet.create({
   container: {
     flex: 1
   },
-  row: {
-    padding: 15,
-    marginBottom: 5,
-    backgroundColor: GlobalStyles.brandSecondary
-  },
-  restaurantHeaderContainer: {
-    height: 250,
-    padding: 20,
-    backgroundColor: 'rgba(0,0,0,0.5)',
+  actionButton: {
+    borderRadius: 8,
+    height: 40,
+    marginTop: 12,
+    margin: '1%',
+    padding: 10,
+    alignSelf: 'center',
     flexDirection: 'column',
-    alignItems: 'center'
-  },
-  imageBackground: {
-    flex: 1,
-    resizeMode: 'cover',
-    justifyContent: 'center'
-  },
-  image: {
-    height: 100,
-    width: 100,
-    margin: 10
+    width: '50%'
   },
   text: {
-    color: 'white'
-  },
-  textTitle: {
-    fontSize: 20,
-    color: 'white'
+    fontSize: 16,
+    color: 'white',
+    alignSelf: 'center',
+    marginLeft: 5
   }
 })

@@ -15,13 +15,17 @@
 3. Create a new empty react-native project by running:
 `expo init IISSI2-IS-Frontend-Owner`
    * Choose template: `blank`
-4. Navigate to the created folder: `cd IISSI2-IS-Frontend-Owner` and run: `npm start`
-   * A new tab/window on your browser should open http://localhost:19002/ showing Expo developers tools. If not automatically opened, run your browser and navigate to: http://localhost:19002
+4. In order to launch the project as a web application project, navigate to the created folder:
+`cd IISSI2-IS-Frontend-Owner`
+5. And run the following command:
+`npx expo install react-native-web@~0.18.10 react-dom@18.2.0 @expo/webpack-config@^18.0.1`
+6. Finally, run `npm start` and press `w` (Run in web browser) once terminal ask you about deployment options
+   * A new tab/window on your browser should open http://localhost:19006/ showing Expo developers tools. If not automatically opened, run your browser and navigate to: http://localhost:19006
    * (On windows) set allow on Firewall/Windows defender if asked
-5. Click on `Run in web browser`. It should open the basic empty project in a new tab. It should look like this:
+   * It should open the basic empty project in a new tab. It should look like this:
 https://snack.expo.dev/@afdez/lab4-1-blankproject
-6. Configure eslint by installing and initialize it for your project by running `npm install eslint --save-dev`and `npx eslint --init`. We recommend the following answers: To check syntax, find problems, and enforce code style, JavaScript modules (import/export), React, Does your project use TypeScript? › No, Where does your code run? Browser, Use a popular style guide, Standard: https://github.com/standard/standard, Format-> Javascript. Finally select yes to install all dependencies. If you are asked to do some downgrade, answer yes. See https://eslint.org/docs/user-guide/getting-started for more details.
-7. Modify eslint file in order to add the last rule.
+7. Configure eslint by installing and initialize it for your project by running `npm install eslint --save-dev`and `npx eslint --init`. We recommend the following answers: To check syntax, find problems, and enforce code style, JavaScript modules (import/export), React, Does your project use TypeScript? › No, Where does your code run? Browser, Use a popular style guide, Standard: https://github.com/standard/standard, Format-> Javascript. Finally select yes to install all dependencies and when asked about package manager do you want to use, select npm. If you are asked to do some downgrade, answer yes. See https://eslint.org/docs/user-guide/getting-started for more details.
+8. Modify eslint file in order to add the last rule.
 ```Javascript
 module.exports = {
   env: {
@@ -56,14 +60,16 @@ module.exports = {
     "eslint.format.enable": true,
     "editor.codeActionsOnSave": {
         "source.fixAll.eslint": true
-      },
-    "eslint.validate": ["javascript"]
+    },
+    "eslint.validate": [
+        "javascript"
+    ]
 }
 ````
 
 Remember that, for a better experience, use the VSCode Extension for eslint: https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint
 
-8. Sync and push your changes to your repository.
+9. Sync and push your changes to your repository.
 
 # 2. Tab navigation
 According to the requirements, we can classify owners functionalities in the following categories:
@@ -77,16 +83,19 @@ We propose to create a Tab navigation using Reactnavigation tools, and following
 0. Install react navigation dependencies by running `expo install react-native-screens react-native-safe-area-context` and `npm install @react-navigation/bottom-tabs`. We will also install stack navigator and other dependencies for the future by running `npm install @react-navigation/native-stack` and `npm install @react-navigation/native`
 
 1. Create folders and files:
-   * Create a new folder `src\screens`
-   * Create a folder for each tab `src\screens\profile`, `src\screens\restaurants`, `src\screens\controlPanel`
+   * Create a new folder `src/screens`
+   * Create a folder for each tab `src/screens/profile`, `src/screens/restaurants`, `src/screens/controlPanel`
    * For each folder we will create a simple screen, `ProfileScreen.js`, `RestaurantsScreen.js`and `ControlPanelScreen.js`
     > you can create these folders and files using the terminal by running:
+
     ```Powershell
     mkdir src && mkdir src/screens && mkdir src/screens/profile && mkdir src/screens/restaurants && mkdir src/screens/controlPanel && touch src/screens/profile/ProfileScreen.js && touch src/screens/restaurants/RestaurantsScreen.js && touch src/screens/controlPanel/ControlPanelScreen.js
     ```
+
     Depending on your terminal/shell, you could need to change `&&` to `;`
 2. Include a minimal screen for each screen file created. E.g. RestaurantsScreen.js
-```TSX
+
+```Javascript
 import React from 'react'
 import { View, Text } from 'react-native'
 
@@ -98,8 +107,9 @@ export default function RestaurantsScreen () {
   )
 }
 ```
+
 3. Overwrite the contents of `App.js` the logic to create a tab navigator
-```TSX
+```Javascript
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { NavigationContainer } from '@react-navigation/native'
 import * as React from 'react'
@@ -232,17 +242,17 @@ export default function SystemInfo () {
   )
 }
 ````
-2. Use it in some screens by importing and including the component on your views.
-3. Try from different platforms by running some simulator or scanning the QR code with your mobile. Note: Your mobile has to be in the same network as the development server.
+2. Use it in some screens by importing the component and including it in your views in the same way that you use button or text components.
+3. Try from different platforms by running some simulator or visiting the website from your mobile. Note: Your mobile must be on the same network as the development server, and the server should be accessible using your private IP (not using localhost). You can run this application on your mobile phone using the Expo application. All you have to do is connect your mobile phone to the computer where the project has been deployed and press `a`.
 4. Check the new version of the project, it should works like this:
 https://snack.expo.dev/@afdez/lab4-4-firstcomponent
-5. (optional) Publish your project using the publish option at the left
-6. You can commit and push your changes and optionally include a tag
+5. You can commit and push your changes and optionally include a tag
 
 # 5. Packaging modes and debugging
-1. Start a debugging session on the web server version (Open inspector in the browser) and include a breakpoint at `RestaurantDetailScreen.js`at line `const { id } = route.params`. Use the menus to inspect the values of variables and step over to next lines.
-2. Do the same with the mobile version of the app. Open developer menu and activate _Debug remote JS_ option. It will open a new tab on your browser. Open Inspect tools and look for a debuggerworker in the sources tab->pages
-3. Change to production mode by using the switch at the left side of the development console on http://localhost:19002/. It is possible you have to stop (ctrl-c on the terminal) and start the server again `npm start` when you change from development to production mode and viceversa.
+0. Start a debugging session on the web server version and create a new debugging profile: Run -> Add Configuration -> Web App (Chrome) or Web App (Edge) or any other browser you have installed on your computer. Pay attention to the port where the solution is deployed, as this will be the port you need to change in the generated configuration profile. The next time you run this debugging profile, all you need to do is click the play button on top of the screen selecting Run and Debug section.
+1. Include a breakpoint at `RestaurantDetailScreen.js`at line `const { id } = route.params`. Use the menus to inspect the values of variables and step over to next lines.
+2. Do the same with the mobile version of the app. Open developer menu (shake your phone) and activate _Open JS_debugger_ option. It will open a new tab on your browser. Open Inspect tools and look for a debuggerworker in the sources tab->pages
+3. Change to production mode by running following command: `npx expo start --no-dev`
 
 # Extra: Styling
 1. You can include to `App.js` some icons for the bottom tab options and remove default header (stack navigator shows its own header)
@@ -251,7 +261,7 @@ https://snack.expo.dev/@afdez/lab4-4-firstcomponent
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 ```
 
-```TSX
+```Javascript
 <Tab.Navigator screenOptions={({ route }) => ({
   // eslint-disable-next-line react/display-name
   tabBarIcon: ({ color, size }) => {
@@ -285,7 +295,10 @@ import { MaterialCommunityIcons } from '@expo/vector-icons'
       }}/>
 </Stack.Navigator>
 ```
-4. Define a `styles\GlobalStyles.js` file including some constants for some colors named after: `brandPrimary`, `brandSecondary`, `background`, etc.
+
+npm install @react-native/assets-registry
+
+4. Define a `src/styles/GlobalStyles.js` file including some constants for some colors named after: `brandPrimary`, `brandSecondary`, `background`, etc.
 ```TSX
 const brandPrimary = '#be0f2e' // Granate US. rgba(190,15,46,255)
 const brandPrimaryTap = '#AA001A' //  Granate US más oscuro
@@ -311,7 +324,7 @@ const navigationTheme = {
   }
 }
 ```
-6. Remember that you can include styles at the end of each component by creating a StyleSheet. E.g:
+6. Remember that you can include styles at the end of each component by creating a StyleSheet or getting style definition from GlobalStyles.js created previously. E.g:
 ```TSX
 const styles = StyleSheet.create({
   container: {
@@ -323,4 +336,5 @@ const styles = StyleSheet.create({
 ```
 
 # Lab 4 Solution project
+
 * Snack: https://snack.expo.dev/@afdez/lab4-solution-extra-v1

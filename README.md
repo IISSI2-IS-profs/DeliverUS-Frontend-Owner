@@ -270,7 +270,7 @@ const styles = StyleSheet.create({
   row: {
     padding: 15,
     marginBottom: 5,
-    backgroundColor: brandSecondary
+    backgroundColor: GlobalStyles.brandSecondary
   },
   restaurantHeaderContainer: {
     height: 250,

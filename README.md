@@ -3,8 +3,6 @@
 * [0. Setup](#0._Setup)
 * [1. Components](#Introduction)
 * [2. Hooks](#Introduction)
-* [2.1. useState hook](##2.1._useState_hook)
-* [2.2. useEffect hook](##2.2._useEffect hook)
 * [3. States](#3._States)
 * [4. Props](#4._Props)
 * [5. Developing RestaurantsScreen and RestaurantDetailScreen](#5._Developing_RestaurantsScreen_and_RestaurantDetailScreen)

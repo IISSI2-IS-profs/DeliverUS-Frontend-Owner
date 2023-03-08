@@ -1,8 +1,8 @@
 # Index
 * [Introduction](#Introduction)
 * [0. Setup](#0._Setup)
-* [1. Components](#Introduction)
-* [2. Hooks](#Introduction)
+* [1. Components](#1._Components)
+* [2. Hooks](#2._Hooks)
 * [3. States](#3._States)
 * [4. Props](#4._Props)
 * [5. Developing RestaurantsScreen and RestaurantDetailScreen](#5._Developing_RestaurantsScreen_and_RestaurantDetailScreen)

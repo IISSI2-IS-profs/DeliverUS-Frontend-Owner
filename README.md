@@ -20,7 +20,7 @@
 5. And run the following command:
 `npx expo install react-native-web@~0.18.10 react-dom@18.2.0 @expo/webpack-config@^18.0.1`
 6. Finally, run `npm start` and press `w` (Run in web browser) once terminal ask you about deployment options
-   * A new tab/window on your browser should open http://localhost:19006/ showing Expo developers tools. If not automatically opened, run your browser and navigate to: http://localhost:19006
+   * A new tab/window on your browser should open http://localhost:19006/ showing the demo projects. If not automatically opened, run your browser and navigate to: http://localhost:19006
    * (On windows) set allow on Firewall/Windows defender if asked
    * It should open the basic empty project in a new tab. It should look like this:
 https://snack.expo.dev/@afdez/lab4-1-blankproject
@@ -40,7 +40,7 @@ module.exports = {
     ecmaFeatures: {
       jsx: true
     },
-    ecmaVersion: 12,
+    ecmaVersion: 'latest',
     sourceType: 'module'
   },
   plugins: [
@@ -50,6 +50,7 @@ module.exports = {
     'react/prop-types': 'off'
   }
 }
+
 ````
 
    * After that it is recommended to include a settings file by running `mkdir .vscode` and  `touch .vscode/settings.json`. Add the following contents at `.vscode/settings.json`:
@@ -296,7 +297,6 @@ import { MaterialCommunityIcons } from '@expo/vector-icons'
 </Stack.Navigator>
 ```
 
-npm install @react-native/assets-registry
 
 4. Define a `src/styles/GlobalStyles.js` file including some constants for some colors named after: `brandPrimary`, `brandSecondary`, `background`, etc.
 ```TSX

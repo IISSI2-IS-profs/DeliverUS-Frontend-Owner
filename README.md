@@ -1,3 +1,21 @@
+# Index
+* [Introduction](#Introduction)
+* [0. Setup](#0._Setup)
+* [1. Components](#Introduction)
+* [2. Hooks](#Introduction)
+* [2.1. useState hook](##2.1._useState_hook)
+* [2.2. useEffect hook](##2.2._useEffect hook)
+* [3. States](#3._States)
+* [4. Props](#4._Props)
+* [5. Developing RestaurantsScreen and RestaurantDetailScreen](#5._Developing_RestaurantsScreen_and_RestaurantDetailScreen)
+* [5.1 RestaurantsScreen](##5.1_RestaurantsScreen)
+* [5.2 RestaurantDetailScreen](##5.2_RestaurantDetailScreen)
+* [6. Inline notation for dynamic view generation](#6._Inline_notation_for_dynamic_view_generation)
+* [7. Extra exercises](#7._Extra_exercises)
+* [Hooks](#Introduction)
+
+
+
 # Introduction
 We will learn basic React-native elements needed to develop software graphical user interfaces including:
 * Components

@@ -5,7 +5,7 @@
 * [4. Creating your first component](#4-Creating-your-first-component)
 * [5. Packaging modes and debugging](#5-Packaging-modes-and-debugging)
 * [Extra: Styling](#Extra-Styling)
-* [Lab 4 Solution project](#Lab-4-Solution-project)
+* [Setup project solution](#Setup-project-solution)
 
 # 1. First React Native project
 
@@ -335,6 +335,6 @@ const styles = StyleSheet.create({
 })
 ```
 
-# Lab 4 Solution project
+# Setup project solution
 
 * Snack: https://snack.expo.dev/@afdez/lab4-solution-extra-v1

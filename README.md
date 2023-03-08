@@ -5,11 +5,11 @@
 * [2. Hooks](#2-Hooks)
 * [3. States](#3-States)
 * [4. Props](#4-Props)
-* [5. Developing RestaurantsScreen and RestaurantDetailScreen](#5-Developing_RestaurantsScreen_and_RestaurantDetailScreen)
-* [5.1 RestaurantsScreen](##5.1-RestaurantsScreen)
-* [5.2 RestaurantDetailScreen](##5.2-RestaurantDetailScreen)
-* [6. Inline notation for dynamic view generation](#6-Inline_notation_for_dynamic_view_generation)
-* [7. Extra exercises](#7-Extra_exercises)
+* [5. Developing RestaurantsScreen and RestaurantDetailScreen](#5-developing-restaurantsscreen-and-restaurantdetailscreen)
+* [5.1 RestaurantsScreen](##5.1-restaurantsscreen)
+* [5.2 RestaurantDetailScreen](##5.2-restaurantdetailscreen)
+* [6. Inline notation for dynamic view generation](#6-inline_notation_for_dynamic_view_generation)
+* [7. Extra exercises](#7-extra_exercises)
 
 
 

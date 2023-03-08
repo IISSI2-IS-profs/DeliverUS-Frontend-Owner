@@ -3,13 +3,15 @@
 * [0. Setup](#0-Setup)
 * [1. Components](#1-Components)
 * [2. Hooks](#2-Hooks)
+** [2.1 useState hook](#21-usestate-hook)
+** [2.2 useEffect hook](#22-useeffect-hook)
 * [3. States](#3-States)
 * [4. Props](#4-Props)
 * [5. Developing RestaurantsScreen and RestaurantDetailScreen](#5-developing-restaurantsscreen-and-restaurantdetailscreen)
-* [5.1 RestaurantsScreen](##5.1-restaurantsscreen)
-* [5.2 RestaurantDetailScreen](##5.2-restaurantdetailscreen)
-* [6. Inline notation for dynamic view generation](#6-inline_notation_for_dynamic_view_generation)
-* [7. Extra exercises](#7-extra_exercises)
+** [5.1 RestaurantsScreen](##51-restaurantsscreen)
+** [5.2 RestaurantDetailScreen](##52-restaurantdetailscreen)
+* [6. Inline notation for dynamic view generation](#6-inline-notation-for-dynamic-view-generation)
+* [7. Extra exercises](#7-extra-exercises)
 
 
 

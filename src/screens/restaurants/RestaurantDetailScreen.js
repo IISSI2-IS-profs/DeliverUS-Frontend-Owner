@@ -7,7 +7,7 @@ import TextRegular from '../../components/TextRegular'
 import * as GlobalStyles from '../../styles/GlobalStyles'
 
 export default function RestaurantDetailScreen({ route }) {
-  const [restaurant, setRestaurant] = useState({})
+  const [restaurant, setRestaurant] = useState(null)
   const { id } = route.params
 
   useEffect(() => {
@@ -28,7 +28,7 @@ export default function RestaurantDetailScreen({ route }) {
 
   return (
     <View style={styles.container}>
-      {Object.keys(restaurant).length > 0 ? <View>
+      {restaurant ? <View>
         <TextRegular style={styles.textTitle}>{restaurant.name}</TextRegular>
         <TextRegular style={styles.text}>{restaurant.description}</TextRegular>
         <TextRegular style={styles.text}>shippingCosts: {restaurant.shippingCosts}</TextRegular>

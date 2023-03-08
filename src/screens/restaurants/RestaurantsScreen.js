@@ -6,7 +6,7 @@ import { getAll } from '../../api/RestaurantEndpoints'
 import * as GlobalStyles from '../../styles/GlobalStyles'
 
 export default function RestaurantsScreen({ navigation }) {
-  const [restaurants, setRestaurants] = useState([])
+  const [restaurants, setRestaurants] = useState(null)
 
   useEffect(() => {
     getAll(setRestaurants)

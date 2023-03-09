@@ -190,17 +190,12 @@ And finally, we will need to show backendErrors if present. To do so, we can add
 }
 ```
 
+See Annex: Conditional Rendering for an explanation on the code above.
+
 At `RestaurantsScreen`, we need to add the {route} as a component prop, and add another trigger value to the useEffect that queries the restaurant list. At the moment it was triggered if a loggedInUser was changed, now add the route param as follows:
 `[loggedInUser, route]`
 
 Test the complete solution.
-    
-** WARNING IF YOU ARE USING WINDOWS AS YOUR BACKEND SERVER **
-Windows create routes using the backslash (\) instead of the regular slash (/). This can prevent the frontend from showing the images stored at the backend. In order to circunvent this issue you have to replace the source property when using the <Image> component.
-For instance, in the <ImageCard> component, modify the <Image> component as follows:
-```Javascript
-    <Image style={styles.image} source={props.imageUri?.uri.replace(/\\/g, '/')} />
-```
 
 # 3. Create product validation and POST.
 Follow the same steps to validate the create product form and to perform the post request.
@@ -212,3 +207,18 @@ Notice that when creating a new product, we will need to include the restaurantI
 Discuss with your teacher and partners if some components could be refactored. Is it possible to create a submit button component so that we don't copy paste all the pressable details? Do you identify other elements that could be refactored as custom components and reused after?
 
 Could it be possible to refactor de dropdown picker and its error message?
+
+# Annex: contional rendering in JSX
+
+Sometimes it is necessary to show a content depending on some conditions. To do this, it is possible to enter boolean conditions in the render method (return) of the component. Before the conditioned block prepend the condition followed by &&. Such block will only be rendered when the condition resolves to _truthy_.
+
+```Javascript
+return (
+   // some JSX elements
+   { backendErrors &&
+        backendErrors.map((error, index) => <TextError key={index}>{error.msg}</TextError>)
+   }
+)
+```
+
+The expression `backendErrors && ...` checks that the the variable is _truthy_ or not and therefore, errors will only be rendered when backendErrors is not undefined nor null.

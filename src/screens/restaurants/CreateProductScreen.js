@@ -6,41 +6,14 @@ import InputItem from '../../components/InputItem'
 import TextRegular from '../../components/TextRegular'
 import * as GlobalStyles from '../../styles/GlobalStyles'
 import defaultProductImage from '../../../assets/product.jpeg'
-import { getProductCategories, create } from '../../api/ProductEndpoints'
+import { getProductCategories } from '../../api/ProductEndpoints'
 import { showMessage } from 'react-native-flash-message'
 import DropDownPicker from 'react-native-dropdown-picker'
-import * as yup from 'yup'
-import { ErrorMessage, Formik } from 'formik'
-import TextError from '../../components/TextError'
+import { Formik } from 'formik'
 
-export default function CreateProductScreen ({ navigation, route }) {
+export default function CreateProductScreen () {
   const [open, setOpen] = useState(false)
   const [productCategories, setProductCategories] = useState([])
-  const [backendErrors, setBackendErrors] = useState()
-
-  const initialProductValues = { name: null, description: null, price: null, order: null, restaurantId: route.params.id, productCategoryId: null, availability: true }
-  const validationSchema = yup.object().shape({
-    name: yup
-      .string()
-      .max(255, 'Name too long')
-      .required('Name is required'),
-    price: yup
-      .number()
-      .positive('Please provide a positive price value')
-      .required('Price is required'),
-    order: yup
-      .number()
-      .nullable()
-      .positive('Please provide a positive order value')
-      .integer('Please provide an integer order value'),
-    availability: yup
-      .boolean(),
-    productCategoryId: yup
-      .number()
-      .positive()
-      .integer()
-      .required('Product category is required')
-  })
 
   useEffect(() => {
     async function fetchProductCategories () {
@@ -77,29 +50,9 @@ export default function CreateProductScreen ({ navigation, route }) {
       }
     }
   }
-
-  const createProduct = async (values) => {
-    setBackendErrors([])
-    try {
-      const createdProduct = await create(values)
-      showMessage({
-        message: `Product ${createdProduct.name} succesfully created`,
-        type: 'success',
-        style: GlobalStyles.flashStyle,
-        titleStyle: GlobalStyles.flashTextStyle
-      })
-      navigation.navigate('RestaurantDetailScreen', { id: route.params.id, dirty: true })
-    } catch (error) {
-      console.log(error)
-      setBackendErrors(error.errors)
-    }
-  }
   return (
-    <Formik
-      validationSchema={validationSchema}
-      initialValues={initialProductValues}
-      onSubmit={createProduct}>
-      {({ handleSubmit, setFieldValue, values }) => (
+    <Formik>
+      {({ setFieldValue, values }) => (
         <ScrollView>
           <View style={{ alignItems: 'center' }}>
             <View style={{ width: '60%' }}>
@@ -134,7 +87,6 @@ export default function CreateProductScreen ({ navigation, route }) {
                 style={{ backgroundColor: GlobalStyles.brandBackground }}
                 dropDownStyle={{ backgroundColor: '#fafafa' }}
               />
-              <ErrorMessage name={'productCategoryId'} render={msg => <TextError>{msg}</TextError> }/>
 
               <TextRegular>Is it available?</TextRegular>
               <Switch
@@ -147,7 +99,6 @@ export default function CreateProductScreen ({ navigation, route }) {
                   setFieldValue('availability', value)
                 }
               />
-              <ErrorMessage name={'availability'} render={msg => <TextError>{msg}</TextError> }/>
 
               <Pressable onPress={() =>
                 pickImage(
@@ -162,12 +113,8 @@ export default function CreateProductScreen ({ navigation, route }) {
                 <Image style={styles.image} source={values.image ? { uri: values.image.assets[0].uri } : defaultProductImage} />
               </Pressable>
 
-              {backendErrors &&
-                backendErrors.map((error, index) => <TextError key={index}>{error.param}-{error.msg}</TextError>)
-              }
-
               <Pressable
-                onPress={ handleSubmit }
+                onPress={ () => console.log('Button pressed') }
                 style={({ pressed }) => [
                   {
                     backgroundColor: pressed

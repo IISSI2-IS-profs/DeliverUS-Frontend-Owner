@@ -4,7 +4,7 @@ We will learn how to perform GET requests from the Frontend client to the backen
 * the URI where we will address the request
 * optionally, some path or query params.
 
-For instance, if we want to obtain the list of restaurants that belongs to the current logged-in owner, we will do an HTTP GET Request to: `/users/myRestaurants` and we will have to provide a bearer token since this endpoint requires a logged-in user (and it has to be of type owner)
+For instance, if we want to obtain the list of restaurants that belongs to the current logged-in owner, we will do an HTTP GET Request to: `/users/myrestaurants` and we will have to provide a bearer token since this endpoint requires a logged-in user (and it has to be of type owner)
 
 Once we will learn this basic elements, we will develop the Restaurants list and the restaurant detail screen.
 
@@ -52,7 +52,7 @@ Modify the `getAll` function so it uses the `get` method as follows:
 ```Javascript
 import { get } from './helpers/ApiRequestsHelper'
 function getAll () {
-  return get('/users/myRestaurants')
+  return get('/users/myrestaurants')
 }
 ```
 
@@ -96,9 +96,8 @@ Secondly, check the following implementation:
 
 ```Javascript
 
-const { loggedInUser } = useContext(AuthorizationContext) //Retrieve loggedInUser from Context
-
- useEffect(() => {
+  const { loggedInUser } = useContext(AuthorizationContext)
+  useEffect(() => {
     async function fetchRestaurants () { // Addresses problem 1
       try {
         const fetchedRestaurants = await getAll()
@@ -107,8 +106,8 @@ const { loggedInUser } = useContext(AuthorizationContext) //Retrieve loggedInUse
         showMessage({
           message: `There was an error while retrieving restaurants. ${error} `,
           type: 'error',
-          style: flashStyle,
-          titleStyle: flashTextStyle
+          style: GlobalStyles.flashStyle,
+          titleStyle: GlobalStyles.flashTextStyle
         })
       }
     }

@@ -56,7 +56,7 @@ There are some more properties that defines the Flexbox algorithm behaviour, you
 Usually we will define a general container for our components. This container will usually be a `View` component and it will determine the Flexbox behaviour of its children and the size, margins etc where we will render our elements.
 Notice that the return statement must include one and only one root element. For instance this return statement would be wrong:
 
-```Javascript
+```JSX
 return (
   <View>
     <Text>Some text</Text>
@@ -69,7 +69,7 @@ return (
 
 To fix this, we must include a parent element to those siblings,for instance the empty tag `<>`:
 
-```Javascript
+```JSX
 return (
   <>
     <View>
@@ -97,7 +97,7 @@ You will notice that the input items are arranged from top to bottom, full width
 
 The following code snippet, includes all the previous steps:
 
-```Javascript
+```JSX
 export default function CreateRestaurantScreen () {
   return (
     <View style={{ alignItems: 'center' }}>
@@ -171,22 +171,57 @@ const styles = StyleSheet.create({
 })
 ```
 
-You may ask yourself: why was it needed to include two nested views? The reason is that the first view defines that its children has to be centered. You can check what happens if we declare just a view with both properties: `<View style={{ alignItems: 'center', width: '60%' }}>`.
+You may ask yourself: why was it needed to include two nested views? The reason is that the first view defines that its children have to be centered. You can check what happens if we declare just a view with both properties: `<View style={{ alignItems: 'center', width: '60%' }}>`.
 Layout definition can be quite tricky sometimes, and various solutions can be found: for instance there is another property named `alignSelf`, that could have been used to this end.
 
 ## 1.3. ScrollViews
 
-Insert more `InputItems` so they exceed the vertical space available. Notice that you cannot scroll down to see them all. Views are not scrollable. To this end we have to use the `<ScrollView>` component. Add a new `<ScrollView>` parent and check results. Scrolling should be enabled.
+Insert more `InputItems` so they exceed the vertical space available. Notice that you cannot scroll down to see them all. `Views` are not scrollable. To this end we have to use the `<ScrollView>` component. Add a new `<ScrollView>` parent and check results. Scrolling should be enabled.
 
-Note: Some components are an extension of ScrollView component. For instance, FlatLists inherits the properties of ScrollView, but load contents lazily (when you have to render lots of elements, FlatLists will be a more performant solution than ScrollView).
+Note: Some components are an extension of `ScrollView` component. For instance, `FlatList` inherits the properties of `ScrollView`, but load contents lazily (when you have to render lots of elements, `FlatList` will be a more performant solution than `ScrollView`).
 
 # 2. Forms
 
-Forms are the way of alowing users to submit data from the frontend GUI to the backend. This is needed to create new elements of our entities. Forms present to the user various input fields. The most popular are:
+Forms are the way of alowing users to submit data from the frontend GUI to the backend. This is needed to create new elements of our entities.
+In order to create and mantain the state of the form, we will use a third party component: `<Formik>`.
 
-* Text inputs: where user introduces some kind of texts. It is usually the most general input, we can use it so users can include information such as: names, surnames, emails, descriptions, urls, addresses, prices, postal codes or telephones. You have been provided the `src/components/InputItem.js` component that returns an `TextInput`, a label for the input and some elements needed for validation that we will use in the next lab.
-* Image pickers / File pickers: where user can select an image/file from its gallery or file system in order to upload them.
-* Select from options: where user can select a value for a field from a given set of options. Typical use cases includes: select some category from the ones that exists, select some status value from a given set of possible values.
+Formik manages the state of the inputs within the form, and can apply validation rules to them.
+
+We will learn more about Formik in the next lab. In this lab you just have to add the following parent element in the return sentence of the screens that include a form:
+
+```JSX
+import { Formik } from 'formik'
+
+// Screen component function code
+// ...
+
+return (
+  <Formik>
+    {({ setFieldValue, values }) => (
+      <ScrollView>
+        <View style={{ alignItems: 'center' }}>
+          <View style={{ width: '60%' }}>
+            <InputItem
+              name='name'
+              label='Name:'
+            />
+
+            // Any other inputs
+
+          </View>
+        </View>
+      </ScrollView>
+    )}
+  </Formik>
+)
+```
+
+Forms present to the user various input fields. The most popular are:
+
+* Text inputs: where user introduces some kind of text. It is usually the most general input, we can use it so users can include information such as: names, surnames, emails, descriptions, urls, addresses, prices, postal codes or telephones. You have been provided the `src/components/InputItem.js` component that returns: a) a `TextInput`, b) a label for the input and c) some elements needed for validation that we will use in the next lab.
+* Image/File pickers: where user can select an image/file from its gallery or file system in order to upload them.
+* Select/Dropdown: where users can select a value for a field from a given set of options. Typical use cases includes: select some category from the ones that exist, select some status value from a given set of possible values.
+* Switches: where user is asked between two options that are typically send as a boolean.
 
 ## 2.1 CreateRestaurant Form
 
@@ -214,74 +249,118 @@ Notice that `InputItem` can receive the following properties:
 Restaurants can be created including some images, the `logo` and the `heroImage` which is an image that is rendered as background in the RestaurantDetailScreen. To this end, expo SDK includes some tools. For more info you can check the expo documentation: <https://docs.expo.dev/tutorial/image-picker/>
 
 To include an image picker for the restaurant logo follow these steps:
-0. Add import sentences for the needed library `ExpoImagePicker`, some components, and some default images:
 
-```Javascript
-import { Image, Pressable, ScrollView, StyleSheet, View } from 'react-native'
-import * as ExpoImagePicker from 'expo-image-picker'
-import restaurantLogo from '../../../assets/restaurantLogo.jpeg'
-import restaurantBackground from '../../../assets/restaurantBackground.jpeg'
-```
+1. Add import sentences for the needed library `ExpoImagePicker`, some components, and some default images:
 
-1. We need an state variable to store the image and its properties, so define a new state variable:
+    ```Javascript
+    import { Image, Platform, Pressable, ScrollView, StyleSheet, View } from 'react-native'
+    import * as ExpoImagePicker from 'expo-image-picker'
+    import restaurantLogo from '../../../assets/restaurantLogo.jpeg'
+    import restaurantBackground from '../../../assets/restaurantBackground.jpeg'
+    ```
 
-```Javascript
-  const [logo, setLogo] = useState()
-```
+1. Include a `useEffect` hook to obtain permissions from the device to access to the media gallery (it is needed for iOS and Android).
+
+    ```Javascript
+      useEffect(() => {
+        (async () => {
+          if (Platform.OS !== 'web') {
+            const { status } = await ExpoImagePicker.requestMediaLibraryPermissionsAsync()
+            if (status !== 'granted') {
+              alert('Sorry, we need camera roll permissions to make this work!')
+            }
+          }
+        })()
+      }, [])
+    ```
 
 1. Include a new pressable element including a text for the label and an image for visualizing selected image. Once we press and select an image, we will store its contents in the state variable by using the `setLogo` function. You can use the following code snippet:
 
-```Javascript
-<Pressable onPress={() =>
-  pickImage(
-    async result => {
-      setLogo(result)
+    ```Javascript
+    <Pressable onPress={() =>
+      pickImage(
+        async result => {
+          await setFieldValue('logo', result)
+        }
+      )
     }
-  )
-}
-  style={styles.imagePicker}
->
-  <TextRegular>Logo: </TextRegular>
-  <Image style={styles.image} source={logo ? { uri: logo.uri } : restaurantLogo}/>
-</Pressable>
-```
+      style={styles.imagePicker}
+    >
+      <TextRegular>Logo: </TextRegular>
+      <Image style={styles.image} source={values.logo ? { uri: values.logo.assets[0].uri } : restaurantLogo} />
+    </Pressable>
+    ```
+
+1. Notice that `onPress` calls the `pickImage`method. This method is in charge of launching the selection interface for picking an image. This is the proposed code extracted from the `ExpoImagePicker` component documentation:
+
+    ```Javascript
+    const pickImage = async (onSuccess) => {
+      const result = await ExpoImagePicker.launchImageLibraryAsync({
+        mediaTypes: ExpoImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [1, 1],
+        quality: 1
+      })
+      if (!result.canceled) {
+        if (onSuccess) {
+          onSuccess(result)
+        }
+      }
+    }
+    ```
 
 1. Finally, we can include some styling:
 
-```Javascript
-imagePicker: {
-  height: 40,
-  paddingLeft: 10,
-  marginTop: 20,
-  marginBottom: 80
-},
-image: {
-  width: 100,
-  height: 100,
-  borderWidth: 1,
-  alignSelf: 'center',
-  marginTop: 5
-}
-```
+    ```Javascript
+    imagePicker: {
+      height: 40,
+      paddingLeft: 10,
+      marginTop: 20,
+      marginBottom: 80
+    },
+    image: {
+      width: 100,
+      height: 100,
+      borderWidth: 1,
+      alignSelf: 'center',
+      marginTop: 5
+    }
+    ```
 
-### 2.1.3. CreateRestaurantScreen.js
+### 2.1.4. CreateRestaurantScreen.js
 
-Find below the complete CreateRestaurantScreen component:
+<details>
+  <summary>
+Click here to check the complete CreateRestaurantScreen component:
+  </summary>
 
-```Javascript
-/* eslint-disable react/prop-types */
-import React, { useState } from 'react'
-import { Image, Pressable, ScrollView, StyleSheet, View } from 'react-native'
+```JSX
+import React, { useEffect, useState } from 'react'
+import { Image, Platform, Pressable, ScrollView, StyleSheet, View } from 'react-native'
 import * as ExpoImagePicker from 'expo-image-picker'
+import { MaterialCommunityIcons } from '@expo/vector-icons'
+
+import { getRestaurantCategories } from '../../api/RestaurantEndpoints'
 import InputItem from '../../components/InputItem'
 import TextRegular from '../../components/TextRegular'
 import * as GlobalStyles from '../../styles/GlobalStyles'
 import restaurantLogo from '../../../assets/restaurantLogo.jpeg'
 import restaurantBackground from '../../../assets/restaurantBackground.jpeg'
+import { showMessage } from 'react-native-flash-message'
+import { Formik } from 'formik'
 
 export default function CreateRestaurantScreen () {
-  const [logo, setLogo] = useState()
-  const [heroImage, setHeroImage] = useState()
+
+  useEffect(() => {
+    (async () => {
+      if (Platform.OS !== 'web') {
+        const { status } = await ExpoImagePicker.requestMediaLibraryPermissionsAsync()
+        if (status !== 'granted') {
+          alert('Sorry, we need camera roll permissions to make this work!')
+        }
+      }
+    })()
+  }, [])
 
   const pickImage = async (onSuccess) => {
     const result = await ExpoImagePicker.launchImageLibraryAsync({
@@ -290,89 +369,100 @@ export default function CreateRestaurantScreen () {
       aspect: [1, 1],
       quality: 1
     })
-    if (!result.cancelled) {
+    if (!result.canceled) {
       if (onSuccess) {
         onSuccess(result)
       }
     }
   }
+
   return (
-    <ScrollView>
-      <View style={{ alignItems: 'center' }}>
-        <View style={{ width: '60%' }}>
-          <InputItem
-            name='name'
-            label='Name:'
-          />
-          <InputItem
-            name='description'
-            label='Description:'
-          />
-          <InputItem
-            name='postalCode'
-            label='Postal code:'
-          />
-          <InputItem
-            name='url'
-            label='Url:'
-          />
-          <InputItem
-            name='shippingCosts'
-            label='Shipping costs:'
-          />
-          <InputItem
-            name='email'
-            label='Email:'
-          />
-          <InputItem
-            name='phone'
-            label='Phone:'
-          />
+    <Formik>
+      {({ setFieldValue, values }) => (
+        <ScrollView>
+          <View style={{ alignItems: 'center' }}>
+            <View style={{ width: '60%' }}>
+              <InputItem
+                name='name'
+                label='Name:'
+              />
+              <InputItem
+                name='description'
+                label='Description:'
+              />
+              <InputItem
+                name='address'
+                label='Address:'
+              />
+              <InputItem
+                name='postalCode'
+                label='Postal code:'
+              />
+              <InputItem
+                name='url'
+                label='Url:'
+              />
+              <InputItem
+                name='shippingCosts'
+                label='Shipping costs:'
+              />
+              <InputItem
+                name='email'
+                label='Email:'
+              />
+              <InputItem
+                name='phone'
+                label='Phone:'
+              />
 
-          <Pressable onPress={() =>
-            pickImage(
-              async result => {
-                setLogo(result)
+              <Pressable onPress={() =>
+                pickImage(
+                  async result => {
+                    await setFieldValue('logo', result)
+                  }
+                )
               }
-            )
-          }
-            style={styles.imagePicker}
-          >
-            <TextRegular>Logo: </TextRegular>
-            <Image style={styles.image} source={logo ? { uri: logo.uri } : restaurantLogo} />
-          </Pressable>
+                style={styles.imagePicker}
+              >
+                <TextRegular>Logo: </TextRegular>
+                <Image style={styles.image} source={values.logo ? { uri: values.logo.assets[0].uri } : restaurantLogo} />
+              </Pressable>
 
-          <Pressable onPress={() =>
-            pickImage(
-              async result => {
-                setHeroImage(result)
+              <Pressable onPress={() =>
+                pickImage(
+                  async result => {
+                    await setFieldValue('heroImage', result)
+                  }
+                )
               }
-            )
-          }
-            style={styles.imagePicker}
-          >
-            <TextRegular>Hero image: </TextRegular>
-            <Image style={styles.image} source={heroImage ? { uri: heroImage.uri } : restaurantBackground} />
-          </Pressable>
+                style={styles.imagePicker}
+              >
+                <TextRegular>Hero image: </TextRegular>
+                <Image style={styles.image} source={values.heroImage ? { uri: values.heroImage.assets[0].uri } : restaurantBackground} />
+              </Pressable>
 
-          <Pressable
-            onPress={() => console.log('Button pressed')
-            }
-            style={({ pressed }) => [
-              {
-                backgroundColor: pressed
-                  ? GlobalStyles.brandPrimaryTap
-                  : GlobalStyles.brandPrimary
-              },
-              styles.button
-            ]}>
-            <TextRegular textStyle={styles.text}>
-              Create restaurant
-            </TextRegular>
-          </Pressable>
-        </View>
-      </View>
-    </ScrollView>
+              <Pressable
+                onPress={() => console.log('Submit pressed')}
+                style={({ pressed }) => [
+                  {
+                    backgroundColor: pressed
+                      ? GlobalStyles.brandSuccessTap
+                      : GlobalStyles.brandSuccess
+                  },
+                  styles.button
+                ]}>
+              <View style={[{ flex: 1, flexDirection: 'row', justifyContent: 'center' }]}>
+                <MaterialCommunityIcons name='content-save' color={'white'} size={20}/>
+                <TextRegular textStyle={styles.text}>
+                  Save
+                </TextRegular>
+              </View>
+              </Pressable>
+            </View>
+          </View>
+        </ScrollView>
+      )}
+    </Formik>
   )
 }
 
@@ -387,8 +477,9 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 16,
-    color: brandSecondary,
-    textAlign: 'center'
+    color: 'white',
+    textAlign: 'center',
+    marginLeft: 5
   },
   imagePicker: {
     height: 40,
@@ -406,24 +497,108 @@ const styles = StyleSheet.create({
 })
 ```
 
+</details>
+
 ## 2.2. CreateProduct Form
 
-Now, follow and adapt the steps given for the CreateRestaurant in order to create a new product for a selected restaurant. Complete the `CreateProductScreen.js`. Remember the needed properties when creating a product:
+Now, follow and adapt the steps given for the `CreateRestaurantScreen` component in order to create a new product for a selected restaurant. Complete the `CreateProductScreen.js` component. Remember the needed properties when creating a product:
 
 * `name`,
 * `description`,
 * `price`,
 * `image`,
-* `order` (remember, we can define the position where each product will be in the returned product list when querying restaurant details)
+* `order` (remember, we can define the position where each product will be in the returned product list when querying restaurant details),
+* `productCategory`,
+* `availability`
 
-# 3. Extra
+# 3. Other form input components
 
 Restaurants and products can belong to some categories. Include a select input to allow the user to select from available values of RestaurantCategories and from valid statuses when creating a new restaurant.
 
-Similarly, when creating a new product, include a select input to select from ProductCategories. Moreover, products can be available or not, we can add a radio or switch control to the CreateProduct Form.
+### 3.1 Select/Dropdown picker
 
-You will need to implement:
+React native does not provide a Dropdown picker component, so we will use a third party component. You can check the documentation at: <https://hossein-zare.github.io/react-native-dropdown-picker-website/>
 
-1. A request to the API to retrieve RestaurantCategories and another request to retrieve ProductCategories.
-2. As there is no react-native core components for select pickers, we can use the following package: <https://hossein-zare.github.io/react-native-dropdown-picker-website/>
-3. Find a radio or switch component for the availability of the product (true or false, by default it should be true). React-native includes a `Switch` component. You can find the reference at: <https://docs.expo.dev/versions/latest/react-native/switch/>.
+In the `CreateRestaurantScreen` form we will use the dropdown to select the restaurant category.
+
+Remember that the options of `DropDownPicker` are a list of pairs value/label. For instance the restaurant categories would be the pair `value: restaurantCategoryId, label: restaurantCategoryName`.
+
+In order to populate the options of the `DropDownPicker` we need:
+
+1. A state to store the restaurant categories:
+
+    ```Javascript
+    const [restaurantCategories, setRestaurantCategories] = useState([])
+    ```
+
+1. A boolean state to set if the option list of the `DropDownPicker` are visible or not:
+
+    ```Javascript
+    const [open, setOpen] = useState(false)
+    ```
+
+1. A `useEffect` hook to retrieve the restaurant categories from backend:
+
+    ```Javascript
+    useEffect(() => {
+      async function fetchRestaurantCategories () {
+        try {
+          const fetchedRestaurantCategories = await getRestaurantCategories()
+          const fetchedRestaurantCategoriesReshaped = fetchedRestaurantCategories.map((e) => {
+            return {
+              label: e.name,
+              value: e.id
+            }
+          })
+          setRestaurantCategories(fetchedRestaurantCategoriesReshaped)
+        } catch (error) {
+          showMessage({
+            message: `There was an error while retrieving restaurant categories. ${error} `,
+            type: 'error',
+            style: GlobalStyles.flashStyle,
+            titleStyle: GlobalStyles.flashTextStyle
+          })
+        }
+      }
+      fetchRestaurantCategories()
+    }, [])
+    ```
+
+Finally, we have to add the component in the `return` sentence of the `CreateRestaurantScreen` component. Find below a code snippet to add a `DropDownPicker` component for restaurant categories:
+
+```JSX
+<DropDownPicker
+  open={open}
+  value={values.restaurantCategoryId}
+  items={restaurantCategories}
+  setOpen={setOpen}
+  onSelectItem={ item => {
+    setFieldValue('restaurantCategoryId', item.value)
+  }}
+  setItems={setRestaurantCategories}
+  placeholder="Select the restaurant category"
+  containerStyle={{ height: 40, marginTop: 20 }}
+  style={{ backgroundColor: GlobalStyles.brandBackground }}
+  dropDownStyle={{ backgroundColor: '#fafafa' }}
+/>
+```
+
+Similarly, when creating a new product, include a select input to select from ProductCategories.
+
+### 3.2. Switch
+
+Moreover, products can be available or not, we can add a radio or switch control to the `CreateProduct` Form. React native provides a Switch component. You can check the documentation at: <https://reactnative.dev/docs/switch>
+
+Find below a code snippet for including a switch component for the product availability:
+
+```JSX
+<Switch
+  trackColor={{ false: GlobalStyles.brandSecondary, true: GlobalStyles.brandPrimary }}
+  thumbColor={values.availability ? GlobalStyles.brandSecondary : '#f4f3f4'}
+  value={values.availability}
+  style={styles.switch}
+  onValueChange={value =>
+    setFieldValue('availability', value)
+  }
+/>
+```

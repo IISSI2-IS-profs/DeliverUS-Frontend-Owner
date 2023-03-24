@@ -185,35 +185,41 @@ Note: Some components are an extension of `ScrollView` component. For instance, 
 Forms are the way of alowing users to submit data from the frontend GUI to the backend. This is needed to create new elements of our entities.
 In order to create and mantain the state of the form, we will use a third party component: `<Formik>`.
 
-Formik manages the state of the inputs within the form, and can apply validation rules to them.
+Formik manages the state of the inputs within the form, and can apply validation rules to them. Formik component needs to be initialized with the names and initial values of the inputs of the form.
 
 We will learn more about Formik in the next lab. In this lab you just have to add the following parent element in the return sentence of the screens that include a form:
 
 ```JSX
 import { Formik } from 'formik'
 
-// Screen component function code
-// ...
 
-return (
-  <Formik>
-    {({ setFieldValue, values }) => (
-      <ScrollView>
-        <View style={{ alignItems: 'center' }}>
-          <View style={{ width: '60%' }}>
-            <InputItem
-              name='name'
-              label='Name:'
-            />
+export default function CreateRestaurantScreen () {
+  const initialRestaurantValues = { name: null, description: null, address: null, postalCode: null, url: null, shippingCosts: null, email: null, phone: null, restaurantCategoryId: null }
 
-            // Any other inputs
+  // Rest of the code of this component
+  // ...
 
+  return (
+    <Formik
+    initialValues={initialRestaurantValues}
+    >
+      {({ setFieldValue, values }) => (
+        <ScrollView>
+          <View style={{ alignItems: 'center' }}>
+            <View style={{ width: '60%' }}>
+              <InputItem
+                name='name'
+                label='Name:'
+              />
+
+              {/* Any other inputs */}
+
+            </View>
           </View>
-        </View>
-      </ScrollView>
-    )}
-  </Formik>
-)
+        </ScrollView>
+      )}
+    </Formik>
+  )
 ```
 
 Forms present to the user various input fields. The most popular are:
@@ -276,7 +282,7 @@ To include an image picker for the restaurant logo follow these steps:
 
 1. Include a new pressable element including a text for the label and an image for visualizing selected image. Once we press and select an image, we will store its contents in the state variable by using the `setLogo` function. You can use the following code snippet:
 
-    ```Javascript
+    ```JSX
     <Pressable onPress={() =>
       pickImage(
         async result => {
@@ -350,6 +356,7 @@ import { showMessage } from 'react-native-flash-message'
 import { Formik } from 'formik'
 
 export default function CreateRestaurantScreen () {
+  const initialRestaurantValues = { name: null, description: null, address: null, postalCode: null, url: null, shippingCosts: null, email: null, phone: null, restaurantCategoryId: null }
 
   useEffect(() => {
     (async () => {
@@ -377,7 +384,9 @@ export default function CreateRestaurantScreen () {
   }
 
   return (
-    <Formik>
+    <Formik
+    initialValues={initialRestaurantValues}
+    >
       {({ setFieldValue, values }) => (
         <ScrollView>
           <View style={{ alignItems: 'center' }}>
@@ -525,6 +534,12 @@ Remember that the options of `DropDownPicker` are a list of pairs value/label. F
 
 In order to populate the options of the `DropDownPicker` we need:
 
+1. Import the `DropDownPicker`component:
+
+    ```Javascript
+    import DropDownPicker from 'react-native-dropdown-picker'
+    ```
+
 1. A state to store the restaurant categories:
 
     ```Javascript
@@ -564,24 +579,24 @@ In order to populate the options of the `DropDownPicker` we need:
     }, [])
     ```
 
-Finally, we have to add the component in the `return` sentence of the `CreateRestaurantScreen` component. Find below a code snippet to add a `DropDownPicker` component for restaurant categories:
+1. Finally, we have to add the component in the `return` sentence of the `CreateRestaurantScreen` component. Find below a code snippet to add a `DropDownPicker` component for restaurant categories:
 
-```JSX
-<DropDownPicker
-  open={open}
-  value={values.restaurantCategoryId}
-  items={restaurantCategories}
-  setOpen={setOpen}
-  onSelectItem={ item => {
-    setFieldValue('restaurantCategoryId', item.value)
-  }}
-  setItems={setRestaurantCategories}
-  placeholder="Select the restaurant category"
-  containerStyle={{ height: 40, marginTop: 20 }}
-  style={{ backgroundColor: GlobalStyles.brandBackground }}
-  dropDownStyle={{ backgroundColor: '#fafafa' }}
-/>
-```
+    ```JSX
+    <DropDownPicker
+      open={open}
+      value={values.restaurantCategoryId}
+      items={restaurantCategories}
+      setOpen={setOpen}
+      onSelectItem={ item => {
+        setFieldValue('restaurantCategoryId', item.value)
+      }}
+      setItems={setRestaurantCategories}
+      placeholder="Select the restaurant category"
+      containerStyle={{ height: 40, marginTop: 20 }}
+      style={{ backgroundColor: GlobalStyles.brandBackground }}
+      dropDownStyle={{ backgroundColor: '#fafafa' }}
+    />
+    ```
 
 Similarly, when creating a new product, include a select input to select from ProductCategories.
 
@@ -589,9 +604,16 @@ Similarly, when creating a new product, include a select input to select from Pr
 
 Moreover, products can be available or not, we can add a radio or switch control to the `CreateProduct` Form. React native provides a Switch component. You can check the documentation at: <https://reactnative.dev/docs/switch>
 
-Find below a code snippet for including a switch component for the product availability:
+First, you have to add the `Switch` component to the import statement of the react-native components:
+
+```Javascript
+import { Image, Platform, Pressable, ScrollView, StyleSheet, Switch, View } from 'react-native'
+```
+
+Find below a code snippet for including a `Switch` component for the product availability:
 
 ```JSX
+<TextRegular style={styles.switch}>Is it available?</TextRegular>
 <Switch
   trackColor={{ false: GlobalStyles.brandSecondary, true: GlobalStyles.brandPrimary }}
   thumbColor={values.availability ? GlobalStyles.brandSecondary : '#f4f3f4'}
@@ -601,4 +623,12 @@ Find below a code snippet for including a switch component for the product avail
     setFieldValue('availability', value)
   }
 />
+```
+
+And you can add some styling to your StyleSheet:
+
+```Javascript
+switch: {
+  marginTop: 20
+}
 ```

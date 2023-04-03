@@ -14,6 +14,7 @@ import { showMessage } from 'react-native-flash-message'
 import { Formik } from 'formik'
 
 export default function CreateRestaurantScreen () {
+  const initialRestaurantValues = { name: null, description: null, address: null, postalCode: null, url: null, shippingCosts: null, email: null, phone: null, restaurantCategoryId: null }
   const [open, setOpen] = useState(false)
   const [restaurantCategories, setRestaurantCategories] = useState([])
 
@@ -66,7 +67,9 @@ export default function CreateRestaurantScreen () {
   }
 
   return (
-    <Formik>
+    <Formik
+    initialValues={initialRestaurantValues}
+    >
       {({ setFieldValue, values }) => (
         <ScrollView>
           <View style={{ alignItems: 'center' }}>

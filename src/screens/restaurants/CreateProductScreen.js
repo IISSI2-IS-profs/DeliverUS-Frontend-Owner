@@ -14,6 +14,7 @@ import { Formik } from 'formik'
 export default function CreateProductScreen () {
   const [open, setOpen] = useState(false)
   const [productCategories, setProductCategories] = useState([])
+  const initialProductValues = { name: null, description: null, price: null, order: null, productCategoryId: null, availability: true }
 
   useEffect(() => {
     async function fetchProductCategories () {
@@ -51,7 +52,9 @@ export default function CreateProductScreen () {
     }
   }
   return (
-    <Formik>
+    <Formik
+     initialValues={initialProductValues}
+    >
       {({ setFieldValue, values }) => (
         <ScrollView>
           <View style={{ alignItems: 'center' }}>
@@ -88,11 +91,10 @@ export default function CreateProductScreen () {
                 dropDownStyle={{ backgroundColor: '#fafafa' }}
               />
 
-              <TextRegular>Is it available?</TextRegular>
+              <TextRegular style={styles.switch}>Is it available?</TextRegular>
               <Switch
                 trackColor={{ false: GlobalStyles.brandSecondary, true: GlobalStyles.brandPrimary }}
                 thumbColor={values.availability ? GlobalStyles.brandSecondary : '#f4f3f4'}
-                // onValueChange={toggleSwitch}
                 value={values.availability}
                 style={styles.switch}
                 onValueChange={value =>

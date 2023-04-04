@@ -20,7 +20,7 @@ function update (id, data) {
 }
 
 function remove (id) {
-  return destroy(`restaurants/${id}`)
+
 }
 
 export { getAll, getDetail, getRestaurantCategories, create, update, remove }

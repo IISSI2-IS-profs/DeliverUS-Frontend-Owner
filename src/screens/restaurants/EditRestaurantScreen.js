@@ -20,9 +20,7 @@ export default function EditRestaurantScreen ({ navigation, route }) {
   const [open, setOpen] = useState(false)
   const [restaurantCategories, setRestaurantCategories] = useState([])
   const [backendErrors, setBackendErrors] = useState()
-  const [restaurant, setRestaurant] = useState({})
 
-  const [initialRestaurantValues, setInitialRestaurantValues] = useState({ name: null, description: null, address: null, postalCode: null, url: null, shippingCosts: null, email: null, phone: null, restaurantCategoryId: null, logo: null, heroImage: null })
   const validationSchema = yup.object().shape({
     name: yup
       .string()
@@ -58,26 +56,6 @@ export default function EditRestaurantScreen ({ navigation, route }) {
       .integer()
       .required('Restaurant category is required')
   })
-
-  useEffect(() => {
-    async function fetchRestaurantDetail () {
-      try {
-        const fetchedRestaurant = await getDetail(route.params.id)
-        const preparedRestaurant = prepareEntityImages(fetchedRestaurant, ['logo', 'heroImage'])
-        setRestaurant(preparedRestaurant)
-        const initialValues = buildInitialValues(preparedRestaurant, initialRestaurantValues)
-        setInitialRestaurantValues(initialValues)
-      } catch (error) {
-        showMessage({
-          message: `There was an error while retrieving restaurant details (id ${route.params.id}). ${error}`,
-          type: 'error',
-          style: GlobalStyles.flashStyle,
-          titleStyle: GlobalStyles.flashTextStyle
-        })
-      }
-    }
-    fetchRestaurantDetail()
-  }, [route])
 
   useEffect(() => {
     async function fetchRestaurantCategories () {
@@ -127,29 +105,11 @@ export default function EditRestaurantScreen ({ navigation, route }) {
     }
   }
 
-  const updateRestaurant = async (values) => {
-    setBackendErrors([])
-    try {
-      const updatedRestaurant = await update(restaurant.id, values)
-      showMessage({
-        message: `Restaurant ${updatedRestaurant.name} succesfully updated`,
-        type: 'success',
-        style: GlobalStyles.flashStyle,
-        titleStyle: GlobalStyles.flashTextStyle
-      })
-      navigation.navigate('RestaurantsScreen', { dirty: true })
-    } catch (error) {
-      console.log(error)
-      setBackendErrors(error.errors)
-    }
-  }
-
   return (
     <Formik
-      enableReinitialize
       validationSchema={validationSchema}
-      initialValues={initialRestaurantValues}
-      onSubmit={updateRestaurant}>
+      // include the formik properties here
+      >
       {({ handleSubmit, setFieldValue, values }) => (
         <ScrollView>
           <View style={{ alignItems: 'center' }}>

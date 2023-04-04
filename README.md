@@ -91,7 +91,7 @@ We will include the validation for the `CreateRestaurantScreen` form by followin
     * Rules defined above include: a type of data that is expected (string, or number for instance), the length of strings, if a number can be negative or not, and if an input is required .
     * If the field does not follow any of these rules, the message passed to each rule should be shown to the user. For instance, if the shippingCosts is not a positive number, the message _Please provide a valid shipping cost value_ will be shown.
 
-1. Remember that the inputs have to be nested under the `Formkik` component. Add the following:
+1. Remember that the inputs have to be nested under the `Formik` component. Add the following:
 
     ```JSX
     <Formik
@@ -250,7 +250,7 @@ Discuss with your teacher and partners if some components could be refactored. I
 
 Could it be possible to refactor de `DropdownPicker` and its error message?
 
-# Annex: contional rendering in JSX
+# Annex: conditional rendering in JSX
 
 Sometimes it is necessary to show a content depending on some conditions. To do this, it is possible to enter boolean conditions in the render method (return) of the component. Before the conditioned block prepend the condition followed by &&. Such block will only be rendered when the condition resolves to _truthy_.
 

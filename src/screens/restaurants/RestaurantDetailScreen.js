@@ -115,7 +115,7 @@ export default function RestaurantDetailScreen ({ navigation, route }) {
     )
   }
 
-   const fetchRestaurantDetail = async () => {
+  const fetchRestaurantDetail = async () => {
     try {
       const fetchedRestaurant = await getDetail(route.params.id)
       setRestaurant(fetchedRestaurant)
@@ -244,5 +244,5 @@ const styles = StyleSheet.create({
     bottom: 5,
     position: 'absolute',
     width: '90%'
-  },
+  }
 })

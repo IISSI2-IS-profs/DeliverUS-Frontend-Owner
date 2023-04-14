@@ -15,7 +15,7 @@ import TextError from '../../components/TextError'
 import { prepareEntityImages } from '../../api/helpers/FileUploadHelper'
 import { buildInitialValues } from '../Helper'
 
-export default function ProfileScreen() {
+export default function ProfileScreen () {
   const { loggedInUser, signOut, updateProfile } = useContext(AuthorizationContext)
   const [backendErrors, setBackendErrors] = useState()
 
@@ -85,10 +85,10 @@ export default function ProfileScreen() {
       style: GlobalStyles.flashStyle,
       titleStyle: GlobalStyles.flashTextStyle
     }),
-      (error) => {
-        console.error(error.errors)
-        setBackendErrors(error.errors)
-      })
+    (error) => {
+      console.error(error.errors)
+      setBackendErrors(error.errors)
+    })
   }
   return (
     <Formik

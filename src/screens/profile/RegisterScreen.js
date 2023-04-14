@@ -1,5 +1,5 @@
 import * as ExpoImagePicker from 'expo-image-picker'
-import React, { useContext, useState, useEffect} from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import { Image, Keyboard, KeyboardAvoidingView, Platform, Pressable, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, View, ScrollView } from 'react-native'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import { AuthorizationContext } from '../../context/AuthorizationContext'
@@ -15,7 +15,7 @@ import TextError from '../../components/TextError'
 export default function RegisterScreen () {
   const { signUp } = useContext(AuthorizationContext)
   const [backendErrors, setBackendErrors] = useState()
-  const initialUserValues = { firstName: null, lastName: null, email: null, password: null, phone: null, address: null, postalCode: null, avatar:null }
+  const initialUserValues = { firstName: null, lastName: null, email: null, password: null, phone: null, address: null, postalCode: null, avatar: null }
 
   const validationSchema = yup.object().shape({
     firstName: yup

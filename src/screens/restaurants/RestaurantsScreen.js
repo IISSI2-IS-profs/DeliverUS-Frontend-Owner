@@ -13,7 +13,6 @@ import { showMessage } from 'react-native-flash-message'
 import DeleteModal from '../../components/DeleteModal'
 import restaurantLogo from '../../../assets/restaurantLogo.jpeg'
 
-
 export default function RestaurantsScreen ({ navigation, route }) {
   const [restaurants, setRestaurants] = useState([])
   const [restaurantToBeDeleted, setRestaurantToBeDeleted] = useState(null)

@@ -20,4 +20,4 @@ function remove (id) {
   return destroy(`products/${id}`)
 }
 
-export { getDetail, getProductCategories, create, update, remove}
+export { getDetail, getProductCategories, create, update, remove }

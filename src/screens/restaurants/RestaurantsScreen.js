@@ -40,7 +40,7 @@ export default function RestaurantsScreen ({ navigation, route }) {
         }
         <TextSemiBold>Shipping: <TextSemiBold textStyle={{ color: GlobalStyles.brandPrimary }}>{item.shippingCosts.toFixed(2)}€</TextSemiBold></TextSemiBold>
         <View style={styles.actionButtonsContainer}>
-          {/* Include pressable elements for edit and remove */}
+          {/* Include pressable elements for edit and remove this line including brackets */}
         </View>
       </ImageCard>
     )

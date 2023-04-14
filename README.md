@@ -71,6 +71,8 @@ To this end you can include the following `Pressable` instances in the renderRes
 </Pressable>
 ```
 
+You can try both buttons and check that messages are printed in the console.
+
 # 2. Delete Modal and HTTP DELETE Request for removing Restaurants.
 We need to implement the delete action when the user press the corresponding button.
 
@@ -147,6 +149,9 @@ We need to implement the delete action when the user press the corresponding but
     }
     ```
 
+Please, check that restaurants are deleted after this implementation is done.
+
+
 # 3. Edit Form and HTTP PUT Request for editing Restaurants.
 We need to implement the update action when the user press the corresponding button. To this end, we will complete the implementation of the `EditRestaurantScreen.js`. This component should:
 
@@ -159,13 +164,21 @@ We need to implement the update action when the user press the corresponding but
 
 Let's complete the implementation:
 
+1. Include an update function in the `src/api/RestaurantEndpoints.js` file. The functions receives the restaurantID and the updated restaurant data, and is in charge of doing the request to the corresponding endpoint. You can use the following implementation:
+
+    ```Javascript
+    function update (id, data) {
+      return put(`restaurants/${id}`, data)
+    }
+    ```
+
 1. Modify the `onPress` action of the Edit `Pressable` at the `renderRestaurant`of the `RestaurantsScreen.js` component to navigate to this edit screen including the id of the restaurant. You can use the following:
 
     ```JSX
-    onPress={() => navigation.navigate('EditRestaurantScreen', { id: item.id })
+    onPress={() => navigation.navigate('EditRestaurantScreen', { id: item.id })}
     ```
 
-1. At the `EditRestaurantScreen`, include state objects to store the restaurant to be fetched and the initialValues for the `Formik` edit form.
+1. At the `EditRestaurantScreen` import the `update` function from `RestaurantEndpoints`. Next, include state objects to store the restaurant to be fetched and the initialValues for the `Formik` edit form.
 
     ```Javascript
     const [restaurant, setRestaurant] = useState({})
@@ -201,7 +214,6 @@ Let's complete the implementation:
 
     * `prepareEntityImages`: receives an entity and an array of fieldNames that include images and returns the entity including the images in a form that can be rendered by `ImagePickers`.
     * `buildInitialValues`: receives an entity and return an object of initialValues valid for the `Formik` component.
-
 
 1. Include the function to be run when the user presses on the submit/save button at the end of the form:
 
@@ -249,3 +261,5 @@ You will need to include the `EditProductScreen` in the `RestaurantsStack.js` as
     title: 'Edit Product'
   }} />
 ```
+
+Remember that the backend does not expect to receive the restaurantId of the product, since you cannot change the product from one restaurant to another.
